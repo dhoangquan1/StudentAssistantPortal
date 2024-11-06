@@ -72,7 +72,7 @@ This section will include the user stories you identified for your project. Make
 5. "As a **[student]**, I want **[to apply to SA positions]** so that **[I can become an SA]**. I want to apply to various positions. Also, I want to be able to enter my grade for the course, the year and term when I took the course, and the year and term that I want to start the SAship for each of the position I apply to."
 6. "As a **[student]**, I want **[to view and check statuses of the SA positions I've applied to]** so that **[I can keep track of them]**. I want to see submitted applications as "Pending", and if a professor has accepted a position I should see it as "Assigned". "
 7. "As a **[student]**, I want **[to withdraw my pending SA applications]** so that **[I don't have to be considered for jobs I'm not interested in anymore]**.  "
-8. "As an **[instructor]**, I want **[]** so that **[]** "
+8. "As an **[instructor]**, I want **[to register an instructor account]** so that **[I can look for SA applications]**. I want to be able to enter my WPI email as username, password and contact information (name, last name, WPI ID, email, phone). "
 9. "As an **[instructor]**, I want **[]** so that **[]** "
 10. "As an **[instructor]**, I want **[]** so that **[]** "
 11. "As an **[instructor]**, I want **[]** so that **[]** "
