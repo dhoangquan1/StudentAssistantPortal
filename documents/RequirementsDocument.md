@@ -139,32 +139,32 @@ On the student page, a student user can:
 | Use case # 3 (5)     |   |
 | ------------------ |--|
 | Name              | Apply for SA positions  |
-| Participating actor  | "enter your reponse here"  |
-| Entry condition(s)     | "enter your reponse here"  |
-| Exit condition(s)           | "enter your reponse here"  |
-| Flow of events | "enter your reponse here"  |
-| Alternative flow of events    | "enter your reponse here"  |
-| Iteration #         | "enter your reponse here"  |
+| Participating actor  | Student  |
+| Entry condition(s)     | Student is registered and logged in and is in the SA position view page  |
+| Exit condition(s)           | Software displays that the user has applied for the position  |
+| Flow of events | 1. User clicks on the apply button of the position they want to apply </br> 2. Software prompts the user to enter their information: the grade they earn in the course, the year and term they took the course, and the year and term they are applying to the SAship </br> 3. Software indicates that the user has successfully applied for a position |
+| Alternative flow of events    | The user can repeat the process however many times they want to </br> The software will display the message if any qualifications are not met (grade not high enough, start date is not realistic, etc.) |
+| Iteration #         | Iteration 1 |
 
 | Use case # 4 (6)     |   |
 | ------------------ |--|
 | Name              | Check SA applications status  |
-| Participating actor  | "enter your reponse here"  |
-| Entry condition(s)     | "enter your reponse here"  |
-| Exit condition(s)           | "enter your reponse here"  |
-| Flow of events | "enter your reponse here"  |
-| Alternative flow of events    | "enter your reponse here"  |
-| Iteration #         | "enter your reponse here"  |
+| Participating actor  | Student  |
+| Entry condition(s)     | Student is registered and logged in  |
+| Exit condition(s)           | Software displays all jobs and their statuses  |
+| Flow of events | 1. User go to the "Check status" page </br> 2. Software displays all jobs and their statuses: "Pending" for applied positions, "Assigned" for accepted positions |
+| Alternative flow of events    | If there are no applied positions, the software will display a message indicating that no applications have been made |
+| Iteration #         | Iteration 1 |
 
 | Use case # 5 (7)     |   |
 | ------------------ |--|
 | Name              | Withdraw pending SA applications  |
-| Participating actor  | "enter your reponse here"  |
-| Entry condition(s)     | "enter your reponse here"  |
-| Exit condition(s)           | "enter your reponse here"  |
-| Flow of events | "enter your reponse here"  |
-| Alternative flow of events    | "enter your reponse here"  |
-| Iteration #         | "enter your reponse here"  |
+| Participating actor  | Student  |
+| Entry condition(s)     | Student is logged in and in the "Check status" page  |
+| Exit condition(s)           | Software displays that the application has been withdrawn |
+| Flow of events | 1. User click on a pending position </br> 2. Software prompts the job description as well as a "Withdraw from job" button </br> 3. User clicks on the button </br> 4. Software displays message whether the user is sure to withdraw their application or not </br> 5. User affirms </br> 6. Software displays that the application has been withdrawn |
+| Alternative flow of events    | If the application is not pending, there will be no "Withdraw from job" button in the description page </br> In event #4, if the user denies the withdrawal then they will be prompted back to the description page |
+| Iteration #         | Iteration 1 |
 
 On the instructor page, a faculty user can:
 | Use case # 6 (3)     |   |
