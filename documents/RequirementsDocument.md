@@ -191,6 +191,11 @@ On the instructor page, a faculty user can:
 
 The sketches or mockups for the main parts of the interface.
 
+The UI for choosing account role
+  <kbd>
+      <img src="images/register_prompt.jpg"  border="2">
+  </kbd>
+
 The UI for registering as an instructor
   <kbd>
       <img src="images/instr_register.jpg"  border="2">
