@@ -39,8 +39,6 @@ Prepared by:
 
 # 1. Introduction
 
-Explain the purpose of this document. If this is a revision of an earlier document, please make sure to summarize what changes have been made during the revision (keep this discussion brief). 
-
 This document provides documentation and keep track of changes for the database model, interfaces, and design of the software. 
 
 - Revision 1: Created the base design of the software
@@ -51,14 +49,15 @@ This document provides documentation and keep track of changes for the database 
 
 ## 2.1 Database Model
 
-Provide a list of your tables (i.e., SQL Alchemy classes) in your database model and briefly explain the role of each table. 
+Brief descriptions of the tables in the database model: 
 
 1. User Table
-    - This table stores the common users' data of both faculty and student, such as login informationa and contact information
+    - This table stores the common users' data of both instructor and student, such as login informationa and contact information
     - The table also have a role collumn to indicate if the user is a student or an instructor
-    - Instructor does not have data beyond user, so they do not have a seperate table
 2. Student Table
-    - This table stores the specfic data of students such as GPA and major
+    - This table stores the specfic data of students such as GPA and major, and inherits from User
+3. Instructor Table
+    - This table stores the instructor's relationship with other tables, and inherits from User
 3. Course Table
     - This table stores the predefined courses such as course number and title
 4. Section Table
@@ -69,9 +68,8 @@ Provide a list of your tables (i.e., SQL Alchemy classes) in your database model
     - This table signifies the relationship of Students with Courses that they have served as SA before
     - The table stores the primary keys which linked the many-to-many relationship
 6. Application Table
-    - This table signifies the relationship of Students who applies to be SA in Sections, or SA applications
-    - The table stores the primary keys which linked the many-to-many relationship
-    - Additionally, it also stores application data such as application status and term applying
+    - This table stores the applications made by students and can be approves by instructors
+    - Each application is related to a section.
 7. Qualification Table
     - This table stores the qualifications that is required to be SA in a section
     - Different from the qualifications stored in Section, this table does not store values (ex: "has SA experience before", "has SA this course before")
@@ -79,11 +77,10 @@ Provide a list of your tables (i.e., SQL Alchemy classes) in your database model
     - This table signifies the relationship of Sections requires Qualifications
     - The table stores the primary keys which linked the many-to-many relationship
 
-Provide a UML diagram of your database model showing the associations and relationships among tables. 
 
 The UML diagram of the database model
   <kbd>
-      <img src="images/DBDraft.jpg"  border="2">
+      <img src="images/DBDraft2.jpg"  border="2">
   </kbd>
 
 ## 2.2 Subsystems and Interfaces
@@ -128,6 +125,43 @@ Repeat the above for other subsystems you included in your application.
 
 Provide a list of the page templates you plan to create and supplement your description with UI sketches or screenshots. Make sure to mention which user-stories in your “Requirements and Use Cases" document will utilize these interfaces for user interaction. 
 
+Page Template: auth/register_prompt.html -- User stories 1 & 8
+The UI for choosing account role
+  <kbd>
+      <img src="images/register_prompt.jpg"  border="2">
+  </kbd>
+
+Page Template: auth/register_instructor.html -- User stories 8
+The UI for registering as an instructor
+  <kbd>
+      <img src="images/instr_register.jpg"  border="2">
+  </kbd>
+
+Page Template: auth/register_student.html -- User stories 1
+The UI for registering as a student
+  <kbd>
+      <img src="images/stu_register.jpg"  border="2">
+  </kbd>
+
+Page Template: auth/login.html -- User stories 2
+The UI for logging in
+  <kbd>
+      <img src="images/log_in.jpg"  border="2">
+  </kbd>
+
+Page Template: auth/login.html -- User stories 12,14,15,16
+The UI for instructor view that show course sections and applications for those sections
+  <kbd>
+      <img src="images/instr_home_view.jpg"  border="2">
+  </kbd>
+
+Page Template: auth/login.html -- User stories 3,4,5,6,7
+The UI for student view that show all SA positions and the SA applications that the students have submitted
+  <kbd>
+      <img src="images/stu_home_view.jpg"  border="2">
+  </kbd>
+  
+
 # 3. References
 
 Cite your references here.
@@ -135,6 +169,8 @@ Cite your references here.
 For the papers you cite give the authors, the title of the article, the journal name, journal volume number, date of publication and inclusive page numbers. Giving only the URL for the journal is not appropriate.
 
 For the websites, give the title, author (if applicable) and the website URL.
+
+UI References, Dribble: [Source](https://dribbble.com/tags/job-listing)
 
 ----
 # Appendix: Grading Rubric
