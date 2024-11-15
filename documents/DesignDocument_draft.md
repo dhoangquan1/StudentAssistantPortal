@@ -106,7 +106,7 @@ Include a detailed description of the routes your application will implement.
 |:--|:------------------|:-----------|:-------------|
 |1. |index()                   |/, /index            |Loads the index page for the application              |
 |2. |create_course_section()                   |/courses/create            | create new course section             |
-|3. |create_positions()                   |/courses/createposition            |create SA positions for courss              |
+|3. |create_positions()                   |/courses/createposition            |create SA positions for course              |
 |4. |display_profile()                |/student/profile            |display student profile              |
 |5. |edit_profile()                  |/student/edit           |edit student profile              |
 |6. |                   |            |              |
