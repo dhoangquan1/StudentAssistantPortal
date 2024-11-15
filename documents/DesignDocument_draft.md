@@ -105,11 +105,10 @@ Include a detailed description of the routes your application will implement.
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
 |1. |index()                   |/, /index            |Loads the index page for the application              |
-|2. |create_course_section()                   |/courses/create            | create new course section             |
-|3. |create_positions()                   |/courses/createposition            |create SA positions for course              |
+|2. |create_course_section()                   |/courses/create-course            | create new course section             |
+|3. |create_positions()                   |/courses/create-position            |create SA positions for course              |
 |4. |display_profile()                |/student/profile            |display student profile              |
 |5. |edit_profile()                  |/student/edit           |edit student profile              |
-|6. |                   |            |              |
 
 #### 2.2.2.2 \<Authentication> Routes
 
@@ -121,6 +120,13 @@ Include a detailed description of the routes your application will implement.
 |4. |logout()                   |/logout            | Connects to the logout page             |
 |5. |                   |            |              |
 |6. |                   |            |              |
+
+#### 2.2.2.2 \<Errors> Routes
+
+|   | Methods           | URL Path   | Description  |
+|:--|:------------------|:-----------|:-------------|
+|1. |not_found_error()                   |/error/404            |Shows the 404 error page              |
+|2. |internal_error()                   |/error/500            |Shows the 500 error page              |
 
 Repeat the above for other subsystems you included in your application. 
 
