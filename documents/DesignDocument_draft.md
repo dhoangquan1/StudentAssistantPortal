@@ -100,17 +100,23 @@ Include a detailed description of the routes your application will implement.
 * You can use the following table template to list your route specifications. 
 * Organize this section according to your subsytem decomposition, i.e., include a sub-section for each subsytem and list all routes for that sub-section in a table.  
 
-#### 2.2.2.1 \<Main> Routes
+#### 2.2.2.1 \<Student> Routes
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
-|1. |index()                   |/, /index            |Loads the index page for the application              |
+|1. |index()                   |/student, /student/index            |Loads the index page for the application              |
+|2. |display_profile()                |/student/profile            |display student profile              |
+|3. |edit_profile()                  |/student/edit           |edit student profile              |
+
+#### 2.2.2.1 \<Instructor> Routes
+
+|   | Methods           | URL Path   | Description  |
+|:--|:------------------|:-----------|:-------------|
+|1. |index()                   |/instructor, /instructor/index            |Loads the index page for the application              |
 |2. |create_course_section()                   |/courses/create-course            | create new course section             |
 |3. |create_positions()                   |/courses/create-position            |create SA positions for course              |
-|4. |display_profile()                |/student/profile            |display student profile              |
-|5. |edit_profile()                  |/student/edit           |edit student profile              |
 
-#### 2.2.2.2 \<Authentication> Routes
+#### 2.2.2.3 \<Authentication> Routes
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
@@ -118,10 +124,8 @@ Include a detailed description of the routes your application will implement.
 |2. |student_register()                   |student/register            |Connects to the register page for student              |
 |3. |instructor_register()                   |instructor/register            |Connects to the register page for instructor              |
 |4. |logout()                   |/logout            | Connects to the logout page             |
-|5. |                   |            |              |
-|6. |                   |            |              |
 
-#### 2.2.2.2 \<Errors> Routes
+#### 2.2.2.4 \<Errors> Routes
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
