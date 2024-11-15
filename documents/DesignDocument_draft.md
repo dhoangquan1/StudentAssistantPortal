@@ -105,20 +105,20 @@ Include a detailed description of the routes your application will implement.
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
 |1. |index()                   |/, /index            |Loads the index page for the application              |
-|2. |show_jobs()                   |            |              |
-|3. |dashboard()                   |/            |              |
-|4. |                   |            |              |
-|5. |                   |            |              |
+|2. |create_course_section()                   |/courses/create            | create new course section             |
+|3. |create_positions()                   |/courses/createposition            |create SA positions for courss              |
+|4. |display_profile()                |/student/profile            |display student profile              |
+|5. |edit_profile()                  |/student/edit           |edit student profile              |
 |6. |                   |            |              |
 
 #### 2.2.2.2 \<Authentication> Routes
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
-|1. |login()                   |user/login            |Connects to the login page              |
-|2. |register()                   |user/register            |Connects to the register page              |
-|3. |logout()                   |user/logout            |Connects to the logout page              |
-|4. |                   |            |              |
+|1. |login()                   |/login            |Connects to the login page              |
+|2. |student_register()                   |student/register            |Connects to the register page for student              |
+|3. |instructor_register()                   |instructor/register            |Connects to the register page for instructor              |
+|4. |logout()                   |/logout            | Connects to the logout page             |
 |5. |                   |            |              |
 |6. |                   |            |              |
 
