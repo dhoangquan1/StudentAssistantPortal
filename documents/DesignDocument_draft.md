@@ -89,6 +89,25 @@ The UML diagram of the database model
 
 Describe the high-level architecture of your software:  i.e., the major subsystems and how they fit together. Provide a UML component diagram that illustrates the architecture of your software. Briefly mention the role of each subsystem in your architectural design. Please refer to the "System Level Design" lectures in Week 4. 
 
+The major subsystems:
+1. Client: the user that is interacting with the system
+2. Student: stores the templates, routes, and forms for student's interfaces.
+    - The student subsystem is isolated from the instructor
+3. Instructor: stores the templates, routes, and forms for the instructor's interfaces
+    - The instructor subsystem is isolated from the student
+4. Authentication: stores the templates, routes, and forms for the authetication process
+    - Can route the client to either the student or the instructor's interfaces depends on the role
+5. Errors Handlers: stores the templates and routes for the errors
+    - Errors that happened in subsystem Student, Instructor, or Authentication get redirected to here
+6. Models: stores the database models and relationships
+7. PostgreSQL DB: stores the data for the models using SQLAlchemy
+
+The UML component diagram illustrating the software architectural design:
+  <kbd>
+      <img src="images/SubsystemsDraft.jpg"  border="2">
+  </kbd>
+
+
 ### 2.2.2 Interfaces
 
 Include a detailed description of the routes your application will implement. 
@@ -101,26 +120,31 @@ Include a detailed description of the routes your application will implement.
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
-|1. |index()                   |/student, /student/index            |Loads the index page for the application              |
-|2. |display_profile()                |/student/profile            |display student profile              |
-|3. |edit_profile()                  |/student/edit           |edit student profile              |
+|1. |index()                   |/student, /student/index            |Loads the index page for the application, including open SA positions listing              |
+|2. |display_profile()                |/student/profile            |Display student profile, including qualifcations and applications applied              |
+|3. |edit_profile()                  |/student/edit           |Edit student profile              |
+|4. |apply_section(section_id)                  |/student/application/<section_id>/apply           |Apply for a section for an SA position              |
+|5. |withdraw_section(section_id)                  |/student/application/<section_id>/withdraw           |Withdraw application from a section              |
 
 #### 2.2.2.1 \<Instructor> Routes
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
-|1. |index()                   |/instructor, /instructor/index            |Loads the index page for the application              |
-|2. |create_course_section()                   |/courses/create-course            | create new course section             |
-|3. |create_positions()                   |/courses/create-position            |create SA positions for course              |
+|1. |index()                   |/instructor, /instructor/index            |Loads the index page for the application, including students applications and list of sections of the instructir              |
+|2. |create_course_section()                   |/instructor/section/create-section            | Create new course section             |
+|3. |create_positions()                   |/instructor/section/create-positions            |Create SA positions for course              |
+|4. |view_student_profile(student_id)                   |/instructor/student/<student_id>/profile            |View student profile to check for qualifications              |
+|5. |assign_student(section_id, student_id)                   |/instructor/application/<section_id>/<student_id>/assigns            |Assigns student to be SA in a section              |
 
 #### 2.2.2.3 \<Authentication> Routes
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
 |1. |login()                   |/login            |Connects to the login page              |
-|2. |student_register()                   |student/register            |Connects to the register page for student              |
-|3. |instructor_register()                   |instructor/register            |Connects to the register page for instructor              |
-|4. |logout()                   |/logout            | Connects to the logout page             |
+|2. |register_prompt()                   |/register            |Asks for the role that the user wants to create the account for, and redirects to next step              |
+|3. |student_register()                   |/student/register            |Connects to the register page for student              |
+|4. |instructor_register()                   |/instructor/register            |Connects to the register page for instructor              |
+|5. |logout()                   |/logout            | Connects to the logout page             |
 
 #### 2.2.2.4 \<Errors> Routes
 
