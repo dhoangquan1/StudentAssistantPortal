@@ -39,6 +39,11 @@ Prepared by:
 
 # 1. Introduction
 
+<<<<<<< HEAD
+=======
+Explain the purpose of this document. If this is a revision of an earlier document, please make sure to summarize what changes have been made during the revision (keep this discussion brief). 
+
+>>>>>>> 00c6db63fc73b60a66aa8431ca9e589f966bddca
 This document provides documentation and keep track of changes for the database model, interfaces, and design of the software. 
 
 - Revision 1: Created the base design of the software
@@ -49,6 +54,7 @@ This document provides documentation and keep track of changes for the database 
 
 ## 2.1 Database Model
 
+<<<<<<< HEAD
 Brief descriptions of the tables in the database model: 
 
 1. User Table
@@ -58,6 +64,16 @@ Brief descriptions of the tables in the database model:
     - This table stores the specfic data of students such as GPA and major, and inherits from User
 3. Instructor Table
     - This table stores the instructor's relationship with other tables, and inherits from User
+=======
+Provide a list of your tables (i.e., SQL Alchemy classes) in your database model and briefly explain the role of each table. 
+
+1. User Table
+    - This table stores the common users' data of both faculty and student, such as login informationa and contact information
+    - The table also have a role collumn to indicate if the user is a student or an instructor
+    - Instructor does not have data beyond user, so they do not have a seperate table
+2. Student Table
+    - This table stores the specfic data of students such as GPA and major
+>>>>>>> 00c6db63fc73b60a66aa8431ca9e589f966bddca
 3. Course Table
     - This table stores the predefined courses such as course number and title
 4. Section Table
@@ -68,8 +84,14 @@ Brief descriptions of the tables in the database model:
     - This table signifies the relationship of Students with Courses that they have served as SA before
     - The table stores the primary keys which linked the many-to-many relationship
 6. Application Table
+<<<<<<< HEAD
     - This table stores the applications made by students and can be approves by instructors
     - Each application is related to a section.
+=======
+    - This table signifies the relationship of Students who applies to be SA in Sections, or SA applications
+    - The table stores the primary keys which linked the many-to-many relationship
+    - Additionally, it also stores application data such as application status and term applying
+>>>>>>> 00c6db63fc73b60a66aa8431ca9e589f966bddca
 7. Qualification Table
     - This table stores the qualifications that is required to be SA in a section
     - Different from the qualifications stored in Section, this table does not store values (ex: "has SA experience before", "has SA this course before")
@@ -77,10 +99,18 @@ Brief descriptions of the tables in the database model:
     - This table signifies the relationship of Sections requires Qualifications
     - The table stores the primary keys which linked the many-to-many relationship
 
+<<<<<<< HEAD
 
 The UML diagram of the database model
   <kbd>
       <img src="images/DBDraft2.jpg"  border="2">
+=======
+Provide a UML diagram of your database model showing the associations and relationships among tables. 
+
+The UML diagram of the database model
+  <kbd>
+      <img src="images/DBDraft.jpg"  border="2">
+>>>>>>> 00c6db63fc73b60a66aa8431ca9e589f966bddca
   </kbd>
 
 ## 2.2 Subsystems and Interfaces
@@ -97,6 +127,7 @@ Include a detailed description of the routes your application will implement.
 * You can use the following table template to list your route specifications. 
 * Organize this section according to your subsytem decomposition, i.e., include a sub-section for each subsytem and list all routes for that sub-section in a table.  
 
+<<<<<<< HEAD
 #### 2.2.2.1 \<Subsystem1> Routes
 
 |   | Methods           | URL Path   | Description  |
@@ -118,6 +149,39 @@ Include a detailed description of the routes your application will implement.
 |4. |                   |            |              |
 |5. |                   |            |              |
 |6. |                   |            |              |
+=======
+#### 2.2.2.1 \<Student> Routes
+
+|   | Methods           | URL Path   | Description  |
+|:--|:------------------|:-----------|:-------------|
+|1. |index()                   |/student, /student/index            |Loads the index page for the application              |
+|2. |display_profile()                |/student/profile            |display student profile              |
+|3. |edit_profile()                  |/student/edit           |edit student profile              |
+
+#### 2.2.2.1 \<Instructor> Routes
+
+|   | Methods           | URL Path   | Description  |
+|:--|:------------------|:-----------|:-------------|
+|1. |index()                   |/instructor, /instructor/index            |Loads the index page for the application              |
+|2. |create_course_section()                   |/courses/create-course            | create new course section             |
+|3. |create_positions()                   |/courses/create-position            |create SA positions for course              |
+
+#### 2.2.2.3 \<Authentication> Routes
+
+|   | Methods           | URL Path   | Description  |
+|:--|:------------------|:-----------|:-------------|
+|1. |login()                   |/login            |Connects to the login page              |
+|2. |student_register()                   |student/register            |Connects to the register page for student              |
+|3. |instructor_register()                   |instructor/register            |Connects to the register page for instructor              |
+|4. |logout()                   |/logout            | Connects to the logout page             |
+
+#### 2.2.2.4 \<Errors> Routes
+
+|   | Methods           | URL Path   | Description  |
+|:--|:------------------|:-----------|:-------------|
+|1. |not_found_error()                   |/error/404            |Shows the 404 error page              |
+|2. |internal_error()                   |/error/500            |Shows the 500 error page              |
+>>>>>>> 00c6db63fc73b60a66aa8431ca9e589f966bddca
 
 Repeat the above for other subsystems you included in your application. 
 
@@ -125,6 +189,7 @@ Repeat the above for other subsystems you included in your application.
 
 Provide a list of the page templates you plan to create and supplement your description with UI sketches or screenshots. Make sure to mention which user-stories in your “Requirements and Use Cases" document will utilize these interfaces for user interaction. 
 
+<<<<<<< HEAD
 Page Template: auth/register_prompt.html -- User stories 1 & 8
 The UI for choosing account role
   <kbd>
@@ -162,6 +227,8 @@ The UI for student view that show all SA positions and the SA applications that 
   </kbd>
   
 
+=======
+>>>>>>> 00c6db63fc73b60a66aa8431ca9e589f966bddca
 # 3. References
 
 Cite your references here.
@@ -170,8 +237,11 @@ For the papers you cite give the authors, the title of the article, the journal 
 
 For the websites, give the title, author (if applicable) and the website URL.
 
+<<<<<<< HEAD
 UI References, Dribble: [Source](https://dribbble.com/tags/job-listing)
 
+=======
+>>>>>>> 00c6db63fc73b60a66aa8431ca9e589f966bddca
 ----
 # Appendix: Grading Rubric
 (Please remove this part in your final submission)
@@ -198,4 +268,8 @@ Below is the grading rubric that we will use to evaluate the final version of yo
 | 3         | Is the document well formatted? (Make sure to check your document on GitHub. You will loose points if there are formatting issues in your document.  )  |
 |           |  |
 | 80         | **Total** |
+<<<<<<< HEAD
 |           |  |
+=======
+|           |  |
+>>>>>>> 00c6db63fc73b60a66aa8431ca9e589f966bddca
