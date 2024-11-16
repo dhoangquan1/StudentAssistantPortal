@@ -138,6 +138,62 @@ Repeat the above for other subsystems you included in your application.
 
 Provide a list of the page templates you plan to create and supplement your description with UI sketches or screenshots. Make sure to mention which user-stories in your “Requirements and Use Cases" document will utilize these interfaces for user interaction. 
 
+#### Please refer to "RequirementsDocument.md" file to view the user-stories numbered below 
+
+User-stories: 1
+<kbd>
+      <img src="images\Student register.png"  border="2">
+</kbd>
+
+User-stories: 2
+<kbd>
+      <img src="images\Student login.png"  border="2">
+</kbd>
+
+User-stories: 3, 4
+<kbd>
+      <img src="images\Student dashboard.png"  border="2">
+</kbd>
+
+User-stories: 3, 4, 5
+<kbd>
+      <img src="images\Student dashboard apply.png"  border="2">
+</kbd>
+
+User-stories: 6, 7
+<kbd>
+      <img src="images\Student profile.png"  border="2">
+</kbd>
+
+User-stories: 8
+<kbd>
+      <img src="images\Instructor register.png"  border="2">
+</kbd>
+
+User-stories: 9
+<kbd>
+      <img src="images\Instructor login.png"  border="2">
+</kbd>
+
+User-stories: 10
+<kbd>
+      <img src="images\Create Course Section.png"  border="2">
+</kbd>
+
+User-stories: 11
+<kbd>
+      <img src="images\Create SA Position.png"  border="2">
+</kbd>
+
+User-stories: 12
+<kbd>
+      <img src="images\Instructor dashboard.png"  border="2">
+</kbd>
+
+User-stories: 12, 13, 14
+<kbd>
+      <img src="images\Instructor dashboard application.png"  border="2">
+</kbd>
 # 3. References
 
 Cite your references here.
