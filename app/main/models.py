@@ -38,11 +38,14 @@ class Instructor(User):
     __tablename__='instructor'
     id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(User.id), primary_key=True)
     
-    sections : sqlo.Mapped['Section'] = sqlo.relationship(back_populates= 'instructor')
+    sections : sqlo.WriteOnlyMapped['Section'] = sqlo.relationship(back_populates= 'instructor')
     
     __mapper_args__ = {
         'polymorphic_identity': 'Instructor'
     }
+    
+    def get_sections(self):
+        return db.session.scalars(self.sections.select()).all()
     
     
 class Student(User):
