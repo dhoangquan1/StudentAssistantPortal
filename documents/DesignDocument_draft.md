@@ -39,8 +39,6 @@ Prepared by:
 
 # 1. Introduction
 
-Explain the purpose of this document. If this is a revision of an earlier document, please make sure to summarize what changes have been made during the revision (keep this discussion brief). 
-
 This document provides documentation and keep track of changes for the database model, interfaces, and design of the software. 
 
 - Revision 1: Created the base design of the software
@@ -51,14 +49,15 @@ This document provides documentation and keep track of changes for the database 
 
 ## 2.1 Database Model
 
-Provide a list of your tables (i.e., SQL Alchemy classes) in your database model and briefly explain the role of each table. 
+Brief descriptions of the tables in the database model: 
 
 1. User Table
-    - This table stores the common users' data of both faculty and student, such as login informationa and contact information
+    - This table stores the common users' data of both instructor and student, such as login informationa and contact information
     - The table also have a role collumn to indicate if the user is a student or an instructor
-    - Instructor does not have data beyond user, so they do not have a seperate table
 2. Student Table
-    - This table stores the specfic data of students such as GPA and major
+    - This table stores the specfic data of students such as GPA and major, and inherits from User
+3. Instructor Table
+    - This table stores the instructor's relationship with other tables, and inherits from User
 3. Course Table
     - This table stores the predefined courses such as course number and title
 4. Section Table
@@ -69,9 +68,8 @@ Provide a list of your tables (i.e., SQL Alchemy classes) in your database model
     - This table signifies the relationship of Students with Courses that they have served as SA before
     - The table stores the primary keys which linked the many-to-many relationship
 6. Application Table
-    - This table signifies the relationship of Students who applies to be SA in Sections, or SA applications
-    - The table stores the primary keys which linked the many-to-many relationship
-    - Additionally, it also stores application data such as application status and term applying
+    - This table stores the applications made by students and can be approves by instructors
+    - Each application is related to a section.
 7. Qualification Table
     - This table stores the qualifications that is required to be SA in a section
     - Different from the qualifications stored in Section, this table does not store values (ex: "has SA experience before", "has SA this course before")
@@ -79,11 +77,10 @@ Provide a list of your tables (i.e., SQL Alchemy classes) in your database model
     - This table signifies the relationship of Sections requires Qualifications
     - The table stores the primary keys which linked the many-to-many relationship
 
-Provide a UML diagram of your database model showing the associations and relationships among tables. 
 
 The UML diagram of the database model
   <kbd>
-      <img src="images/DBDraft.jpg"  border="2">
+      <img src="images/DBDraft2.jpg"  border="2">
   </kbd>
 
 ## 2.2 Subsystems and Interfaces
@@ -91,6 +88,25 @@ The UML diagram of the database model
 ### 2.2.1 Overview
 
 Describe the high-level architecture of your software:  i.e., the major subsystems and how they fit together. Provide a UML component diagram that illustrates the architecture of your software. Briefly mention the role of each subsystem in your architectural design. Please refer to the "System Level Design" lectures in Week 4. 
+
+The major subsystems:
+1. Client: the user that is interacting with the system
+2. Student: stores the templates, routes, and forms for student's interfaces.
+    - The student subsystem is isolated from the instructor
+3. Instructor: stores the templates, routes, and forms for the instructor's interfaces
+    - The instructor subsystem is isolated from the student
+4. Authentication: stores the templates, routes, and forms for the authetication process
+    - Can route the client to either the student or the instructor's interfaces depends on the role
+5. Errors Handlers: stores the templates and routes for the errors
+    - Errors that happened in subsystem Student, Instructor, or Authentication get redirected to here
+6. Models: stores the database models and relationships
+7. PostgreSQL DB: stores the data for the models using SQLAlchemy
+
+The UML component diagram illustrating the software architectural design:
+  <kbd>
+      <img src="images/SubsystemsDraft.jpg"  border="2">
+  </kbd>
+
 
 ### 2.2.2 Interfaces
 
@@ -100,33 +116,105 @@ Include a detailed description of the routes your application will implement.
 * You can use the following table template to list your route specifications. 
 * Organize this section according to your subsytem decomposition, i.e., include a sub-section for each subsytem and list all routes for that sub-section in a table.  
 
-#### 2.2.2.1 \<Subsystem1> Routes
+#### 2.2.2.1 \<Student> Routes
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
-|1. |                   |            |              |
-|2. |                   |            |              |
-|3. |                   |            |              |
-|4. |                   |            |              |
-|5. |                   |            |              |
-|6. |                   |            |              |
+|1. |index()                   |/student, /student/index            |Loads the index page for the application, including open SA positions listing              |
+|2. |display_profile()                |/student/profile            |Display student profile, including qualifcations and applications applied              |
+|3. |edit_profile()                  |/student/edit           |Edit student profile              |
+|4. |apply_section(section_id)                  |/student/application/<section_id>/apply           |Apply for a section for an SA position              |
+|5. |withdraw_section(section_id)                  |/student/application/<section_id>/withdraw           |Withdraw application from a section              |
 
-#### 2.2.2.2 \<Subsystem2> Routes
+#### 2.2.2.1 \<Instructor> Routes
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
-|1. |                   |            |              |
-|2. |                   |            |              |
-|3. |                   |            |              |
-|4. |                   |            |              |
-|5. |                   |            |              |
-|6. |                   |            |              |
+|1. |index()                   |/instructor, /instructor/index            |Loads the index page for the application, including students applications and list of sections of the instructir              |
+|2. |create_course_section()                   |/instructor/section/create-section            | Create new course section             |
+|3. |create_positions()                   |/instructor/section/create-positions            |Create SA positions for course              |
+|4. |view_student_profile(student_id)                   |/instructor/student/<student_id>/profile            |View student profile to check for qualifications              |
+|5. |assign_student(section_id, student_id)                   |/instructor/application/<section_id>/<student_id>/assigns            |Assigns student to be SA in a section              |
+
+#### 2.2.2.3 \<Authentication> Routes
+
+|   | Methods           | URL Path   | Description  |
+|:--|:------------------|:-----------|:-------------|
+|1. |login()                   |/login            |Connects to the login page              |
+|2. |register_prompt()                   |/register            |Asks for the role that the user wants to create the account for, and redirects to next step              |
+|3. |student_register()                   |/student/register            |Connects to the register page for student              |
+|4. |instructor_register()                   |/instructor/register            |Connects to the register page for instructor              |
+|5. |logout()                   |/logout            | Connects to the logout page             |
+
+#### 2.2.2.4 \<Errors> Routes
+
+|   | Methods           | URL Path   | Description  |
+|:--|:------------------|:-----------|:-------------|
+|1. |not_found_error()                   |/error/404            |Shows the 404 error page              |
+|2. |internal_error()                   |/error/500            |Shows the 500 error page              |
 
 Repeat the above for other subsystems you included in your application. 
 
 ### 2.3 User Interface Design 
 
 Provide a list of the page templates you plan to create and supplement your description with UI sketches or screenshots. Make sure to mention which user-stories in your “Requirements and Use Cases" document will utilize these interfaces for user interaction. 
+
+#### Please refer to "RequirementsDocument.md" file to view the user-stories numbered below 
+
+User-stories: 1
+<kbd>
+      <img src="images\Student_register.png"  border="2">
+</kbd>
+
+User-stories: 2
+<kbd>
+      <img src="images\Student_login.png"  border="2">
+</kbd>
+
+User-stories: 3, 4
+<kbd>
+      <img src="images\Student dashboard.png"  border="2">
+</kbd>
+
+User-stories: 3, 4, 5
+<kbd>
+      <img src="images\Student dashboard apply.png"  border="2">
+</kbd>
+
+User-stories: 6, 7
+<kbd>
+      <img src="images\Student profile.png"  border="2">
+</kbd>
+
+User-stories: 8
+<kbd>
+      <img src="images\Instructor register.png"  border="2">
+</kbd>
+
+User-stories: 9
+<kbd>
+      <img src="images\Instructor login.png"  border="2">
+</kbd>
+
+User-stories: 10
+<kbd>
+      <img src="images\Create Course Section.png"  border="2">
+</kbd>
+
+User-stories: 11
+<kbd>
+      <img src="images\Create SA Position.png"  border="2">
+</kbd>
+
+User-stories: 12
+<kbd>
+      <img src="images\Instructor dashboard.png"  border="2">
+</kbd>
+
+User-stories: 12, 13, 14
+<kbd>
+      <img src="images\Instructor dashboard application.png"  border="2">
+</kbd>
 
 # 3. References
 
@@ -135,6 +223,8 @@ Cite your references here.
 For the papers you cite give the authors, the title of the article, the journal name, journal volume number, date of publication and inclusive page numbers. Giving only the URL for the journal is not appropriate.
 
 For the websites, give the title, author (if applicable) and the website URL.
+
+UI References, Dribble: [Source](https://dribbble.com/tags/job-listing)
 
 ----
 # Appendix: Grading Rubric
