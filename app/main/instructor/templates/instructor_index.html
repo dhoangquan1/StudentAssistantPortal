@@ -3,13 +3,19 @@
 
 {% block content %}
 
-    <div class="d-flex justify-content-between align-items-center">
+    <div>
         <div>
-            <h1>Instructor View - Welcome to Student Assistant Portal!</h1>
+            <h1>Welcome to Student Assistant Portal!</h1>
+            <h4>Dashboard</h4>
         </div>
-
-        <div>
-            
+        
+        <div class="parent_section_box_top">
+            Section Listing
+        </div>
+        <div class="parent_section_box">
+            {% for section in sections %}
+                {% include '_section.html' %} 
+            {% endfor %}
         </div>
     </div>
 
