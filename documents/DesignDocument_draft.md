@@ -163,12 +163,12 @@ Provide a list of the page templates you plan to create and supplement your desc
 
 User-stories: 1
 <kbd>
-      <img src="images\Student register.png"  border="2">
+      <img src="images\Student_register.png"  border="2">
 </kbd>
 
 User-stories: 2
 <kbd>
-      <img src="images\Student login.png"  border="2">
+      <img src="images\Student_login.png"  border="2">
 </kbd>
 
 User-stories: 3, 4
