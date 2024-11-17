@@ -1,0 +1,195 @@
+body {
+    font-family: Tahoma;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-container {
+    background:#f6f6f6;
+    font-family: Tahoma;
+    font-size: 12px;
+    height: 32px;
+    text-transform: uppercase;
+}
+a:hover {
+	color:#2387D9;
+}
+
+.button {
+    width : 65px;
+    padding : 3px;    
+    font-size: 16px;
+    margin : 5px;
+    border: 1px solid lightgray;
+}
+.button:hover {
+    background-color: 157dd3;
+    color: white;
+    cursor:pointer;
+}
+
+.posttable { 
+    width : 100%;
+    margin: 0px;
+}
+
+.posttitle {
+    text-align: center;    
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Tahoma;
+    padding-bottom: 10px;
+}
+
+.postmessage {
+    text-align: left; 
+    font-size: 14px;
+    font-family: Tahoma;
+}
+
+.posttimestamp {
+    text-align: left;    
+    font-size: 16px;
+    font-family: Tahoma;
+}
+
+.likecount {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Tahoma;
+
+}
+
+.useritem{
+    text-align: center;
+    padding: 3px;
+    margin: 4px 3px 4px 3px;
+    color: crimson; 
+    text-transform: uppercase;
+}
+
+.likebtn {
+    margin: 0 auto;
+    height: 40px;
+    width: 55px;
+    border: 0px;
+    vertical-align: middle;
+    background-image: url("..//img//like.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+} 
+.likebtn:hover {
+    background-image: url("..//img//like_hover.png");
+    cursor:pointer;
+}
+
+.flash-container {
+    background-color: lightskyblue;
+    font-size: 16px;
+    padding: 25px;
+    margin: 10px 15px 10px 0px;
+    border-radius: 10px;
+
+}
+
+.formtitle {
+    width: 80%;
+    font-size: 16px;
+    font-family: Tahoma;
+    margin: 5px 0px 10px 0px;
+    padding: 5px;
+    border-radius: 5px;
+    border-width: 1px;
+}
+
+.formbody {
+    width: 80%;
+    height: 50px;
+    font-size: 16px;
+    font-family: Tahoma;
+    margin: 5px 0px 10px 0px;
+    padding: 5px;
+    border-radius: 5px;
+    border-width: 1px;
+}
+
+.formselect {
+    width: 50%;
+    font-size: 16px;
+    font-family: Tahoma;
+    margin: 5px 0px 10px 0px;
+    padding: 5px;
+    border-radius: 5px;
+    border-width: 1px;
+}
+
+.postlist {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media screen and (min-width: 1200px) {
+    .post-box {
+        display: flex;
+        vertical-align: middle;
+        margin: 0px 5px 5px 0px;
+        width: 32%;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+        padding: 5px
+    }
+}
+
+@media screen and (min-width: 800px) and (max-width: 1200px){
+    .post-box {
+        display: flex;
+        vertical-align: middle;
+        margin: 0px 5px 5px 0px;
+        width: 48%;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+        padding: 5px
+    }
+}
+
+@media screen and (max-width: 800px){
+    .post-box {
+        display: flex;
+        vertical-align: middle;
+        margin: 0px 5px 5px 0px;
+        width: 99%;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+        padding: 5px
+    }
+}
+
+.tagitem {
+    text-align: center;
+    font-size: 12px;
+    font-family: Tahoma;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0px 3px 0px 0px;
+    background-color: lightpink;
+    border: 1px solid black;
+}
+
+.forminput {
+    width: 80%;
+    font-size: 16px;
+    font-family: Tahoma;
+    margin: 5px 0px 10px 0px;
+    padding: 5px;
+    border-radius: 5px;
+    border-width: 1px;
+}
+
+.custom-form-select-size {
+    width: 10%;
+}
