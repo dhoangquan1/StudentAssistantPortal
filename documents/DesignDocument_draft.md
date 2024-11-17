@@ -159,42 +159,62 @@ Repeat the above for other subsystems you included in your application.
 
 Provide a list of the page templates you plan to create and supplement your description with UI sketches or screenshots. Make sure to mention which user-stories in your “Requirements and Use Cases" document will utilize these interfaces for user interaction. 
 
-Page Template: auth/register_prompt.html -- User stories 1 & 8
-The UI for choosing account role
-  <kbd>
-      <img src="images/register_prompt.jpg"  border="2">
-  </kbd>
+#### Please refer to "RequirementsDocument.md" file to view the user-stories numbered below 
 
-Page Template: auth/register_instructor.html -- User stories 8
-The UI for registering as an instructor
-  <kbd>
-      <img src="images/instr_register.jpg"  border="2">
-  </kbd>
+User-stories: 1
+<kbd>
+      <img src="images\Student register.png"  border="2">
+</kbd>
 
-Page Template: auth/register_student.html -- User stories 1
-The UI for registering as a student
-  <kbd>
-      <img src="images/stu_register.jpg"  border="2">
-  </kbd>
+User-stories: 2
+<kbd>
+      <img src="images\Student login.png"  border="2">
+</kbd>
 
-Page Template: auth/login.html -- User stories 2
-The UI for logging in
-  <kbd>
-      <img src="images/log_in.jpg"  border="2">
-  </kbd>
+User-stories: 3, 4
+<kbd>
+      <img src="images\Student dashboard.png"  border="2">
+</kbd>
 
-Page Template: auth/login.html -- User stories 12,14,15,16
-The UI for instructor view that show course sections and applications for those sections
-  <kbd>
-      <img src="images/instr_home_view.jpg"  border="2">
-  </kbd>
+User-stories: 3, 4, 5
+<kbd>
+      <img src="images\Student dashboard apply.png"  border="2">
+</kbd>
 
-Page Template: auth/login.html -- User stories 3,4,5,6,7
-The UI for student view that show all SA positions and the SA applications that the students have submitted
-  <kbd>
-      <img src="images/stu_home_view.jpg"  border="2">
-  </kbd>
-  
+User-stories: 6, 7
+<kbd>
+      <img src="images\Student profile.png"  border="2">
+</kbd>
+
+User-stories: 8
+<kbd>
+      <img src="images\Instructor register.png"  border="2">
+</kbd>
+
+User-stories: 9
+<kbd>
+      <img src="images\Instructor login.png"  border="2">
+</kbd>
+
+User-stories: 10
+<kbd>
+      <img src="images\Create Course Section.png"  border="2">
+</kbd>
+
+User-stories: 11
+<kbd>
+      <img src="images\Create SA Position.png"  border="2">
+</kbd>
+
+User-stories: 12
+<kbd>
+      <img src="images\Instructor dashboard.png"  border="2">
+</kbd>
+
+User-stories: 12, 13, 14
+<kbd>
+      <img src="images\Instructor dashboard application.png"  border="2">
+</kbd>
 
 # 3. References
 
