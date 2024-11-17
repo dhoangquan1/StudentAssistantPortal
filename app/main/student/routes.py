@@ -12,8 +12,8 @@ from app.main.student import student_blueprint as bp_student
 
 @bp_student.route('/', methods=['GET'])
 @bp_student.route('/student/index', methods=['GET', 'POST'])
-@role_required('Student')
 @login_required
+@role_required('Student')
 def index():
 
     return render_template('student_index.html', title="SA Portal")

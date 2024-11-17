@@ -9,14 +9,8 @@
         {{form.hidden_tag()}}
        
         {{wtf.form_field(form.username)}}
-        {% for error in form.username.errors %}
-            <span style = "color: red"> [{{error}}] </span>
-        {% endfor %}
 
         {{wtf.form_field(form.password)}}
-        {% for error in form.password.errors %}
-            <span style = "color: red"> [{{error}}] </span>
-        {% endfor %}
 
         {{wtf.form_field(form.remember_me)}}
 
