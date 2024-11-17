@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% import 'bootstrap_wtf.html' as wtf %}
+
+{% block content %}
+    <h1> Create a new section </h1>
+
+    <form action = "{{url_for('main.instructor.create_course_section')}}" method = "POST">
+        {{ form.hidden_tag() }}
+        
+        {{wtf.form_field(form.course)}}
+        {{wtf.form_field(form.section_num)}}
+        {{wtf.form_field(form.term)}}
+        {{wtf.form_field(form.submit)}}
+    
+
+    </form>
+
+{% endblock %}
