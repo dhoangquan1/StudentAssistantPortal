@@ -1,4 +1,5 @@
 
+from datetime import datetime, timezone
 from flask import render_template, flash, redirect, url_for
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -6,24 +7,51 @@ from app import db
 from app.auth import auth_blueprint as bp_auth 
 import sqlalchemy as sqla
 
-from app.auth.auth_forms import RegistrationForm, LoginForm
-from app.main.models import User
+from app.auth.auth_forms import InstructorRegistrationForm, StudentRegistrationForm, LoginForm
+from app.main.models import User, Instructor, Student 
 
-@bp_auth.route('/user/register', methods=['GET', 'POST'])
-def register():
+@bp_auth.route('/instructor/register', methods=['GET', 'POST'])
+def register_instructor():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
-    rform = RegistrationForm()
+    rform = InstructorRegistrationForm()
     if rform.validate_on_submit():
-        new_user = User(username = rform.username.data,
-                        email = rform.email.data,
-                        user_type = rform.role.data)
+        new_user = Instructor(
+            username = rform.username.data,
+            email = rform.email.data,
+            wpi_id = rform.wpi_id.data,
+            phone = rform.phone.data,
+            user_type = rform.role.data)
+        
         new_user.set_password(rform.password.data)
         db.session.add(new_user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('main.index'))
-    return render_template('register.html', title="Register", form = rform)
+    return render_template('register_instructor.html', title="Register", form = rform)
+
+@bp_auth.route('/student/register', methods=['GET', 'POST'])
+def register_student():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    rform = StudentRegistrationForm()
+    if rform.validate_on_submit():
+        new_user = Student(
+            username = rform.username.data,
+            email = rform.email.data,
+            wpi_id = rform.wpi_id.data,
+            phone = rform.phone.data,
+            major = rform.major.data,
+            gpa = float(rform.gpa.data),
+            grad_date = rform.grad_date.data,
+            user_type = rform.role.data)
+        
+        new_user.set_password(rform.password.data)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('main.index'))
+    return render_template('register_student.html', title="Register", form = rform)
 
 @bp_auth.route('/user/login', methods=['GET', 'POST'])
 def login():
