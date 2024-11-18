@@ -7,8 +7,24 @@ from app import db
 from app.auth import auth_blueprint as bp_auth 
 import sqlalchemy as sqla
 
-from app.auth.auth_forms import InstructorRegistrationForm, StudentRegistrationForm, LoginForm
+from app.auth.auth_forms import InstructorRegistrationForm, StudentRegistrationForm, LoginForm, RoleForm
 from app.main.models import User, Instructor, Student 
+
+
+@bp_auth.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    
+    rform = RoleForm()
+
+    if rform.validate_on_submit():
+        if rform.role.data == 'Instructor':
+            return redirect(url_for('auth.register_instructor'))
+        if rform.role.data == 'Student':
+            return redirect(url_for('auth.register_student'))
+    
+    return render_template('register.html', title="Register", form = rform)
 
 @bp_auth.route('/instructor/register', methods=['GET', 'POST'])
 def register_instructor():
@@ -21,7 +37,7 @@ def register_instructor():
             email = rform.email.data,
             wpi_id = rform.wpi_id.data,
             phone = rform.phone.data,
-            user_type = rform.role.data)
+            user_type = 'Instructor')
         
         new_user.set_password(rform.password.data)
         db.session.add(new_user)
@@ -44,7 +60,7 @@ def register_student():
             major = rform.major.data,
             gpa = float(rform.gpa.data),
             grad_date = rform.grad_date.data,
-            user_type = rform.role.data)
+            user_type = 'Student')
         
         new_user.set_password(rform.password.data)
         db.session.add(new_user)

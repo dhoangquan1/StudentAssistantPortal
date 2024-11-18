@@ -2,7 +2,7 @@
 {% import 'bootstrap_wtf.html' as wtf %}
 
 {% block content %}
-<h1>Register</h1>
+<h1>Student Register</h1>
 
 <form action="{{url_for('auth.register_student')}}" method="POST">
     {{form.hidden_tag()}}
@@ -21,11 +21,11 @@
 
     {{wtf.form_field(form.grad_date)}}
 
+    {{wtf.form_field(form.sa_courses)}}
+
     {{wtf.form_field(form.password)}}
 
     {{wtf.form_field(form.password2)}}
-
-    {{wtf.form_field(form.role)}}
 
     {{wtf.form_field(form.submit)}}
 
