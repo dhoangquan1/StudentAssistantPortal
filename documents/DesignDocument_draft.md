@@ -110,48 +110,42 @@ The UML component diagram illustrating the software architectural design:
 
 ### 2.2.2 Interfaces
 
-Include a detailed description of the routes your application will implement. 
-* Brainstorm with your team members and identify all routes you need to implement for the **completed** application.
-* For each route specify its “methods”, “URL path”, and “a description of the operation it implements”.  
-* You can use the following table template to list your route specifications. 
-* Organize this section according to your subsytem decomposition, i.e., include a sub-section for each subsytem and list all routes for that sub-section in a table.  
-
 #### 2.2.2.1 \<Student> Routes
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
-|1. |index()                   |/student, /student/index            |Loads the index page for the application, including open SA positions listing              |
-|2. |display_profile()                |/student/profile            |Display student profile, including qualifcations and applications applied              |
-|3. |edit_profile()                  |/student/edit           |Edit student profile              |
-|4. |apply_section(section_id)                  |/student/application/<section_id>/apply           |Apply for a section for an SA position              |
-|5. |withdraw_section(section_id)                  |/student/application/<section_id>/withdraw           |Withdraw application from a section              |
+|1. |GET                   |/student, /student/index            |Loads the index page for the application, including open SA positions listing              |
+|2. |GET                |/student/profile            |Display student profile, including qualifcations and applications applied              |
+|3. |PUT/PATCH                 |/student/profile/edits         |Edit student profile              |
+|4. |POST                  |/student/application/<section_id>         |Apply for a section for an SA position              |
+|5. |DELETE                |/student/application/<section_id>         |Withdraw application from a section              |
 
 #### 2.2.2.1 \<Instructor> Routes
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
-|1. |index()                   |/instructor, /instructor/index            |Loads the index page for the application, including students applications and list of sections of the instructir              |
-|2. |create_course_section()                   |/instructor/section/create-section            | Create new course section             |
-|3. |create_positions()                   |/instructor/section/create-positions            |Create SA positions for course              |
-|4. |view_student_profile(student_id)                   |/instructor/student/<student_id>/profile            |View student profile to check for qualifications              |
-|5. |assign_student(section_id, student_id)                   |/instructor/application/<section_id>/<student_id>/assigns            |Assigns student to be SA in a section              |
+|1. |GET                  |/instructor, /instructor/index            |Loads the index page for the application, including students applications and list of sections of the instructor              |
+|2. |POST                 |/instructor/section        | Create new course section             |
+|3. |POST                  |/instructor/section/<section_id>/position            |Create SA positions for course              |
+|4. |GET                  |/instructor/student/<student_id>/profile            |View student profile to check for qualifications              |
+|5. |POST                   |/instructor/application/<section_id>/<student_id>/assignments            |Assigns student to be SA in a section              |
 
 #### 2.2.2.3 \<Authentication> Routes
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
-|1. |login()                   |/login            |Connects to the login page              |
-|2. |register_prompt()                   |/register            |Asks for the role that the user wants to create the account for, and redirects to next step              |
-|3. |student_register()                   |/student/register            |Connects to the register page for student              |
-|4. |instructor_register()                   |/instructor/register            |Connects to the register page for instructor              |
-|5. |logout()                   |/logout            | Connects to the logout page             |
+|1. |POST                   |/login            |Connects to the login page              |
+|2. |GET                   |/register            |Asks for the role that the user wants to create the account for, and redirects to next step              |
+|3. |POST                   |/student/register            |Connects to the register page for student              |
+|4. |POST                  |/instructor/register            |Connects to the register page for instructor              |
+|5. |POST                   |/logout            | Connects to the logout page             |
 
 #### 2.2.2.4 \<Errors> Routes
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
-|1. |not_found_error()                   |/error/404            |Shows the 404 error page              |
-|2. |internal_error()                   |/error/500            |Shows the 500 error page              |
+|1. |GET                   |/error/404            |Shows the 404 error page              |
+|2. |GET                   |/error/500            |Shows the 500 error page              |
 
 Repeat the above for other subsystems you included in your application. 
 

@@ -11,7 +11,7 @@ from app.auth.auth_forms import InstructorRegistrationForm, StudentRegistrationF
 from app.main.models import User, Instructor, Student 
 
 
-@bp_auth.route('/register', methods=['GET', 'POST'])
+@bp_auth.route('/register', methods=['GET'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -69,7 +69,7 @@ def register_student():
         return redirect(url_for('main.index'))
     return render_template('register_student.html', title="Register", form = rform)
 
-@bp_auth.route('/user/login', methods=['GET', 'POST'])
+@bp_auth.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -85,7 +85,7 @@ def login():
         return redirect(url_for('main.index'))
     return render_template('login.html', form = lform)
 
-@bp_auth.route('/user/logout', methods=['GET'])
+@bp_auth.route('/logout', methods=['GET'])
 @login_required
 def logout():
     logout_user()
