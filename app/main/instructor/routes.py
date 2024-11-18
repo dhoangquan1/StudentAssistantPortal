@@ -10,7 +10,7 @@ from app.main.instructor.forms import SectionForm
 
 from app.main.instructor import instructor_blueprint as bp_instructor
 
-@bp_instructor.route('/', methods=['GET'])
+@bp_instructor.route('/instructor', methods=['GET'])
 @bp_instructor.route('/instructor/index', methods=['GET', 'POST'])
 @login_required
 @role_required('Instructor')
@@ -19,7 +19,7 @@ def index():
         
     return render_template('instructor_index.html', title="SA Portal", sections = sections)
 
-@bp_instructor.route('/instructor/section/create-section', methods=['GET', 'POST'])
+@bp_instructor.route('/instructor/section', methods=['GET', 'POST'])
 @login_required
 @role_required('Instructor')
 def create_course_section():
