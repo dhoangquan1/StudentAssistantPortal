@@ -15,7 +15,7 @@ from app.main.instructor import instructor_blueprint as bp_instructor
 @login_required
 @role_required('Instructor')
 def index():
-    sections = db.session.scalars(sqla.select(Section).where(Section.instructor_id== current_user.id))
+    sections = current_user.get_sections()
         
     return render_template('instructor_index.html', title="SA Portal", sections = sections)
 

@@ -2,24 +2,15 @@
 {% import 'bootstrap_wtf.html' as wtf %}
 
 {% block content %}
-    <h1>Register</h1>
+<h1>Register</h1>
 
-    <!-- TODO: (milestone 3) Include the template for "user registration" form here..  -->
-    <form action="{{url_for('auth.register')}}" method="POST">
-        {{form.hidden_tag()}}
-       
-        {{wtf.form_field(form.username)}}
-    
-        {{wtf.form_field(form.email)}}
-    
-        {{wtf.form_field(form.password)}}
-    
-        {{wtf.form_field(form.password2)}}
+<form action="{{url_for('auth.register_student')}}" method="POST">
+    {{form.hidden_tag()}}
 
-        {{wtf.form_field(form.role)}}
+    {{wtf.form_field(form.role)}}
 
-        {{wtf.form_field(form.submit)}}
-        
-    </form>
+    {{wtf.form_field(form.submit)}}
+
+</form>
 
 {% endblock %}
