@@ -115,9 +115,9 @@ The UML component diagram illustrating the software architectural design:
 
 |   | Methods           | URL Path   | Description  |
 |:--|:------------------|:-----------|:-------------|
-|1. |GET                  |/instructor, /instructor/index            |Loads the index page for the application, including students applications and list of sections of the instructor              |
+|1. |GET                  |/instructor, /instructor/index            |Loads the index page for the application, including students applications and list of sections and positions made by the instructor              |
 |2. |POST                 |/instructor/section        | Create new course section             |
-|3. |POST                  |/instructor/section/<section_id>/position            |Create SA positions for course              |
+|3. |POST                  |/instructor/position            |Create SA positions for course              |
 |4. |GET                  |/instructor/student/<student_id>/profile            |View student profile to check for qualifications              |
 |5. |POST                   |/instructor/position/<position_id>/<student_id>/            |Assigns student to be SA in an open position              |
 

@@ -41,8 +41,7 @@ class Instructor(User):
     id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(User.id), primary_key=True)
     
     sections : sqlo.WriteOnlyMapped['Section'] = sqlo.relationship(back_populates= 'instructor')
-    
-    positions: sqlo.WriteOnlyMapped['Position'] = sqlo.relationship(back_populates="instructor")
+    pos_listing: sqlo.WriteOnlyMapped['Position'] = sqlo.relationship(back_populates="has_instructor")
 
     
     __mapper_args__ = {
@@ -52,6 +51,8 @@ class Instructor(User):
     def get_sections(self):
         return db.session.scalars(self.sections.select()).all()
     
+    def get_positions(self):
+        return db.session.scalars(self.pos_listing.select()).all()
     
 class Student(User):
     __tablename__='student'
@@ -62,7 +63,7 @@ class Student(User):
     
     # Relationships
     prev_enrolled: sqlo.WriteOnlyMapped['Past_Enrollments'] = sqlo.relationship(back_populates='student')
-    course_applied: sqlo.WriteOnlyMapped['Application'] = sqlo.relationship(back_populates='applicant')
+    pos_applied: sqlo.WriteOnlyMapped['Application'] = sqlo.relationship(back_populates='applicant')
 
 
     
@@ -117,12 +118,8 @@ class Section(db.Model):
     section_num: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(5))
     term: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(5))
     
-    max_SA: sqlo.Mapped[int] = sqlo.mapped_column(sqla.Integer, default=0)
-    curr_SA: sqlo.Mapped[int] = sqlo.mapped_column(sqla.Integer, default=0)
-    
     instructor : sqlo.Mapped[Instructor] = sqlo.relationship(back_populates= 'sections')
     in_course: sqlo.Mapped[Course] = sqlo.relationship(back_populates= 'has_sections')
-    section_application: sqlo.WriteOnlyMapped['Application'] = sqlo.relationship(back_populates='applied_section')
     positions: sqlo.WriteOnlyMapped['Position'] = sqlo.relationship(back_populates="in_section")
 
 
@@ -130,30 +127,36 @@ class Section(db.Model):
         sqla.UniqueConstraint('course_id', 'section_num', 'term', name='uix_course_section_term'),
     )
     
+class Position(db.Model):
+    id: sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
+    instructor_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Instructor.id))
+    section_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Section.id))
+    
+    min_GPA: sqlo.Mapped[float] = sqlo.mapped_column(sqla.Float)
+    min_grade: sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(5))
+    prev_sa_exp: sqlo.Mapped[bool] = sqlo.mapped_column(sqla.Boolean)
+    
+    max_SA: sqlo.Mapped[int] = sqlo.mapped_column(sqla.Integer, default=0)
+    curr_SA: sqlo.Mapped[int] = sqlo.mapped_column(sqla.Integer, default=0)
+
+    has_instructor: sqlo.Mapped[Instructor] = sqlo.relationship(back_populates="pos_listing")
+    in_section: sqlo.Mapped[Section] = sqlo.relationship(back_populates="positions")
+    applications: sqlo.WriteOnlyMapped['Application'] = sqlo.relationship(back_populates="applied_to")
+
+    
+    def __repr__(self):
+        return f"<Position(section_id={self.section_id}, sa_id={self.sa_id}, term={self.term}, year={self.year})>"
+
 class Application(db.Model):
     student_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Student.id), primary_key=True)
-    section_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Section.id), primary_key=True)
+    position_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Position.id), primary_key=True)
     term: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(5))
     grade: sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(5))
     status: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(20))
     
-    applicant: sqlo.Mapped[Student] = sqlo.relationship(back_populates='course_applied')
-    applied_section: sqlo.Mapped[Section] = sqlo.relationship(back_populates='section_application')
+    applicant: sqlo.Mapped[Student] = sqlo.relationship(back_populates='pos_applied')
+    applied_to: sqlo.Mapped[Position] = sqlo.relationship(back_populates='applications')
     
     def __repr__(self):
         return f"<Application(student_id={self.student_id}, section_id={self.section_id}, term={self.term}, status={self.status})>"
     
-class Position(db.Model):
-    id: sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
-    instructor_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Instructor.id))
-    course_section_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Section.id))
-    min_GPA: sqlo.Mapped[float] = sqlo.mapped_column(sqla.Float)
-    min_grade: sqlo.Mapped[float] = sqlo.mapped_column(sqla.Float)
-    term: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(5))
-    SA_num: sqlo.Mapped[int] = sqlo.mapped_column(sqla.Integer)
-    
-    instructor: sqlo.Mapped[Instructor] = sqlo.relationship(back_populates="positions")
-    in_section: sqlo.Mapped[Section] = sqlo.relationship(back_populates="positions")
-    
-    def __repr__(self):
-        return f"<Position(section_id={self.section_id}, sa_id={self.sa_id}, term={self.term}, year={self.year})>"
