@@ -11,7 +11,7 @@ from app.auth.auth_forms import InstructorRegistrationForm, StudentRegistrationF
 from app.main.models import User, Instructor, Student 
 
 
-@bp_auth.route('/register', methods=['GET'])
+@bp_auth.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -19,6 +19,7 @@ def register():
     rform = RoleForm()
 
     if rform.validate_on_submit():
+
         if rform.role.data == 'Instructor':
             return redirect(url_for('auth.register_instructor'))
         if rform.role.data == 'Student':

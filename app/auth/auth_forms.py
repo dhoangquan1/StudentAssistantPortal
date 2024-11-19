@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField, SelectField, FloatField, DateField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, SelectField, FloatField, DateField, RadioField
 from wtforms_sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 from wtforms.validators import  ValidationError, DataRequired, EqualTo, Email, Length, NumberRange
 from wtforms.widgets import ListWidget, CheckboxInput
@@ -10,7 +10,7 @@ import sqlalchemy as sqla
 
 
 class RoleForm(FlaskForm):
-    role = SelectField('Choose your role',choices = [('Student', 'Student'), ('Instructor', 'Instructor')])
+    role = RadioField('Choose your account role',choices = [('Student', 'Student'), ('Instructor', 'Instructor')], default='Student')
     submit = SubmitField('Register')
 
 class RegistrationForm(FlaskForm):

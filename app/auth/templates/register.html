@@ -2,15 +2,27 @@
 {% import 'bootstrap_wtf.html' as wtf %}
 
 {% block content %}
-<h1>Register</h1>
 
-<form action="{{url_for('auth.register_student')}}" method="POST">
-    {{form.hidden_tag()}}
+{% if string %}
+    {{string}}
+{% endif %}
 
-    {{wtf.form_field(form.role)}}
+<div class="d-flex flex-column justify-content-center" style="align-items: center; width: auto;">
+    <h1 class="mt-4" style="text-align: center;">Register</h1>
 
-    {{wtf.form_field(form.submit)}}
+    <form class="d-flex flex-column justify-content-center" action="{{url_for('auth.register')}}" method="POST"
+        style="width: 50%; align-items: center;">
+        <div class="d-flex flex-column justify-content-start pt-3 px-4 pb-2 mt-1 h5"
+            style="width: 100%; border-radius: 10px; background-color: #d9d9d9;">
+            {{form.hidden_tag()}}
 
-</form>
+            {{wtf.form_field(form.role)}}
+        </div>
+        <div class="d-flex justify-content-center mt-3 h4" style="width: 100%; align-items: center;">
+            {{wtf.form_field(form.submit)}}
+        </div>
+    </form>
+    <p class="h5">Already have an account? <a href="{{url_for('auth.login')}}">Log in</a></p>
+</div>
 
 {% endblock %}

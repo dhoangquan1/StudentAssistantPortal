@@ -6,11 +6,10 @@
   </div>
 
 {%- elif field.type == 'RadioField' %}
-  <span>RadioField</span>
-  {{ field.label(class='form-label') }}
+  {{ field.label(class='form-label pb-2') }}
   {%- for item in field %}
     <div class="form-check{% if loop.last %} mb-3{% endif %}">
-      {{ item(class='form-check-input') }}
+      {{ item(class='form-check-input border border-black') }}
       {{ item.label(class='form-check-label') }}
     </div>
   {%- endfor %}
