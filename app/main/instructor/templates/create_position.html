@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import 'bootstrap_wtf.html' as wtf %}
+
+{% block content %}
+<h2>Create a New SA Position</h2>
+
+<form method="POST" action="{{ url_for('main.instructor.create_positions') }}">
+    {{ form.hidden_tag() }}
+    
+    {{wtf.form_field(form.section)}}
+
+    {{wtf.form_field(form.SAnum)}}
+
+    {{wtf.form_field(form.minGPA)}}
+
+    {{wtf.form_field(form.min_grade)}}
+
+    {{wtf.form_field(form.term)}}
+
+    {{wtf.form_field(form.submit)}}
+
+{% endblock %}
