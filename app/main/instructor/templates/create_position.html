@@ -4,7 +4,7 @@
 {% block content %}
 <h2>Create a New SA Position</h2>
 
-<form method="POST" action="{{ url_for('main.create_positions') }}">
+<form method="POST" action="{{ url_for('main.instructor.create_positions') }}">
     {{ form.hidden_tag() }}
     
     {{wtf.form_field(form.section)}}

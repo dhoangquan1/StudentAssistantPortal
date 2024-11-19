@@ -5,8 +5,8 @@ import sqlalchemy as sqla
 from app.main.role_validator import role_required
 
 from app import db
-from app.main.models import Section
-from app.main.instructor.forms import SectionForm
+from app.main.models import Section,Position
+from app.main.instructor.forms import SectionForm,PositionForm
 
 from app.main.instructor import instructor_blueprint as bp_instructor
 
@@ -34,3 +34,22 @@ def create_course_section():
         flash('Section ' + new_section.in_course.num + '-' + new_section.section_num + ' is created')
         return redirect(url_for('main.index'))
     return render_template('register_section.html', title="Create a new section", form = sform)
+
+@bp_instructor.route("/instructor/section/create_postitions", methods=['GET','POST'])
+def create_positions():
+    form = PositionForm()
+    if form.validate_on_submit():
+        selected_section = form.section.data
+        positions = Position(
+            in_section = selected_section,
+            SA_num = form.SAnum.data,
+            min_GPA = form.minGPA.data,
+            min_grade = form.min_grade.data,
+            term = form.term.data,
+            instructor = current_user
+        )
+        db.session.add(positions)
+        db.session.commit()
+        flash(f'Create SA positions succesfully')
+        return redirect(url_for('main.index'))
+    return render_template('create_position.html', form=form)

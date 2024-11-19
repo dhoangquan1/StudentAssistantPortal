@@ -48,6 +48,9 @@ class Instructor(User):
     
     sections : sqlo.WriteOnlyMapped['Section'] = sqlo.relationship(back_populates= 'instructor')
     
+    positions: sqlo.WriteOnlyMapped['Position'] = sqlo.relationship(back_populates="instructor")
+
+    
     __mapper_args__ = {
         'polymorphic_identity': 'Instructor'
     }
@@ -69,6 +72,7 @@ class Student(User):
         primaryjoin=(courseSA.c.course_id == id),
         back_populates='served_sas'
     )
+    course_applied: sqlo.WriteOnlyMapped['Application'] = sqlo.relationship(back_populates='applicant')
     
     __mapper_args__ = {
         'polymorphic_identity': 'Student'
@@ -118,27 +122,38 @@ class Section(db.Model):
     
     instructor : sqlo.Mapped[Instructor] = sqlo.relationship(back_populates= 'sections')
     in_course: sqlo.Mapped[Course] = sqlo.relationship(back_populates= 'has_sections')
-    
-    required_qualifications: sqlo.Mapped['Require_Qual'] = sqlo.relationship(back_populates='section')    
+    section_application: sqlo.WriteOnlyMapped['Application'] = sqlo.relationship(back_populates='applied_section')
+    positions: sqlo.WriteOnlyMapped['Position'] = sqlo.relationship(back_populates="in_section")
+
+
     __table_args__ = (
         sqla.UniqueConstraint('course_id', 'section_num', 'term', name='uix_course_section_term'),
     )
     
+class Application(db.Model):
+    student_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Student.id), primary_key=True)
+    section_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Section.id), primary_key=True)
+    term: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(5))
+    grade: sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(5))
+    status: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(20))
     
-class Qualification(db.Model):
-    q_id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
-    min_GPA: sqlo.Mapped[float] = sqlo.mapped_column(sqla.Float) 
-    qualified_sections: sqlo.Mapped['Require_Qual'] = sqlo.relationship(back_populates='qualification')
+    applicant: sqlo.Mapped[Student] = sqlo.relationship(back_populates='course_applied')
+    applied_section: sqlo.Mapped[Section] = sqlo.relationship(back_populates='section_application')
     
     def __repr__(self):
-        return '<Qualification {}>'.format(self.qualification)
+        return f"<Application(student_id={self.student_id}, section_id={self.section_id}, term={self.term}, status={self.status})>"
     
+class Position(db.Model):
+    id: sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
+    instructor_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Instructor.id))
+    course_section_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Section.id))
+    min_GPA: sqlo.Mapped[float] = sqlo.mapped_column(sqla.Float)
+    min_grade: sqlo.Mapped[float] = sqlo.mapped_column(sqla.Float)
+    term: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(5))
+    SA_num: sqlo.Mapped[int] = sqlo.mapped_column(sqla.Integer)
     
-class Require_Qual(db.Model): 
-    section_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey('section.id'), primary_key=True) 
-    q_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey('qualification.q_id'), primary_key=True) 
-    section: sqlo.Mapped['Section'] = sqlo.relationship('Section', back_populates='required_qualifications') 
-    qualification: sqlo.Mapped['Qualification'] = sqlo.relationship( back_populates='qualified_sections') 
+    instructor: sqlo.Mapped[Instructor] = sqlo.relationship(back_populates="positions")
+    in_section: sqlo.Mapped[Section] = sqlo.relationship(back_populates="positions")
     
-    def __repr__(self): 
-        return f"<Require_Qual(section_id={self.section_id}, q_id={self.q_id})>"
+    def __repr__(self):
+        return f"<Position(section_id={self.section_id}, sa_id={self.sa_id}, term={self.term}, year={self.year})>"
