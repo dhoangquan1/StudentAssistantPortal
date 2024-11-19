@@ -39,10 +39,10 @@
       <ul class="navbar-nav mb-2 mb-lg-0 align-items-center">
 
         {% if current_user.is_anonymous %}
-        <li id="post-smile" class="nav-item border border-light px-2 ms-2 border" style="border-radius: 10px; background-color: #d9d9d9;">
+        <li id="post-smile" class="nav-item px-2 ms-2 border" style="border-radius: 10px; background-color: #d9d9d9;">
           <a class="nav-link" style="color: #121212;" aria-current="page" href="{{ url_for('auth.register') }}">Register</a>
         </li>
-        <li id="post-smile" class="nav-item border border-light px-3 ms-2" style="border-radius: 10px; background-color: #fe6c6d;">
+        <li id="post-smile" class="nav-item px-3 ms-2" style="border-radius: 10px; background-color: #fe6c6d;">
           <a class="nav-link" style="color: #121212;" aria-current="page" href="{{ url_for('auth.login') }}">Log in</a>
         </li>
         {% else %}

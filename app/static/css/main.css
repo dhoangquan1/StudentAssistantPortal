@@ -16,17 +16,18 @@ a:hover {
 	color:#2387D9;
 }
 
-.button {
-    width : 65px;
-    padding : 3px;    
-    font-size: 16px;
-    margin : 5px;
-    border: 1px solid lightgray;
+.auth_btn {
+    background-color: #fe6c6d;
+    color: #282828;
+    border: none;
+    border-radius: 10px; 
+    width: 45%; 
+    text-align: center;
 }
-.button:hover {
-    background-color: 157dd3;
-    color: white;
-    cursor:pointer;
+
+.auth_btn:hover {
+    background-color: #CC3A3B;
+    color: #0A0A0A;
 }
 
 .useritem{
