@@ -37,6 +37,12 @@
                     </li>
                   {% endif %}
 
+                  {% if current_user.user_type == 'Instructor' %}
+                    <li class="nav-item border border-light px-3 ms-2 ">
+                      <a class="nav-link" aria-current="page" href="{{ url_for('main.instructor.create_positions') }}">Create Position</a>
+                    </li>
+                  {% endif %}
+
                   {% if current_user.user_type == 'Student' %}
 
                   {% endif %}
