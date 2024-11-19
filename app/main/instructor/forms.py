@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_login import current_user
 from wtforms import StringField, SubmitField, IntegerField, FloatField
 from wtforms.validators import  ValidationError, DataRequired,NumberRange,Optional
 from wtforms_sqlalchemy.fields import QuerySelectField
@@ -35,7 +36,7 @@ class SectionForm(FlaskForm):
         return True
 class PositionForm(FlaskForm):
     section = QuerySelectField('Course Section', 
-                         query_factory=lambda: db.session.scalars(sqla.select(Section).join(Section.in_course).order_by(Course.title)),
+                         query_factory=lambda: db.session.scalars(sqla.select(Section).where(Section.instructor_id == current_user.id).join(Section.in_course).order_by(Course.title)),
                          get_label=lambda section: section.in_course.title,
                          allow_blank=False
                          )
