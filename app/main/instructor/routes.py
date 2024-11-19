@@ -16,8 +16,8 @@ from app.main.instructor import instructor_blueprint as bp_instructor
 @role_required('Instructor')
 def index():
     sections = current_user.get_sections()
-        
-    return render_template('instructor_index.html', title="SA Portal", sections = sections)
+    positions = current_user.get_positions()
+    return render_template('instructor_index.html', title="SA Portal", sections = sections, positions = positions)
 
 @bp_instructor.route('/instructor/section', methods=['GET', 'POST'])
 @login_required
@@ -35,18 +35,19 @@ def create_course_section():
         return redirect(url_for('main.index'))
     return render_template('register_section.html', title="Create a new section", form = sform)
 
-@bp_instructor.route("/instructor/section/create_postitions", methods=['GET','POST'])
+@bp_instructor.route("/instructor/position", methods=['GET','POST'])
+@login_required
+@role_required('Instructor')
 def create_positions():
     form = PositionForm()
     if form.validate_on_submit():
-        selected_section = form.section.data
         positions = Position(
-            in_section = selected_section,
-            SA_num = form.SAnum.data,
+            section_id = form.section.data.id,
+            instructor_id = current_user.id,
+            max_SA = form.SAnum.data,
             min_GPA = form.minGPA.data,
             min_grade = form.min_grade.data,
-            term = form.term.data,
-            instructor = current_user
+            prev_sa_exp = form.prev_sa_exp.data,
         )
         db.session.add(positions)
         db.session.commit()

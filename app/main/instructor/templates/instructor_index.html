@@ -17,6 +17,17 @@
                 {% include '_section.html' %} 
             {% endfor %}
         </div>
+
+        <br>
+        
+        <div class="parent_section_box_top">
+            Position Listing
+        </div>
+        <div class="parent_section_box">
+            {% for position in positions %}
+                {% include '_position.html' %} 
+            {% endfor %}
+        </div>
     </div>
 
   
