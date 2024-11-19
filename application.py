@@ -4,13 +4,13 @@ from app import create_app, db
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqlo
 
-from app.main.models import Course
+from app.main.models import Course, Student, Past_Enrollments
 
 app = create_app(Config)
 
 @app.shell_context_processor
 def make_shell_context():
-    return {'sqla': sqla, 'sqlo': sqlo, 'db': db, 'Course' : Course}
+    return {'sqla': sqla, 'sqlo': sqlo, 'db': db, 'Course' : Course, 'Student' : Student, 'Past_Enrollments' : Past_Enrollments}
 
 @app.before_request
 def initDB(*args, **kwargs):

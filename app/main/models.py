@@ -11,12 +11,6 @@ import sqlalchemy.orm as sqlo
 def load_user(id):
     return db.session.get(User, int(id))
 
-courseSA = db.Table(
-    'courseSA',
-    db.metadata,
-    sqla.Column('course_id', sqla.Integer, sqla.ForeignKey('course.id'), primary_key=True),
-    sqla.Column('sa_id', sqla.Integer, sqla.ForeignKey('student.id'), primary_key=True)
-)
 
 class User(UserMixin, db.Model):
     id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
@@ -64,15 +58,14 @@ class Student(User):
     grad_date: sqlo.Mapped[datetime] = sqlo.mapped_column(sqla.DateTime)
     
     # Relationships
-    served_courses: sqlo.WriteOnlyMapped['Course'] = sqlo.relationship(
-        secondary=courseSA,
-        primaryjoin=(courseSA.c.course_id == id),
-        back_populates='served_sas'
-    )
+    prev_enrolled: sqlo.WriteOnlyMapped['Past_Enrollments'] = sqlo.relationship(back_populates='student')
     
     __mapper_args__ = {
         'polymorphic_identity': 'Student'
     }
+    
+    def __repr__(self):
+        return '<Id {} : {} >'.format(self.id,super().username)
     
     def get_major(self):
         return self.major
@@ -81,7 +74,11 @@ class Student(User):
         return self.gpa
     
     def get_grad_date(self):
-        return self. grad_date
+        return self.grad_date
+    
+    
+    def get_prev_enrolled(self):
+        return db.session.scalars(self.prev_enrolled.select()).all()
     
     
 class Course(db.Model):
@@ -90,19 +87,22 @@ class Course(db.Model):
     title: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(100), unique=True)
     
     # Relationships
-    served_sas: sqlo.WriteOnlyMapped['Student'] = sqlo.relationship(
-        secondary=courseSA,
-        primaryjoin=(courseSA.c.sa_id == id),
-        back_populates='served_courses'
-    )
-    
-    def get_num(self):
-        return self.num
-    
-    def get_gpa(self):
-        return self.title
-    
     has_sections : sqlo.Mapped['Section'] = sqlo.relationship(back_populates= 'in_course')
+    prev_sa: sqlo.WriteOnlyMapped['Past_Enrollments'] = sqlo.relationship(back_populates='course')
+
+
+class Past_Enrollments(db.Model):
+    student_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Student.id), primary_key=True)
+    course_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Course.id), primary_key=True)
+    grade_earned: sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(5))
+    sa_before: sqlo.Mapped[bool] = sqlo.mapped_column(sqla.Boolean, default=False)
+    
+    def __repr__(self):
+        return '<Student {} took {} with grade {}, and had SA exp = {}>'.format(self.student_id,self.course_id,self.grade_earned, self.sa_before)
+    
+    # Relationships
+    student: sqlo.Mapped[Student] = sqlo.relationship(back_populates='prev_enrolled')
+    course: sqlo.Mapped[Course] = sqlo.relationship(back_populates='prev_sa')
     
 class Section(db.Model):
     id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
@@ -113,8 +113,6 @@ class Section(db.Model):
     
     max_SA: sqlo.Mapped[int] = sqlo.mapped_column(sqla.Integer, default=0)
     curr_SA: sqlo.Mapped[int] = sqlo.mapped_column(sqla.Integer, default=0)
-    min_GPA: sqlo.Mapped[int] = sqlo.mapped_column(sqla.Integer, default=0)
-    min_grade: sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(5))
     
     instructor : sqlo.Mapped[Instructor] = sqlo.relationship(back_populates= 'sections')
     in_course: sqlo.Mapped[Course] = sqlo.relationship(back_populates= 'has_sections')
