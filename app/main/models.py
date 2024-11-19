@@ -119,7 +119,26 @@ class Section(db.Model):
     instructor : sqlo.Mapped[Instructor] = sqlo.relationship(back_populates= 'sections')
     in_course: sqlo.Mapped[Course] = sqlo.relationship(back_populates= 'has_sections')
     
+    required_qualifications: sqlo.Mapped['Require_Qual'] = sqlo.relationship(back_populates='section')    
     __table_args__ = (
         sqla.UniqueConstraint('course_id', 'section_num', 'term', name='uix_course_section_term'),
     )
     
+    
+class Qualification(db.Model):
+    q_id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
+    min_GPA: sqlo.Mapped[float] = sqlo.mapped_column(sqla.Float) 
+    qualified_sections: sqlo.Mapped['Require_Qual'] = sqlo.relationship(back_populates='qualification')
+    
+    def __repr__(self):
+        return '<Qualification {}>'.format(self.qualification)
+    
+    
+class Require_Qual(db.Model): 
+    section_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey('section.id'), primary_key=True) 
+    q_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey('qualification.q_id'), primary_key=True) 
+    section: sqlo.Mapped['Section'] = sqlo.relationship('Section', back_populates='required_qualifications') 
+    qualification: sqlo.Mapped['Qualification'] = sqlo.relationship( back_populates='qualified_sections') 
+    
+    def __repr__(self): 
+        return f"<Require_Qual(section_id={self.section_id}, q_id={self.q_id})>"
