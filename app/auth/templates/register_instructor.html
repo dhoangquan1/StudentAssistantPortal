@@ -2,25 +2,45 @@
 {% import 'bootstrap_wtf.html' as wtf %}
 
 {% block content %}
-<h1>Instructor Register</h1>
 
-<form action="{{url_for('auth.register_instructor')}}" method="POST">
-    {{form.hidden_tag()}}
+<div class="d-flex flex-column justify-content-center" style="align-items: center; width: auto;">
+    <h1 class="mt-4" style="text-align: center;">Instructor Register</h1>
 
-    {{wtf.form_field(form.username)}}
+    <form class="d-flex flex-column justify-content-center" action="{{url_for('auth.register_instructor')}}"
+        method="POST" style="width: 50%; align-items: center;">
+        {{form.hidden_tag()}}
 
-    {{wtf.form_field(form.email)}}
+        <div class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
+            style="width: 100%; border-radius: 10px; background-color: #d9d9d9;">
 
-    {{wtf.form_field(form.wpi_id)}}
+            <div class="d-flex flex-row justify-content-between">
+                <div style="width: 47%">
+                    {{wtf.form_field(form.first_name)}}
+                </div>
 
-    {{wtf.form_field(form.phone)}}
+                <div style="width: 47%">
+                    {{wtf.form_field(form.last_name)}}
+                </div>
+            </div>
 
-    {{wtf.form_field(form.password)}}
+            {{wtf.form_field(form.email)}}
 
-    {{wtf.form_field(form.password2)}}
+            {{wtf.form_field(form.wpi_id)}}
 
-    {{wtf.form_field(form.submit)}}
+            {{wtf.form_field(form.phone)}}
 
-</form>
+            {{wtf.form_field(form.password)}}
+
+            {{wtf.form_field(form.password2)}}
+
+        </div>
+
+        <div class="d-flex justify-content-center mt-3 h4" style="width: 100%; align-items: center;">
+            {{wtf.form_field(form.submit)}}
+        </div>
+        
+    </form>
+    <p class="h5">Already have an account? <a href="{{url_for('auth.login')}}">Log in</a></p>
+</div>
 
 {% endblock %}

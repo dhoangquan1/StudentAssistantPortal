@@ -19,6 +19,7 @@ def register():
     rform = RoleForm()
 
     if rform.validate_on_submit():
+
         if rform.role.data == 'Instructor':
             return redirect(url_for('auth.register_instructor'))
         if rform.role.data == 'Student':
@@ -30,10 +31,12 @@ def register():
 def register_instructor():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
+    
     rform = InstructorRegistrationForm()
     if rform.validate_on_submit():
         new_user = Instructor(
-            username = rform.username.data,
+            first_name = rform.first_name.data,
+            last_name = rform.last_name.data,
             email = rform.email.data,
             wpi_id = rform.wpi_id.data,
             phone = rform.phone.data,
@@ -53,7 +56,8 @@ def register_student():
     rform = StudentRegistrationForm()
     if rform.validate_on_submit():
         new_user = Student(
-            username = rform.username.data,
+            first_name = rform.first_name.data,
+            last_name = rform.last_name.data,
             email = rform.email.data,
             wpi_id = rform.wpi_id.data,
             phone = rform.phone.data,
@@ -77,13 +81,13 @@ def login():
         return redirect(url_for('main.index'))
     lform = LoginForm()
     if lform.validate_on_submit():
-        query = sqla.select(User).where(User.username == lform.username.data)
+        query = sqla.select(User).where(User.email == lform.email.data)
         user = db.session.scalars(query).first()
         if (user is None) or (user.check_password(lform.password.data) == False):
             flash('Invalid username or password')
             return redirect(url_for('auth.login'))
         login_user(user, remember=lform.remember_me.data)
-        flash('The user {} has successfully logged in!'.format(current_user.username))
+        flash('The user {} has successfully logged in!'.format(current_user.email))
         return redirect(url_for('main.index'))
     return render_template('login.html', form = lform)
 

@@ -14,8 +14,9 @@ def load_user(id):
 
 class User(UserMixin, db.Model):
     id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
-    username: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(64), unique=True)
     email: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(120), unique=True)
+    first_name: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(64))
+    last_name: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(64))
     wpi_id: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(9), unique=True)
     phone: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(20))
     password_hash: sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(256))
@@ -34,6 +35,12 @@ class User(UserMixin, db.Model):
         
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+    def get_first_name(self):
+        return self.first_name
+    
+    def get_last_name(self):
+        return self.last_name
     
 
 class Instructor(User):

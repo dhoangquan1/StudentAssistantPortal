@@ -2,21 +2,30 @@
 {% import 'bootstrap_wtf.html' as wtf %}
 
 {% block content %}
-<h1>Sign In</h1>
+<div class="d-flex flex-column justify-content-center" style="align-items: center; width: auto;">
+    <h1 class="mt-4" style="text-align: center;">Log In</h1>
 
-<form action="{{url_for('auth.login')}}" method="POST">
-    {{form.hidden_tag()}}
+    <div class="px-5 pt-1 pb-2 mt-3 h4"
+        style="background-color: #6da9ff; border-radius: 10px; width: 45%; text-align: center;">Using Azure
+        Single-Sign-On (SSO)</div>
+    <span class="mt-2 h5">--------- OR ---------</span>
 
-    {{wtf.form_field(form.username)}}
+    <form class="d-flex flex-column justify-content-center" action="{{url_for('auth.login')}}" method="POST" style="width: 50%; align-items: center;">
+        <div class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
+            style="width: 100%; border-radius: 10px; background-color: #d9d9d9;">
+            {{form.hidden_tag()}}
 
-    {{wtf.form_field(form.password)}}
+            {{wtf.form_field(form.email)}}
 
-    {{wtf.form_field(form.remember_me)}}
+            {{wtf.form_field(form.password)}}
 
-    {{wtf.form_field(form.submit)}}
-</form>
-
-<p>New User? <a href="{{url_for('auth.register')}}">Click to
-        Register!</a></p>
+            {{wtf.form_field(form.remember_me)}}
+        </div>
+        <div class="d-flex justify-content-center mt-3 h4" style="width: 100%; align-items: center;">
+            {{wtf.form_field(form.submit)}}
+        </div>
+    </form>
+    <p class="h5">Don't have an account yet? <a href="{{url_for('auth.register')}}">Register an account</a></p>
+</div>
 
 {% endblock %}

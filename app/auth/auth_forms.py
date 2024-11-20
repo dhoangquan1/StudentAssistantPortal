@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField, SelectField, FloatField, DateField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, SelectField, FloatField, DateField, RadioField
 from wtforms_sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 from wtforms.validators import  ValidationError, DataRequired, EqualTo, Email, Length, NumberRange
 from wtforms.widgets import ListWidget, CheckboxInput
@@ -10,23 +10,18 @@ import sqlalchemy as sqla
 
 
 class RoleForm(FlaskForm):
-    role = SelectField('Choose your role',choices = [('Student', 'Student'), ('Instructor', 'Instructor')])
+    role = RadioField('Choose your account role',choices = [('Student', 'Student'), ('Instructor', 'Instructor')], default='Student')
     submit = SubmitField('Register')
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
+    first_name = StringField('First name', validators=[DataRequired()])
+    last_name = StringField('Last name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()] )
     wpi_id = StringField('WPI ID', validators=[DataRequired(), Length(min=9, max=9)])
     phone = StringField('Phone Number', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
-    
-    def validate_username(self, username):
-        query = sqla.select(User).where(User.username == username.data)
-        user = db.session.scalars(query).first()
-        if user is not None:
-            raise ValidationError('The username already exists! Please use a different username.')
     
     def validate_email(self, email):
         query = sqla.select(User).where(User.email == email.data)
@@ -46,8 +41,8 @@ class InstructorRegistrationForm(RegistrationForm):
     
 class StudentRegistrationForm(RegistrationForm):
     major = StringField('Major', validators=[DataRequired()])
-    gpa = FloatField('GPA', validators=[DataRequired(), NumberRange(max=4)])
-    grad_date = DateField('Graduation Date', validators=[DataRequired()])
+    gpa = FloatField('Cumulative GPA', validators=[DataRequired(), NumberRange(max=4)])
+    grad_date = DateField('Expected Graduation Date', validators=[DataRequired()])
     sa_courses = QuerySelectMultipleField('Previous Student Assistant Courses',
                                             query_factory = lambda : db.session.scalars(sqla.select(Course)),
                                             get_label= lambda course: course.title,
@@ -56,7 +51,7 @@ class StudentRegistrationForm(RegistrationForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember me')
-    submit = SubmitField('Sign In')
+    submit = SubmitField('Log In')

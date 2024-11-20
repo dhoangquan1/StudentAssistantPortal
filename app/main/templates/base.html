@@ -1,85 +1,76 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-       {% if title %}
-          <title>{{ title }} - SA App </title>
-       {% else %}
-          <title> Welcome to Student Assistant Portal! </title>
-       {% endif %}
-       <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous">
-       <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-       {{ moment.include_moment() }}
-    </head>
 
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #000000;">
-            <div class="container">
-              <a class="navbar-brand" href="{{ url_for('main.index') }}">Home</a>
-              <button class="navbar-toggler" type="button" >
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item border border-light px-3 ms-2 ">
-                    <a class="nav-link" aria-current="page" href="{{ url_for('main.index') }}">Home</a>
-                  </li>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% if title %}
+  <title>{{ title }} - SA App </title>
+  {% else %}
+  <title> Welcome to Student Assistant Portal! </title>
+  {% endif %}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  {{ moment.include_moment() }}
+</head>
 
-                  {% if current_user.user_type == 'Instructor' %}
-                    <li class="nav-item border border-light px-3 ms-2 ">
-                      <a class="nav-link" aria-current="page" href="{{ url_for('main.instructor.create_course_section') }}">Create section</a>
-                    </li>
-                  {% endif %}
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #818181;">
+    <div class="container">
+      <a class="navbar-brand" style="color: #121212;" href="{{ url_for('main.index') }}">Student Assistant Application Portal</a>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-uppercase text-decoration-underline" aria-current="page" href="{{ url_for('main.index') }}">Home</a>
+        </li>
 
-                  {% if current_user.user_type == 'Instructor' %}
-                    <li class="nav-item border border-light px-3 ms-2 ">
-                      <a class="nav-link" aria-current="page" href="{{ url_for('main.instructor.create_positions') }}">Create Position</a>
-                    </li>
-                  {% endif %}
+        {% if current_user.user_type == 'Instructor' %}
+          <li class="nav-item border border-light px-3 ms-2 ">
+            <a class="nav-link" aria-current="page" href="{{ url_for('main.instructor.create_course_section') }}">Create Section</a>
+          </li>
+          <li class="nav-item border border-light px-3 ms-2 ">
+            <a class="nav-link" aria-current="page" href="{{ url_for('main.instructor.create_positions') }}">Create Position</a>
+          </li>
+        {% endif %}
 
-                  {% if current_user.user_type == 'Student' %}
+        {% if current_user.user_type == 'Student' %}
 
-                  {% endif %}
+        {% endif %}
 
-                </ul>
-                <ul class="navbar-nav mb-2 mb-lg-0 align-items-center">
+      </ul>
+      <ul class="navbar-nav mb-2 mb-lg-0 align-items-center">
 
-                  {% if current_user.is_anonymous %}
-                  <li id="post-smile" class="nav-item border border-light px-2 ms-2" >
-                    <a class="nav-link" aria-current="page" href="{{ url_for('auth.login') }}">Login</a>
-                  </li>
-                  {% else %}
-                  <li class="text-secondary"> Current user is: <span class="useritem">{{current_user.username}}</span> </li>
-                  <li class="nav-item border border-light px-2 ms-2">
-                    <a class="nav-link " aria-current="page" href="{{ url_for('auth.logout') }}">Logout</a>
-                  </li>
-                  {% endif %}
-                </ul>
-              </div>
-            </div>
-          </nav>
+        {% if current_user.is_anonymous %}
+        <li id="post-smile" class="nav-item px-2 ms-2 border" style="border-radius: 10px; background-color: #d9d9d9;">
+          <a class="nav-link" style="color: #121212;" aria-current="page" href="{{ url_for('auth.register') }}">Register</a>
+        </li>
+        <li id="post-smile" class="nav-item px-3 ms-2" style="border-radius: 10px; background-color: #fe6c6d;">
+          <a class="nav-link" style="color: #121212;" aria-current="page" href="{{ url_for('auth.login') }}">Log in</a>
+        </li>
+        {% else %}
+        <li class="text-success  px-3 ms-2"> Current user is: <span class="useritem">{{current_user.first_name}}</span> </li>
+        <li class="nav-item border border-light px-2 ms-2">
+          <a class="nav-link " aria-current="page" href="{{ url_for('auth.logout') }}">Logout</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
 
-        <div class="container mt-3">
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-              {% for message in messages %}
-              <div class="alert alert-info" role="alert">{{ message }}</div>
-              {% endfor %}
-            {% endif %}
-            {% endwith %}
-            {% block content %}{% endblock %}
-          </div>
-          <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossorigin="anonymous">
-          </script>
+  <div class="container mt-3">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info" role="alert">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
 
-    </body>
+</body>
+
 </html>
