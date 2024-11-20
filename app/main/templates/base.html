@@ -26,6 +26,9 @@
 
         {% if current_user.user_type == 'Instructor' %}
           <li class="nav-item border border-light px-3 ms-2 ">
+            <a class="nav-link" aria-current="page" href="{{ url_for('main.instructor.create_course_section') }}">Create Section</a>
+          </li>
+          <li class="nav-item border border-light px-3 ms-2 ">
             <a class="nav-link" aria-current="page" href="{{ url_for('main.instructor.create_positions') }}">Create Position</a>
           </li>
         {% endif %}
@@ -45,7 +48,7 @@
           <a class="nav-link" style="color: #121212;" aria-current="page" href="{{ url_for('auth.login') }}">Log in</a>
         </li>
         {% else %}
-        <li class="text-secondary"> Current user is: <span class="useritem">{{current_user.username}}</span> </li>
+        <li class="text-success  px-3 ms-2"> Current user is: <span class="useritem">{{current_user.first_name}}</span> </li>
         <li class="nav-item border border-light px-2 ms-2">
           <a class="nav-link " aria-current="page" href="{{ url_for('auth.logout') }}">Logout</a>
         </li>
