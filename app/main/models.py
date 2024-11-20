@@ -14,7 +14,6 @@ def load_user(id):
 
 class User(UserMixin, db.Model):
     id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
-    username: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(64), unique=True)
     email: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(120), unique=True)
     first_name: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(64))
     last_name: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(64))

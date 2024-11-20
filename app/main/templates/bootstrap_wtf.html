@@ -36,7 +36,7 @@
   {%- endfor %}
 </div>
 
-{%- elif (field.type == 'StringField' or field.type == 'PasswordField' or field.type == 'FloatField' or field.type == 'DateField') %}
+{%- elif (field.type == 'StringField' or field.type == 'PasswordField' or field.type == 'FloatField' or field.type == 'DateField' or field.type == 'QuerySelectField' or field.type == 'IntegerField') %}
 <div class="mb-3">
   {{ field.label(class='form-label') }}
   {% if autofocus %}
@@ -53,7 +53,6 @@
   {{ field(class='pt-1 pb-2 mb-3 col-2 auth_btn') }}
 
 {%- else %}
-  <span>Noidea</span>
   <div class="mb-3">
     {{ field.label(class='form-label') }}
     {% if autofocus %}
