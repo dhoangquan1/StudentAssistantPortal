@@ -5,8 +5,8 @@ import sqlalchemy as sqla
 from app.main.role_validator import role_required
 
 from app import db
-from app.main.models import Section
-from app.main.instructor.forms import SectionForm
+from app.main.models import Section,Position
+from app.main.instructor.forms import SectionForm,PositionForm
 
 from app.main.instructor import instructor_blueprint as bp_instructor
 
@@ -16,8 +16,8 @@ from app.main.instructor import instructor_blueprint as bp_instructor
 @role_required('Instructor')
 def index():
     sections = current_user.get_sections()
-        
-    return render_template('instructor_index.html', title="SA Portal", sections = sections)
+    positions = current_user.get_positions()
+    return render_template('instructor_index.html', title="SA Portal", sections = sections, positions = positions)
 
 @bp_instructor.route('/instructor/section', methods=['GET', 'POST'])
 @login_required
@@ -34,3 +34,23 @@ def create_course_section():
         flash('Section ' + new_section.in_course.num + '-' + new_section.section_num + ' is created')
         return redirect(url_for('main.index'))
     return render_template('register_section.html', title="Create a new section", form = sform)
+
+@bp_instructor.route("/instructor/position", methods=['GET','POST'])
+@login_required
+@role_required('Instructor')
+def create_positions():
+    form = PositionForm()
+    if form.validate_on_submit():
+        positions = Position(
+            section_id = form.section.data.id,
+            instructor_id = current_user.id,
+            max_SA = form.SAnum.data,
+            min_GPA = form.minGPA.data,
+            min_grade = form.min_grade.data,
+            prev_sa_exp = form.prev_sa_exp.data,
+        )
+        db.session.add(positions)
+        db.session.commit()
+        flash(f'Create SA positions succesfully')
+        return redirect(url_for('main.index'))
+    return render_template('create_position.html', form=form)

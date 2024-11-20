@@ -8,7 +8,7 @@ from app.auth import auth_blueprint as bp_auth
 import sqlalchemy as sqla
 
 from app.auth.auth_forms import InstructorRegistrationForm, StudentRegistrationForm, LoginForm, RoleForm
-from app.main.models import User, Instructor, Student 
+from app.main.models import User, Instructor, Student, Past_Enrollments
 
 
 @bp_auth.route('/register', methods=['GET', 'POST'])
@@ -66,10 +66,12 @@ def register_student():
             major = rform.major.data,
             gpa = float(rform.gpa.data),
             grad_date = rform.grad_date.data,
-            user_type = 'Student')
-        
+            user_type = 'Student')  
         new_user.set_password(rform.password.data)
         db.session.add(new_user)
+        for c in rform.sa_courses.data:
+            enrollment = Past_Enrollments(course_id = c.id, sa_before=True)
+            new_user.prev_enrolled.add(enrollment)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('main.index'))
