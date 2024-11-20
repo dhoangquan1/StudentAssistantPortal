@@ -1,0 +1,16 @@
+<table class = "child_section_box">
+    <tr>
+        <td class = "child_section_title">{{position.in_section.in_course.num}}-{{position.in_section.section_num}} : {{position.in_section.in_course.title}} </td>
+    </tr>
+    <tr>
+        <td class = "child_section_text"> Term: {{position.in_section.term}} </td>
+    </tr>
+
+    <tr>
+        <td class = "child_section_text"> Max SA Position: {{position.max_SA}} </td>
+    </tr>
+
+    <tr>
+        <td class = "child_section_text"> Qualifications: min {{position.min_GPA}} GPA, min {{position.min_Grade}} Grade{% if position.prev_sa_exp %}, requires previous SA experience{%- endif %} </td>
+    </tr>
+</table>
