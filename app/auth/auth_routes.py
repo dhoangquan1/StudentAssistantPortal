@@ -31,10 +31,13 @@ def register():
 def register_instructor():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
+    
     rform = InstructorRegistrationForm()
     if rform.validate_on_submit():
         new_user = Instructor(
             username = rform.username.data,
+            first_name = rform.first_name.data,
+            last_name = rform.last_name.data,
             email = rform.email.data,
             wpi_id = rform.wpi_id.data,
             phone = rform.phone.data,

@@ -22,7 +22,6 @@ class RegistrationForm(FlaskForm):
     phone = StringField('Phone Number', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
-    role = SelectField('Account Role',choices = [('Student', 'Student'), ('Instructor', 'Instructor')])   
     submit = SubmitField('Register')
     
     def validate_username(self, username):
@@ -44,7 +43,7 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('The ID is associated with another account! Please log in to your account.')
 
 class InstructorRegistrationForm(RegistrationForm):
-    placeholder = StringField('placeholder', validators=[DataRequired()])
+    placeholder = StringField('placeholder')
     
     
 class StudentRegistrationForm(RegistrationForm):
