@@ -15,6 +15,8 @@ class RoleForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
+    first_name = StringField('First name', validators=[DataRequired()])
+    last_name = StringField('Last name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()] )
     wpi_id = StringField('WPI ID', validators=[DataRequired(), Length(min=9, max=9)])
     phone = StringField('Phone Number', validators=[DataRequired()])
@@ -47,8 +49,8 @@ class InstructorRegistrationForm(RegistrationForm):
     
 class StudentRegistrationForm(RegistrationForm):
     major = StringField('Major', validators=[DataRequired()])
-    gpa = FloatField('GPA', validators=[DataRequired(), NumberRange(max=4)])
-    grad_date = DateField('Graduation Date', validators=[DataRequired()])
+    gpa = FloatField('Cumulative GPA', validators=[DataRequired(), NumberRange(max=4)])
+    grad_date = DateField('Expected Graduation Date', validators=[DataRequired()])
     sa_courses = QuerySelectMultipleField('Previous Student Assistant Courses',
                                             query_factory = lambda : db.session.scalars(sqla.select(Course)),
                                             get_label= lambda course: course.title,

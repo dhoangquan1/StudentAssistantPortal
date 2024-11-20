@@ -16,6 +16,16 @@
 
             {{wtf.form_field(form.username)}}
 
+            <div class="d-flex flex-row justify-content-between">
+                <div style="width: 47%">
+                    {{wtf.form_field(form.first_name)}}
+                </div>
+
+                <div style="width: 47%">
+                    {{wtf.form_field(form.last_name)}}
+                </div>
+            </div>
+
             {{wtf.form_field(form.email)}}
 
             {{wtf.form_field(form.wpi_id)}}
@@ -33,17 +43,30 @@
 
             {{wtf.form_field(form.major)}}
 
-            {{wtf.form_field(form.gpa)}}
+            <div class="d-flex flex-row justify-content-between">
+                <div style="width: 40%">
+                    {{wtf.form_field(form.gpa)}}
+                </div>
 
-            {{wtf.form_field(form.grad_date)}}
-
+                <div style="width: 54%">
+                    {{wtf.form_field(form.grad_date)}}
+                </div>
+            </div>
         </div>
+
+        <div class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
+            style="width: 100%; border-radius: 10px; background-color: #d9d9d9;">
 
             {{wtf.form_field(form.sa_courses)}}
 
+        </div>
+
+        <div class="d-flex justify-content-center mt-3 h4" style="width: 100%; align-items: center;">
             {{wtf.form_field(form.submit)}}
+        </div>
 
     </form>
+    <p class="h5">Already have an account? <a href="{{url_for('auth.login')}}">Log in</a></p>
 </div>
 
 {% endblock %}

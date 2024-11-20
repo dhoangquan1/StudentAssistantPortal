@@ -55,6 +55,8 @@ def register_student():
     if rform.validate_on_submit():
         new_user = Student(
             username = rform.username.data,
+            first_name = rform.first_name.data,
+            last_name = rform.last_name.data,
             email = rform.email.data,
             wpi_id = rform.wpi_id.data,
             phone = rform.phone.data,
