@@ -10,7 +10,7 @@ List team members and their GitHub usernames
 **Instructor**: Sakire Arslan Ay
 ----
 ## 1. Schedule
-* Fridays @ 6pm
+* Fridays at 6pm
 ----
 ## 2. Iteration 1 - Summary
 
@@ -63,3 +63,12 @@ USER STORIES TO BE COMPLETED IN ITERATION 2:
 * As a student, I want to view open SA positions so that I can choose my course preferences for student assistantships
 * As a student, I want to apply for SA positions so that the instructor can be notified that I want to be SA in their course section
 * As an instructor, I want to see the students who has applied to be my course section's SA so that I can assigned some students to be the course's SA
+
+ISSUES + THE PERSON IN CHARGE:
+
+1. [Implementation] Design the student view of open positions and an HTML template for student index view
+2. [Implementation] Design the student view of recommended positions and an HTML template for student index view
+3. [Implementation] Design the student view of the application form
+4. [Implementation] Design the instructor view of a notification page to get notified of student applications
+5. [Implementation] Design the instructor view of a page to manage applications
+6. [Database Model] Make an "Application" model in database
