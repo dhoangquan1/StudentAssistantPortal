@@ -59,7 +59,21 @@ class Instructor(User):
     def get_positions(self):
         query  = sqla.select(Position).join(Section).where(self.id == Section.instructor_id)
         return db.session.scalars(query).all()
-        
+    
+    def get_all_applications(self):
+        query = (sqla.select(Application)
+                 .join(Position).where(Position.id == Application.position_id)
+                 .join(Section).where(Section.id == Position.section_id)
+                 .where(Section.instructor_id == self.id))
+        return db.session.scalars(query).all()
+    
+    def get_applications_by_position(self, position_id):
+        query = (sqla.select(Application)
+                 .join(Position).where(Position.id == position_id)
+                 .join(Section).where(Section.id == Position.section_id)
+                 .where(Section.instructor_id == self.id))
+        return db.session.scalars(query).all()
+
     
 class Student(User):
     __tablename__='student'
@@ -71,8 +85,6 @@ class Student(User):
     # Relationships
     prev_enrolled: sqlo.WriteOnlyMapped['Past_Enrollments'] = sqlo.relationship(back_populates='student')
     pos_applied: sqlo.WriteOnlyMapped['Application'] = sqlo.relationship(back_populates='applicant')
-
-
     
     __mapper_args__ = {
         'polymorphic_identity': 'Student'
@@ -150,7 +162,26 @@ class Position(db.Model):
 
     
     def __repr__(self):
-        return f"<Position(section_id={self.section_id}, sa_id={self.sa_id}, term={self.term}, year={self.year})>"
+        return f"<Position(section_id={self.section_id})>"
+
+    def get_instructor_firstname(self):
+        return self.in_section.instructor.first_name
+    
+    def get_instructor_lastname(self):
+        return self.in_section.instructor.last_name
+    
+    def get_instructor_wpi_id(self):
+        return self.in_section.instructor.wpi_id
+    
+    def get_instructor_email(self):
+        return self.in_section.instructor.email
+    
+    def get_instructor_phone(self):
+        return self.in_section.instructor.phone
+    
+    def check_apply_status(self, student_id):
+        student = db.session.scalars(self.applications.select().where(Application.student_id == student_id)).first()
+        return student is not None
     
     def get_id(self):
         return self.id
@@ -164,7 +195,8 @@ class Application(db.Model):
     applied_to: sqlo.Mapped[Position] = sqlo.relationship(back_populates='applications')
     
     def __repr__(self):
-        return f"<Application(student_id={self.student_id}, section_id={self.section_id}, term={self.term}, status={self.status})>"
+        return f"<Application(student_id={self.student_id}, section_id={self.position_id}, status={self.status})>"
+    
     
     def get_section(self):
         return self.applied_to
