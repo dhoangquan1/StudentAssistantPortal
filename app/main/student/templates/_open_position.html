@@ -1,0 +1,34 @@
+<div id = "child_position_box">
+    <div class = "child_position_title">{{position.in_section.in_course.num}}-{{position.in_section.section_num}} : {{position.in_section.in_course.title}} </div>
+
+    <div class = "child_position_column">
+        <div class = "child_position_text">  
+            Instructor: {{position.get_instructor_firstname()}} {{position.get_instructor_lastname()}} <br>
+            WPI ID: {{position.get_instructor_wpi_id()}} <br>
+            Email: {{position.get_instructor_email()}} <br>
+            Phone Number: {{position.get_instructor_phone()}} <br>
+        </div>
+
+        <div class = "child_position_text" > 
+            Term: {{position.in_section.term}} <br>
+            Max SA Position: {{position.max_SA}} <br>
+            Current SA numbers: {{position.curr_SA}} <br>
+        </div>
+    </div>
+
+    </br>
+    
+    <div class = "child_position_column">
+        <div style="width: 80%">
+            <b>Qualifications:</b> min {{position.min_GPA}} GPA, min {{position.min_Grade}} Grade{% if position.prev_sa_exp %}, requires previous SA experience{%- endif %}
+        </div>
+        <div style="width: 20%; display: flex; justify-content: flex-end">
+            <div style="display: flex; flex-direction: column; align-items: center">
+                <a class="apply_button" href="{{ url_for('main.student.apply', position_id = position.id) }}">Apply Position</a>
+                {% if position.check_apply_status(current_user.id) %}
+                    <div class="apply_text"> Already Applied! </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
