@@ -3,15 +3,24 @@
 
 {% block content %}
 
-    <div class="d-flex justify-content-between align-items-center">
+    <div>
         <div>
-            <h1>Student View - Welcome to Student Assitant Portal!</h1>
+            <h1>Welcome to Student Assistant Portal!</h1>
+            <h4>Dashboard</h4>
+        </div>
+        
+        <div class="parent_section_box_top">
+            Section Listing
+        </div>
+        <div class="parent_section_box">
+            {% for position in positions %}
+                {% include '_open_position.html' %} 
+            {% endfor %}
         </div>
 
-        <div>
-                
-            </form>
-        </div>
+        <br>
+        
     </div>
+
   
 {% endblock %}

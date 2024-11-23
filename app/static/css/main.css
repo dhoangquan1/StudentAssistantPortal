@@ -70,7 +70,7 @@ a:hover {
     padding-bottom: 10px;
 }
 
-.child_section_box {
+#child_section_box {
     display: flex;
     margin: 5px 0px 5px 0px;
     background-color: white;
@@ -85,6 +85,51 @@ a:hover {
 }
 
 .child_section_text {
+    text-align: left;
+    font-family: Tahoma;
+    font-size: 16px;
+}
+
+#child_position_box {
+    margin: 5px 0px 5px 0px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+.child_position_column{
+    display: flex;
+    
+}
+
+.child_position_title {
+    font-family: Tahoma;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+}
+
+.child_position_text {
+    text-align: left;
+    font-family: Tahoma;
+    font-size: 16px;
+    width: 48%;
+}
+
+.apply_button {
+    padding: 10px;
+    background-color: darkblue;
+    font-family: Tahoma;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.apply_text {
+    margin-top: 3px;
     text-align: left;
     font-family: Tahoma;
     font-size: 16px;
