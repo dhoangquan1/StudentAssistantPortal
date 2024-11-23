@@ -151,6 +151,9 @@ class Position(db.Model):
     
     def __repr__(self):
         return f"<Position(section_id={self.section_id}, sa_id={self.sa_id}, term={self.term}, year={self.year})>"
+    
+    def get_id(self):
+        return self.id
 
 class Application(db.Model):
     student_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Student.id), primary_key=True)
@@ -162,4 +165,7 @@ class Application(db.Model):
     
     def __repr__(self):
         return f"<Application(student_id={self.student_id}, section_id={self.section_id}, term={self.term}, status={self.status})>"
+    
+    def get_section(self):
+        return self.applied_to
     

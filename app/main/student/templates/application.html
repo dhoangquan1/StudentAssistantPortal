@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% import 'bootstrap_wtf.html' as wtf %}
+
+{% block content %}
+
+{% if form %}
+<form action method="POST">
+    {{ form.hidden_tag() }}
+
+    {{wtf.form_field(form.grade)}}
+    {{wtf.form_field(form.year_took_course)}}
+    {{wtf.form_field(form.term_took_course)}}
+    {{wtf.form_field(form.year_to_apply)}}
+    {{wtf.form_field(form.term_to_apply)}}
+    {{wtf.form_field(form.submit)}}
+</form>
+{% endif %}
+
+{% endblock %}
