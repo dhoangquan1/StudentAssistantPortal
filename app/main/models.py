@@ -48,8 +48,6 @@ class Instructor(User):
     id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(User.id), primary_key=True)
     
     sections : sqlo.WriteOnlyMapped['Section'] = sqlo.relationship(back_populates= 'instructor')
-    pos_listing: sqlo.WriteOnlyMapped['Position'] = sqlo.relationship(back_populates="has_instructor")
-
     
     __mapper_args__ = {
         'polymorphic_identity': 'Instructor'
@@ -59,7 +57,9 @@ class Instructor(User):
         return db.session.scalars(self.sections.select()).all()
     
     def get_positions(self):
-        return db.session.scalars(self.pos_listing.select()).all()
+        query  = sqla.select(Position).join(Section).where(self.id == Section.instructor_id)
+        return db.session.scalars(query).all()
+        
     
 class Student(User):
     __tablename__='student'
@@ -136,7 +136,6 @@ class Section(db.Model):
     
 class Position(db.Model):
     id: sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
-    instructor_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Instructor.id))
     section_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Section.id))
     
     min_GPA: sqlo.Mapped[float] = sqlo.mapped_column(sqla.Float)
@@ -146,7 +145,6 @@ class Position(db.Model):
     max_SA: sqlo.Mapped[int] = sqlo.mapped_column(sqla.Integer, default=0)
     curr_SA: sqlo.Mapped[int] = sqlo.mapped_column(sqla.Integer, default=0)
 
-    has_instructor: sqlo.Mapped[Instructor] = sqlo.relationship(back_populates="pos_listing")
     in_section: sqlo.Mapped[Section] = sqlo.relationship(back_populates="positions")
     applications: sqlo.WriteOnlyMapped['Application'] = sqlo.relationship(back_populates="applied_to")
 
@@ -157,9 +155,7 @@ class Position(db.Model):
 class Application(db.Model):
     student_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Student.id), primary_key=True)
     position_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Position.id), primary_key=True)
-    term: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(5))
-    grade: sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(5))
-    status: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(20))
+    status: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(20), default="Pending")
     
     applicant: sqlo.Mapped[Student] = sqlo.relationship(back_populates='pos_applied')
     applied_to: sqlo.Mapped[Position] = sqlo.relationship(back_populates='applications')
