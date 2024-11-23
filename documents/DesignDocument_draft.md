@@ -34,6 +34,7 @@ Prepared by:
 | ------ | ------ | --------- | --------- |
 |Revision 1 |2024-11-15 |Initial draft | 1.0        |
 |Revision 2      |2021-11-19      |Second draft         |1.1         |
+|Revision 3      |2021-11-22      |Final draft         |1.3         |
 
 
 # 1. Introduction
@@ -42,6 +43,7 @@ This document provides documentation and keep track of changes for the database 
 
 - Revision 1: Created the base design of the software
 - Revision 2: Modified the DB model and revised the URL routes to be RESTful
+- Revistion 3: Removed the redundant attributes of the Position table and the Application table
 
 # 2. Software Design
 
@@ -73,7 +75,7 @@ Brief descriptions of the tables in the database model:
 
 The UML diagram of the database model
   <kbd>
-      <img src="images/DBrev3.jpg"  border="2">
+      <img src="images/DBrev4.jpg"  border="2">
   </kbd>
 
 ## 2.2 Subsystems and Interfaces
@@ -138,18 +140,22 @@ The UML component diagram illustrating the software architectural design:
 |1. |GET                   |/error/404            |Shows the 404 error page              |
 |2. |GET                   |/error/500            |Shows the 500 error page              |
 
-Repeat the above for other subsystems you included in your application. 
 
 ### 2.3 User Interface Design 
 
-User-stories: 1
+User-stories: 1,8 (Implemented)
 <kbd>
-      <img src="images\Student_register.png"  border="2">
+      <img src="images\implemented\True-Register prompt.jpg"  border="2">
 </kbd>
 
-User-stories: 2
+User-stories: 1 (Implemented)
 <kbd>
-      <img src="images\Student_login.png"  border="2">
+      <img src="images\implemented\True-Student registration.jpg"  border="2">
+</kbd>
+
+User-stories: 2,9 (Implemented)
+<kbd>
+      <img src="images\implemented\True-Login.jpg"  border="2">
 </kbd>
 
 User-stories: 3, 4
@@ -167,29 +173,29 @@ User-stories: 6, 7
       <img src="images\Student profile.png"  border="2">
 </kbd>
 
-User-stories: 8
+User-stories: 8 (Implemented)
 <kbd>
-      <img src="images\Instructor register.png"  border="2">
+      <img src="images\implemented\True-Instructor registration.jpg"  border="2">
 </kbd>
 
-User-stories: 9
+
+User-stories: 10 (Implemented)
 <kbd>
-      <img src="images\Instructor login.png"  border="2">
+      <img src="images\implemented\True-Create section.jpg"  border="2">
 </kbd>
 
-User-stories: 10
+User-stories: 11 (Implemented)
 <kbd>
-      <img src="images\Create Course Section.png"  border="2">
+      <img src="images\implemented\True-Create position.jpg"  border="2">
 </kbd>
 
-User-stories: 11
-<kbd>
-      <img src="images\Create SA Position.png"  border="2">
-</kbd>
-
-User-stories: 12
+User-stories: 12 (Partially Implemented)
 <kbd>
       <img src="images\Instructor dashboard.png"  border="2">
+</kbd>
+
+<kbd>
+      <img src="images\implemented\True-Instructor home view.jpg"  border="2">
 </kbd>
 
 User-stories: 12, 13, 14
