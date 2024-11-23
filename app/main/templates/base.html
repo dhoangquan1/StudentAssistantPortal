@@ -25,6 +25,9 @@
           <li class="nav-item border border-light px-3 ms-2" style="border-radius: 10px;">
             <a class="nav-link" style="color: #d9d9d9;" aria-current="page" href="{{ url_for('main.instructor.create_positions') }}">Create Position</a>
           </li>
+          <li class="nav-item border border-light px-3 ms-2" style="border-radius: 10px;">
+            <a class="nav-link" style="color: #d9d9d9;" aria-current="page" href="{{ url_for('main.instructor.create_course_section') }}">Register Section</a>
+          </li>
         {% endif %}
 
         {% if current_user.user_type == 'Student' %}
