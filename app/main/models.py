@@ -60,6 +60,20 @@ class Instructor(User):
         query  = sqla.select(Position).join(Section).where(self.id == Section.instructor_id)
         return db.session.scalars(query).all()
     
+    def get_all_applications(self):
+        query = (sqla.select(Application)
+                 .join(Position).where(Position.id == Application.position_id)
+                 .join(Section).where(Section.id == Position.section_id)
+                 .where(Section.instructor_id == self.id))
+        return db.session.scalars(query).all()
+    
+    def get_applications_by_position(self, position_id):
+        query = (sqla.select(Application)
+                 .join(Position).where(Position.id == position_id)
+                 .join(Section).where(Section.id == Position.section_id)
+                 .where(Section.instructor_id == self.id))
+        return db.session.scalars(query).all()
+
     
 class Student(User):
     __tablename__='student'
@@ -179,6 +193,6 @@ class Application(db.Model):
     applied_to: sqlo.Mapped[Position] = sqlo.relationship(back_populates='applications')
     
     def __repr__(self):
-        return f"<Application(student_id={self.student_id}, section_id={self.section_id}, status={self.status})>"
+        return f"<Application(student_id={self.student_id}, section_id={self.position_id}, status={self.status})>"
     
     
