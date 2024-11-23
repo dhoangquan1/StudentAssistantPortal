@@ -25,17 +25,21 @@ List team members and their GitHub usernames
 * As a student, I want to register a student account so that I can start applying for a student assistant position.
 * As a student, I want to log in using a student account with WPI email and password
 * As an instructor, I want to register an instructor account so that I can start creating course sections and SA positions listings
-* As an instructor, I want to register an instructor account so that I can start creating course sections and SA positions listings
 
 **User stories done by Quan Dinh:**
 
 * As an instructor, I want to add a new course section that I am going to teach so that students can request to be SA in my section
-* As an instructor, I want to add a new course section that I am going to teach so that students can request to be SA in my section
+
+**User stories done by Huy Pham:**
+
+* As an instructor, I want to log in using an instructor account with WPI email and password
+
+**User stories done by Duc Nguyen:**
+
+* As an instructor, I want to choose my course section and then create SA positions listing for the course so that students knows my course sections needs certain SAs
+
 ----
 ## 3. Iteration 1 - Sprint Retrospective
-* Include the outcome of your `Iteration-1 Scrum retrospective meetings`.
-* Mention the changes the team will be doing to improve itself as a result of the
-Scrum reflections.
 
 OUTCOME OF SCRUM RETROSPECTIVE MEETINGS:
 * Changed the design of the UML diagram
@@ -47,17 +51,13 @@ CHANGES TO IMPROVE:
 * Try to upload on self-created branches before merging to the main branch
 ----
 ## 4. Product Backlog refinement
-* Have you made any changes to your `product backlog` after `Iteration-1`? If so,
-please explain the changes here.
 
 * Deleted the task of creating Qualifications table and Require_Qualifications relationship: this is to make the model less confusing and redundant.
+* Added the Position table: separate from the Section table.
+* Added attributes to the Past_Enrollment table: to store the necessary data of student user.
+
 ----
 ## 5. Iteration 2 - Sprint Backlog
-Include a draft of your `Iteration-2 spring backlog`.
-* List the user stories you plan to complete in `Iteration-2`. Make sure to break
-down the larger user stories into smaller size stories. Mention the team member(s)
-who will work on each user story.
-* Make sure to update the "issues" on your GitHub repo accordingly.
 
 USER STORIES TO BE COMPLETED IN ITERATION 2:
 * As a student, I want to view open SA positions so that I can choose my course preferences for student assistantships
