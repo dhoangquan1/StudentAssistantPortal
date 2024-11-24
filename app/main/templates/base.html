@@ -45,11 +45,17 @@
           <a class="nav-link" style="color: #121212;" aria-current="page" href="{{ url_for('auth.login') }}">Log in</a>
         </li>
         {% else %}
+<<<<<<< HEAD
         <li class="nav-item px-3 ms-2" style="border-radius: 10px; background-color: #fe6c6d;">
           <a class="nav-link" style="color: #121212;" aria-current="page" href="{{ url_for('auth.logout') }}">Logout</a>
         </li>
         <li class="px-3" style="color: #d9d9d9;"> Current user is: 
           <span class="useritem p-2" style="border-radius: 10px; color: #fe6c6d; background-color: #d9d9d9;">{{current_user.username}}</span> 
+=======
+        <li class="text-success  px-3 ms-2"> Current user is: <span class="useritem">{{current_user.first_name}}</span> </li>
+        <li class="nav-item border border-light px-2 ms-2">
+          <a class="nav-link " aria-current="page" href="{{ url_for('auth.logout') }}">Logout</a>
+>>>>>>> a8ff6972fbce1501a00f065ba9524772a9bae50b
         </li>
         {% endif %}
       </ul>

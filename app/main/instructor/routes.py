@@ -43,7 +43,6 @@ def create_positions():
     if form.validate_on_submit():
         positions = Position(
             section_id = form.section.data.id,
-            instructor_id = current_user.id,
             max_SA = form.SAnum.data,
             min_GPA = form.minGPA.data,
             min_grade = form.min_grade.data,

@@ -14,7 +14,6 @@ class RoleForm(FlaskForm):
     submit = SubmitField('Register')
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
     first_name = StringField('First name', validators=[DataRequired()])
     last_name = StringField('Last name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()] )
@@ -23,12 +22,6 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
-    
-    def validate_username(self, username):
-        query = sqla.select(User).where(User.username == username.data)
-        user = db.session.scalars(query).first()
-        if user is not None:
-            raise ValidationError('The username already exists! Please use a different username.')
     
     def validate_email(self, email):
         query = sqla.select(User).where(User.email == email.data)
@@ -58,7 +51,7 @@ class StudentRegistrationForm(RegistrationForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember me')
     submit = SubmitField('Log In')
