@@ -36,7 +36,7 @@
   {%- endfor %}
 </div>
 
-{%- elif (field.type == 'StringField' or field.type == 'PasswordField' or field.type == 'FloatField' or field.type == 'DateField') %}
+{%- elif (field.type == 'StringField' or field.type == 'PasswordField' or field.type == 'FloatField' or field.type == 'DateField' or field.type == 'QuerySelectField') %}
 <div class="mb-3">
   {{ field.label(class='form-label') }}
   {% if autofocus %}
