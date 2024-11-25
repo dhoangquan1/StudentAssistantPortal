@@ -13,4 +13,9 @@
     <tr>
         <td class = "child_section_text"> Qualifications: min {{position.min_GPA}} GPA, min {{position.min_Grade}} Grade{% if position.prev_sa_exp %}, requires previous SA experience{%- endif %} </td>
     </tr>
+
+    <tr>
+        <td class = "child_section_text"> Posted on: {{moment(position.posted_on).format('LLL')}} </td>
+    </tr>
+    
 </table>
