@@ -24,27 +24,51 @@
         Posted on: {{moment(position.posted_on).format('LLL')}}
       </td>
     </tr>
-  </table>
-  <div>
-    {% for application in current_user.get_applications_by_position(position.id)
-    %}
-    <div style="background-color: white; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; padding: 10px;margin-bottom: 10px;">
-      <a href="{{ url_for('main.instructor.view_profile', student_id=application.applicant.id) }}">
-        <button class = "btn" style="margin-right: 10px;background-color: white;color:black;padding:5px;text-decoration: underline ;">
-          {{ application.applicant.first_name }} {{ application.applicant.last_name }}
-        </button>
-      </a>
-      <p style="margin: 0;">{{ application.status }}</p>
-      {% if application.status == 'Pending' %}
-      <a href="{{ url_for('main.instructor.assign', position_id=position.id,student_id=application.applicant.id) }}">
-        <button class="btn btn-danger" style="margin-left: 10px;">
-          Assign
-        </button>
-      </a>
-      {% endif %}
-    </div>
-    
+    <tr>
+      <td>
+        <div class="applicant-container">
+          {% for application in
+          current_user.get_applications_by_position(position.id) %}
+          <div class="applicant-box">
+            <a
+              href="{{ url_for('main.instructor.view_profile', student_id=application.applicant.id) }}"
+            >
+              <button
+                class="btn"
+                style="
+                  margin-right: 10px;
+                  background-color: white;
+                  color: black;
+                  padding: 5px;
+                  border: 1px solid darkblue;
+                  border-radius: 5px;
+                  padding: 5px;
+                "
+              >
+                {{ application.applicant.first_name }} {{
+                application.applicant.last_name }}
+              </button>
+            </a>
+            {% if application.applicant.sa_pos_id == position.id %}
+            <p style="margin: 0">Assigned</p>
+            {% elif application.applicant.sa_pos_id != None %}
+            <p style="margin: 0">Already assigned to another section</p>
+            {%else%}
 
-    {% endfor %}
-  </div>
+            <p style="margin: 0">{{ application.status }}</p>
+            {% if application.status == 'Pending' %}
+            <form
+              action="{{ url_for('main.instructor.assign', position_id=position.id,student_id=application.applicant.id) }}"
+              method="post"
+            >
+              <input type="submit" value="Assign" class="btn btn-danger" />
+            </form>
+            {% endif %} {% endif %}
+          </div>
+
+          {% endfor %}
+        </div>
+      </td>
+    </tr>
+  </table>
 </div>
