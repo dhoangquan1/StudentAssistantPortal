@@ -25,9 +25,10 @@
         </div>
         <div style="width: 20%; display: flex; justify-content: flex-end">
             <div style="display: flex; flex-direction: column; align-items: center">
-                <a class="apply_button" href="{{ url_for('main.student.apply', position_id = position.id) }}">Apply Position</a>
                 {% if position.check_apply_status(current_user.id) %}
-                    <div class="apply_text"> Already Applied! </div>
+                    <div class="apply_button_disabled">Already Applied!</div>
+                {% else %}
+                    <a class="apply_button" href="{{ url_for('main.student.apply', position_id = position.id) }}">Apply Position</a>
                 {% endif %}
             </div>
         </div>

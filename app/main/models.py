@@ -186,6 +186,8 @@ class Position(db.Model):
         student = db.session.scalars(self.applications.select().where(Application.student_id == student_id)).first()
         return student is not None
     
+    def get_id(self):
+        return self.id
 
 class Application(db.Model):
     student_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Student.id), primary_key=True)
@@ -199,4 +201,7 @@ class Application(db.Model):
     def __repr__(self):
         return f"<Application(student_id={self.student_id}, section_id={self.position_id}, status={self.status})>"
     
+    
+    def get_section(self):
+        return self.applied_to
     
