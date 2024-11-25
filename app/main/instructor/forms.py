@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_login import current_user
-from wtforms import StringField, SubmitField, IntegerField, FloatField, BooleanField
+from wtforms import StringField, SubmitField, IntegerField, FloatField, BooleanField, SelectField
 from wtforms.validators import  ValidationError, DataRequired,NumberRange,Optional
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.widgets import ListWidget, CheckboxInput
@@ -43,6 +43,6 @@ class PositionForm(FlaskForm):
                          )
     SAnum = IntegerField('Amount of SA:',validators=[DataRequired(), NumberRange(min=1, max=9999)])
     minGPA = FloatField('Minimum GPA',validators=[DataRequired(), NumberRange(min=0, max=4)])  
-    min_grade = StringField('Minimum grade for the course',validators=[DataRequired()])
+    min_grade = SelectField('Minimum grade for the course',choices = [(3, 'A'), (2, 'B'), (1,'C')], default=1)
     prev_sa_exp = BooleanField('Require previous SA experiences?')
     submit = SubmitField('Create Positions')
