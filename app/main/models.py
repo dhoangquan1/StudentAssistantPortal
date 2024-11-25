@@ -154,7 +154,9 @@ class Section(db.Model):
     instructor : sqlo.Mapped[Instructor] = sqlo.relationship(back_populates= 'sections')
     in_course: sqlo.Mapped[Course] = sqlo.relationship(back_populates= 'has_sections')
     positions: sqlo.WriteOnlyMapped['Position'] = sqlo.relationship(back_populates="in_section")
-
+    
+    def get_term(self):
+        return self.term
 
     __table_args__ = (
         sqla.UniqueConstraint('course_id', 'section_num', 'term', name='uix_course_section_term'),
@@ -178,6 +180,12 @@ class Position(db.Model):
     
     def __repr__(self):
         return f"<Position(section_id={self.section_id})>"
+    
+    def get_min_gpa(self):
+        return self.min_GPA
+    
+    def get_min_grade(self):
+        return self.min_grade
 
     def get_instructor_firstname(self):
         return self.in_section.instructor.first_name
@@ -200,6 +208,9 @@ class Position(db.Model):
     
     def get_id(self):
         return self.id
+    
+    def get_section_term(self):
+        return self.in_section.get_term()
 
 class Application(db.Model):
     student_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Student.id), primary_key=True)

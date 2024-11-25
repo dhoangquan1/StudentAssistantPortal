@@ -28,7 +28,7 @@ def apply(position_id):
         flash('Position not found!')
         return redirect(url_for('main.student.index'))
     
-    af = ApplicationForm()
+    af = ApplicationForm(position_id=position_id)
     
     if af.validate_on_submit():
         new_app = Application(
