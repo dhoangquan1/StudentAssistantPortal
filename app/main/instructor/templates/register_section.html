@@ -2,17 +2,37 @@
 {% import 'bootstrap_wtf.html' as wtf %}
 
 {% block content %}
-    <h1> Create a new section </h1>
+<div class="d-flex flex-column justify-content-center" style="align-items: center; width: auto;">
+    <h1 class="mt-4" style="text-align: center;"> Create a new section </h1>
 
-    <form action = "{{url_for('main.instructor.create_course_section')}}" method = "POST">
+    <form class="d-flex flex-column justify-content-center"
+        action="{{url_for('main.instructor.create_course_section')}}" method="POST"
+        style="width: 50%; align-items: center;">
         {{ form.hidden_tag() }}
-        
-        {{wtf.form_field(form.course)}}
-        {{wtf.form_field(form.section_num)}}
-        {{wtf.form_field(form.term)}}
-        {{wtf.form_field(form.submit)}}
-    
+        <div class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
+            style="width: 100%; border-radius: 10px; background-color: #d9d9d9;">
+
+            {{wtf.form_field(form.course)}}
+
+            <div class="d-flex flex-row justify-content-between">
+
+                <div style="width: 47%">
+                    {{wtf.form_field(form.section_num)}}
+                </div>
+
+                <div style="width: 47%">
+                    {{wtf.form_field(form.term)}}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3 h4" style="width: 100%; align-items: center;">
+            {{wtf.form_field(form.submit)}}
+        </div>
+
 
     </form>
+</div>
 
 {% endblock %}
