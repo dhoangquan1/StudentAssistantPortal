@@ -64,4 +64,20 @@ def view_profile(student_id):
 
 
 
+@bp_instructor.route("/instructor/<int:position_id>/assign/<int:student_id>", methods=['GET'])
+@login_required
+@role_required('Instructor')
+def assign(position_id, student_id):
+    position = db.session.get(Position, position_id)
+    application = db.session.query(Application).filter_by(student_id=student_id, position_id=position_id).first()
+    if position.curr_SA >= position.max_SA:
+        flash("Position is already fully assigned.", "warning")
+        return redirect(url_for('main.index'))
+    application.status = 'Assigned'
+    application.applicant.sa_pos_id = position_id
+    position.curr_SA += 1
+    db.session.commit()
+    return redirect(url_for('main.index'))
+
+
     

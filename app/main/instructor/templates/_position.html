@@ -26,13 +26,25 @@
     </tr>
   </table>
   <div>
-    {% for application in current_user.get_applications_by_position(position.id) %}
-        <a href="{{ url_for('main.instructor.view_profile', student_id=application.applicant.id) }}">
-            <button class="btn btn-primary" style = "margin-top: 10px;">
-                {{ application.applicant.first_name }}
-            </button>
-        </a>
-    {% endfor %}
-</div>
+    {% for application in current_user.get_applications_by_position(position.id)
+    %}
+    <div style="background-color: white; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; padding: 10px;margin-bottom: 10px;">
+      <a href="{{ url_for('main.instructor.view_profile', student_id=application.applicant.id) }}">
+        <button class = "btn" style="margin-right: 10px;background-color: white;color:black;padding:5px;text-decoration: underline ;">
+          {{ application.applicant.first_name }} {{ application.applicant.last_name }}
+        </button>
+      </a>
+      <p style="margin: 0;">{{ application.status }}</p>
+      {% if application.status == 'Pending' %}
+      <a href="{{ url_for('main.instructor.assign', position_id=position.id,student_id=application.applicant.id) }}">
+        <button class="btn btn-danger" style="margin-left: 10px;">
+          Assign
+        </button>
+      </a>
+      {% endif %}
+    </div>
+    
 
+    {% endfor %}
+  </div>
 </div>
