@@ -82,6 +82,7 @@ class Student(User):
     major: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(64))
     gpa: sqlo.Mapped[float] = sqlo.mapped_column(sqla.Float)
     grad_date: sqlo.Mapped[datetime] = sqlo.mapped_column(sqla.DateTime)
+    sa_pos_id: sqlo.Mapped[Optional[int]] = sqlo.mapped_column(sqla.Integer)
     
     # Relationships
     prev_enrolled: sqlo.WriteOnlyMapped['Past_Enrollments'] = sqlo.relationship(back_populates='student')
@@ -107,6 +108,14 @@ class Student(User):
     def get_prev_enrolled(self):
         return db.session.scalars(self.prev_enrolled.select()).all()
     
+    def get_sa_section(self):
+        query = (sqla.select(Section).join(Position).where(Position.id == self.sa_pos_id))
+        return db.session.scalars(query).first()
+    
+    def get_sa_section_string(self):
+        section = self.get_sa_section()
+        return f"{section.in_course.num}-{section.section_num}: {section.in_course.title}"
+    
     
 class Course(db.Model):
     id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
@@ -131,6 +140,9 @@ class Past_Enrollments(db.Model):
     # Relationships
     student: sqlo.Mapped[Student] = sqlo.relationship(back_populates='prev_enrolled')
     course: sqlo.Mapped[Course] = sqlo.relationship(back_populates='prev_sa')
+    
+    def get_course(self):
+        return self.course
     
 class Section(db.Model):
     id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)

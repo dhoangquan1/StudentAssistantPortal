@@ -5,7 +5,7 @@ import sqlalchemy as sqla
 from app.main.role_validator import role_required
 
 from app import db
-from app.main.models import Section,Position
+from app.main.models import Section,Position, Student
 from app.main.instructor.forms import SectionForm,PositionForm
 
 from app.main.instructor import instructor_blueprint as bp_instructor
@@ -53,3 +53,11 @@ def create_positions():
         flash(f'Create SA positions succesfully')
         return redirect(url_for('main.index'))
     return render_template('create_position.html', form=form)
+
+@bp_instructor.route("/instructor/student/<student_id>/profile", methods=['GET','POST'])
+@login_required
+@role_required('Instructor')
+def view_profile(student_id):
+    student = db.session.get(Student, student_id)
+    return render_template('student_profile.html', student = student)
+    

@@ -146,3 +146,43 @@ a:hover {
     font-family: Tahoma;
     font-size: 16px;
 }
+
+.parent_profile_box {
+    vertical-align: middle;
+    background-color: lightskyblue;
+    border-radius: 10px;
+    padding: 10px;
+    font-family: Tahoma;
+    font-size: 18px;
+}
+
+.child_profile_text {
+    text-align: left;
+    width: 48%;
+}
+
+
+.profiletable {
+	text-align: middle;
+    width: 100%;
+    
+}
+
+.profiletable tr{
+	outline: thin darkblue solid;
+	background-color: white;
+}
+
+.profiletable tr:hover{
+	background-color: rgb(192, 207, 235);
+}
+
+.profiletable th{
+	padding: 10px;
+}
+
+.profiletable td{
+	padding: 10px;
+}
+
+

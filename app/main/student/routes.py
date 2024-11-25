@@ -18,7 +18,6 @@ def index():
     positions = db.session.scalars(sqla.select(Position).where(Position.curr_SA < Position.max_SA)).all()
     return render_template('student_index.html', title="SA Portal", positions = positions)
     
-    
 @bp_student.route('/student/application/<position_id>', methods=['GET', 'POST'])
 @login_required
 @role_required('Student')
