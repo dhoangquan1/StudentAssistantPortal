@@ -1,21 +1,38 @@
-<table id = "child_section_box">
+<div class="child_section_container">
+  <table id="child_section_box">
     <tr>
-        <td class = "child_section_title">{{position.in_section.in_course.num}}-{{position.in_section.section_num}} : {{position.in_section.in_course.title}} </td>
+      <td class="child_section_title">
+        {{position.in_section.in_course.num}}-{{position.in_section.section_num}}
+        : {{position.in_section.in_course.title}}
+      </td>
     </tr>
     <tr>
-        <td class = "child_section_text"> Term: {{position.in_section.term}} </td>
+      <td class="child_section_text">Term: {{position.in_section.term}}</td>
     </tr>
+    <tr>
+      <td class="child_section_text">Max SA Position: {{position.max_SA}}</td>
+    </tr>
+    <tr>
+      <td class="child_section_text">
+        Qualifications: min {{position.min_GPA}} GPA, min {{position.min_Grade}}
+        Grade {% if position.prev_sa_exp %}, requires previous SA experience{%-
+        endif %}
+      </td>
+    </tr>
+    <tr>
+      <td class="child_section_text">
+        Posted on: {{moment(position.posted_on).format('LLL')}}
+      </td>
+    </tr>
+  </table>
+  <div>
+    {% for application in current_user.get_applications_by_position(position.id) %}
+        <a href="{{ url_for('main.instructor.view_profile', student_id=application.applicant.id) }}">
+            <button class="btn btn-primary" style = "margin-top: 10px;">
+                {{ application.applicant.first_name }}
+            </button>
+        </a>
+    {% endfor %}
+</div>
 
-    <tr>
-        <td class = "child_section_text"> Max SA Position: {{position.max_SA}} </td>
-    </tr>
-
-    <tr>
-        <td class = "child_section_text"> Qualifications: min {{position.min_GPA}} GPA, min {{position.min_Grade}} Grade{% if position.prev_sa_exp %}, requires previous SA experience{%- endif %} </td>
-    </tr>
-
-    <tr>
-        <td class = "child_section_text"> Posted on: {{moment(position.posted_on).format('LLL')}} </td>
-    </tr>
-    
-</table>
+</div>

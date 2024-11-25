@@ -1,11 +1,11 @@
 import sys
-from flask import render_template, flash, redirect, url_for, jsonify
+from flask import render_template, flash, redirect, request, url_for, jsonify
 from flask_login import login_required, current_user
 import sqlalchemy as sqla
 from app.main.role_validator import role_required
 
 from app import db
-from app.main.models import Section,Position, Student
+from app.main.models import Section,Position, Student,Application
 from app.main.instructor.forms import SectionForm,PositionForm
 
 from app.main.instructor import instructor_blueprint as bp_instructor
@@ -60,4 +60,8 @@ def create_positions():
 def view_profile(student_id):
     student = db.session.get(Student, student_id)
     return render_template('student_profile.html', student = student)
+
+
+
+
     
