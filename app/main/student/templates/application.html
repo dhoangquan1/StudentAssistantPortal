@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import 'bootstrap_wtf.html' as wtf %}
+
+{% block content %}
+<div>
+    <h4>Applying to {{position.in_section.in_course.num}}-{{position.in_section.section_num}} : {{position.in_section.in_course.title}}</h4>
+</div>
+
+</br>
+
+{% if form %}
+<form action="{{ url_for('main.student.apply', position_id = position.id) }}" method="POST">
+    {{ form.hidden_tag() }}
+
+    {{wtf.form_field(form.grade)}}
+    {{wtf.form_field(form.year_took_course)}}
+    {{wtf.form_field(form.term_took_course)}}
+    {{wtf.form_field(form.year_to_apply)}}
+    {{wtf.form_field(form.term_to_apply)}}
+    {{wtf.form_field(form.submit)}}
+</form>
+{% endif %}
+
+{% endblock %}

@@ -110,8 +110,8 @@ The UML component diagram illustrating the software architectural design:
 |1. |GET                   |/student, /student/index            |Loads the index page for the application, including open SA positions listing and recommended SA positions              |
 |2. |GET                |/student/profile            |Display student profile, including qualifcations and applications applied              |
 |3. |PUT/PATCH                 |/student/profile/edits         |Edit student profile              |
-|4. |POST                  |/student/application/<section_id>         |Apply for a section for an SA position              |
-|5. |DELETE                |/student/application/<section_id>         |Withdraw application from a section              |
+|4. |POST                  |/student/application/<section_id>/<position_id>         |Apply for a section for an SA position              |
+|5. |DELETE                |/student/application/<section_id>/<position_id>         |Withdraw application from a section              |
 
 #### 2.2.2.1 \<Instructor> Routes
 

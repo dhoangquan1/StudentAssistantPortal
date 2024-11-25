@@ -30,7 +30,7 @@ class SectionForm(FlaskForm):
         section = db.session.scalars(query).first()
         
         if section is not None:
-            self.course.errors.append('The section is already exists, please choose a different course, section number, or term.')
+            self.course.errors.append('The section already exists, please choose a different course, section number, or term.')
             return False
         
         return True
@@ -41,7 +41,7 @@ class PositionForm(FlaskForm):
                          get_label=lambda section:  f"{section.in_course.num}-{section.section_num}: {section.in_course.title}",
                          allow_blank=False
                          )
-    SAnum = IntegerField('Amount of SA:',validators=[DataRequired(), NumberRange(min=1, max=9999)])
+    SAnum = IntegerField('Amount of Student Assistants:',validators=[DataRequired(), NumberRange(min=1, max=9999)])
     minGPA = FloatField('Minimum GPA',validators=[DataRequired(), NumberRange(min=0, max=4)])  
     min_grade = SelectField('Minimum grade for the course',choices = [(3, 'A'), (2, 'B'), (1,'C')], default=1)
     prev_sa_exp = BooleanField('Require previous SA experiences?')
