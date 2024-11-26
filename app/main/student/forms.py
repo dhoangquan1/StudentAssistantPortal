@@ -10,21 +10,7 @@ from app.main.models import Application, Position
 
 
 class ApplicationForm(FlaskForm):
-    grade = SelectField('Grade Earned', choices = [('A', 'A'), ('B', 'B'), ('C', 'C') ])
+    grade = SelectField('Grade Earned:', choices = [('A', 'A'), ('B', 'B'), ('C', 'C') ])
     year_took_course = StringField('Year course was taken', validators=[DataRequired()])
     term_took_course = SelectField('Term course was taken', choices = [('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D'),  ('E', 'E')])
-    year_to_apply = StringField('Applying year', validators=[DataRequired()])
-    term_to_apply = QuerySelectField(
-        'Select available term',
-        query_factory = None,
-        get_label=None
-        )
     submit = SubmitField('Apply')
-    
-    def __init__(self, position_id, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Dynamically update the query factory based on the position_id
-        self.term_to_apply.query_factory = lambda: db.session.scalars(
-            sqla.select(Position).where(Position.id == position_id)
-        )
-        self.term_to_apply.get_label = lambda position : position.get_section_term()
