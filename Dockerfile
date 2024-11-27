@@ -2,7 +2,7 @@
         FROM python:3.12.2-slim 
         #set the home and working directory to be the app directory
         ENV HOME=/app
-        ENV DATABASE_URL='postgresql+psycopg2://postgres:postgres@db-flasktastic.crseo8c6y67y.us-east-1.rds.amazonaws.com/postgres'
+        ENV DATABASE_URL='***REMOVED***'
         WORKDIR /app
         #move the requirements.txt text file into the container and install dependencies
         ADD ./requirements.txt ./requirements.txt
