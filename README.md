@@ -2,7 +2,7 @@
 # CS 3733 Term Project
 ### Project Title: Term Project
 ### Team Name :  Flask-tasticCoders
-### [Website Version](ec2-54-90-78-242.compute-1.amazonaws.com)
+### [Website Version](http://ec2-54-90-78-242.compute-1.amazonaws.com)
 ### Team Members 
 * Khoi Dao (team liaison)
 * Huy Pham
