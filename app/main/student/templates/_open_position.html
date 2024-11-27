@@ -21,7 +21,22 @@
     
     <div class = "child_position_column">
         <div style="width: 80%">
-            <b>Qualifications:</b> min <strong>{{position.get_min_gpa()}}</strong> GPA, min <strong>{{position.get_min_grade()}}</strong> Grade{% if position.prev_sa_exp %}, requires previous SA experience{%- endif %}
+            <b>Qualifications:</b> min 
+            <strong>{{position.get_min_gpa()}}</strong> GPA, min 
+            <strong>
+                {% if position.get_min_grade() == '1' %}
+                    C
+                {% elif position.get_min_grade() == '2' %}
+                    B
+                {% elif position.get_min_grade() == '3' %}
+                    A
+                {% else %}
+                    error
+                {% endif %}
+            </strong> Grade
+            {% if position.prev_sa_exp %}
+                , requires previous SA experience
+            {%- endif %}
         </div>
         <div style="width: 20%; display: flex; justify-content: flex-end">
             <div style="display: flex; flex-direction: column; align-items: center">
