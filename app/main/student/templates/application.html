@@ -2,23 +2,101 @@
 {% import 'bootstrap_wtf.html' as wtf %}
 
 {% block content %}
-<div>
-    <h4>Applying to {{position.in_section.in_course.num}}-{{position.in_section.section_num}} : {{position.in_section.in_course.title}}</h4>
+<div>{{ something }}</div>
+<div class="d-flex flex-column justify-content-center" style="align-items: center; width: auto;">
+    <h2 class="mt-4" style="text-align: center;" 0>Applying to
+        {{position.in_section.in_course.num}}-{{position.in_section.section_num}} :
+        {{position.in_section.in_course.title}}</h2>
+
+    </br>
+
+    <div class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
+        style="width: 50%; border-radius: 10px; background-color: #d9d9d9;">
+        <h4 style="text-decoration: underline;">Course info</h4>
+        <h5>Instructor: {{ position.get_instructor_firstname() }} {{ position.get_instructor_lastname()
+            }} (email: {{ position.get_instructor_email() }})</h5>
+        <h5>Max SA Position: {{ position.max_SA }}</h5>
+        <h5>Number of SA positions left: {{ position.max_SA - position.curr_SA }}</h5>
+        <h5>GPA required: {{ position.get_min_gpa() }}</h5>
+        {% if (current_user.get_gpa() < position.get_min_gpa()) %} <h6 style="color: red; text-align: center;">Your GPA
+            does not met the criteria, if you insist on applying, your application will be waitlisted</h6>
+        {% endif %}
+    </div>
+
+    {% if form %}
+    <form class="d-flex flex-column justify-content-center"
+        action="{{ url_for('main.student.apply', position_id = position.id) }}" method="POST"
+        style="width: 50%; align-items: center;">
+        {{ form.hidden_tag() }}
+
+        <div class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
+            style="width: 100%; border-radius: 10px; background-color: #d9d9d9;">
+
+            <div class="d-flex flex-row justify-content-between">
+                <div style="width: 47%">
+                    <div class="d-flex flex-column mb-3">
+                        <div class="d-flex flex-row">
+                            {{ form.grade.label(class='pt-2') }}
+                            &nbsp&nbsp
+                            {{ form.grade(id='grade', class='form-control ml-3 d-flex justify-content-center', style='border: 2px
+                            solid black; border-radius: 15px; width: 38px; align-items:center', onchange='check_grade(this)') }}
+                        </div>
+                        {%- for error in form.grade.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {%- endfor %}
+                    </div>
+                </div>
+
+                <div style="width: 47%">
+                    <h5 class="pt-2">Grade required: 
+                        <span id="minGrade">
+                            {% if position.get_min_grade() == '1' %}
+                                C
+                            {% elif position.get_min_grade() == '2' %}
+                                B
+                            {% elif position.get_min_grade() == '3' %}
+                                A
+                            {% else %}
+                                error
+                            {% endif %}
+                        </span>
+                    </h5>
+                </div>
+            </div>
+
+            <h6 id="gradeWaitlist" style="color: red; text-align: center; display: none;">Your grade does not met the criteria, if you insist on applying, your application will be waitlisted</h6>
+
+            <div class="d-flex flex-row justify-content-between">
+                <div style="width: 47%">
+                    {{wtf.form_field(form.year_took_course)}}
+                </div>
+
+                <div style="width: 47%">
+                    {{wtf.form_field(form.term_took_course)}}
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3 h4" style="width: 100%; align-items: center;">
+            {{wtf.form_field(form.submit)}}
+        </div>
+    </form>
+    {% endif %}
 </div>
 
-</br>
-
-{% if form %}
-<form action="{{ url_for('main.student.apply', position_id = position.id) }}" method="POST">
-    {{ form.hidden_tag() }}
-
-    {{wtf.form_field(form.grade)}}
-    {{wtf.form_field(form.year_took_course)}}
-    {{wtf.form_field(form.term_took_course)}}
-    {{wtf.form_field(form.year_to_apply)}}
-    {{wtf.form_field(form.term_to_apply)}}
-    {{wtf.form_field(form.submit)}}
-</form>
-{% endif %}
+{% block script %}
+    <script>
+        function check_grade(sel) {
+            text = sel.options[sel.selectedIndex].text;
+            min = document.getElementById('minGrade').innerText;
+            if ((min == 'B' && text == 'C') || (min == 'A' && (text == 'B' || text == 'C'))) {
+                document.getElementById('gradeWaitlist').style.display = 'block';
+            }
+            else {
+                document.getElementById('gradeWaitlist').style.display = 'none';
+            }
+        }
+    </script>
+{% endblock %}
 
 {% endblock %}

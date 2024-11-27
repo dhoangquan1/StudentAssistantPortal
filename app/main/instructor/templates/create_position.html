@@ -2,21 +2,37 @@
 {% import 'bootstrap_wtf.html' as wtf %}
 
 {% block content %}
-<h2>Create a New SA Position</h2>
+<div class="d-flex flex-column justify-content-center" style="align-items: center; width: auto;">
+    <h2 class="mt-4" style="text-align: center;">Create a New SA Position</h2>
 
-<form method="POST" action="{{ url_for('main.instructor.create_positions') }}">
-    {{ form.hidden_tag() }}
-    
-    {{wtf.form_field(form.section)}}
+    <form class="d-flex flex-column justify-content-center" method="POST"
+        action="{{ url_for('main.instructor.create_positions') }}" style="width: 50%; align-items: center;">
+        {{ form.hidden_tag() }}
 
-    {{wtf.form_field(form.SAnum)}}
+        <div class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
+            style="width: 100%; border-radius: 10px; background-color: #d9d9d9;">
 
-    {{wtf.form_field(form.minGPA)}}
+            {{wtf.form_field(form.section)}}
 
-    {{wtf.form_field(form.min_grade)}}
+            <div class="d-flex flex-row justify-content-between">
 
-    {{wtf.form_field(form.prev_sa_exp)}}
+                <div style="width: 47%">
+                    {{wtf.form_field(form.SAnum)}}
+                </div>
 
-    {{wtf.form_field(form.submit)}}
+                <div style="width: 47%">
+                    {{wtf.form_field(form.minGPA)}}
+                </div>
+                
+            </div>
 
-{% endblock %}
+                {{wtf.form_field(form.min_grade)}}
+
+                {{wtf.form_field(form.prev_sa_exp)}}
+            </div>
+
+            <div class="d-flex justify-content-center mt-3 h4" style="width: 100%; align-items: center;">
+                {{wtf.form_field(form.submit)}}
+            </div>
+        </div>
+        {% endblock %}
