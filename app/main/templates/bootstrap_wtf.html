@@ -1,59 +1,62 @@
 {% macro form_field(field, autofocus) %}
 {%- if field.type == 'BooleanField' %}
-  <div class="form-check mb-3">
-    {{ field(class='form-check-input') }}
-    {{ field.label(class='form-check-label') }}
-  </div>
+<div class="form-check mb-3">
+  {{ field(class='form-check-input') }}
+  {{ field.label(class='form-check-label') }}
+</div>
 
 {%- elif field.type == 'RadioField' %}
-  {{ field.label(class='form-label pb-2') }}
-  {%- for item in field %}
-    <div class="form-check{% if loop.last %} mb-3{% endif %}">
-      {{ item(class='form-check-input border border-black') }}
-      {{ item.label(class='form-check-label') }}
-    </div>
-  {%- endfor %}
+{{ field.label(class='form-label pb-2') }}
+{%- for item in field %}
+<div class="form-check{% if loop.last %} mb-3{% endif %}">
+  {{ item(class='form-check-input border border-black') }}
+  {{ item.label(class='form-check-label') }}
+</div>
+{%- endfor %}
 
 {%- elif field.type == 'QuerySelectMultipleField' %}
-  {{ field.label(class='form-label') }}
-  {{ field(class='mb-3 ms-3 border-0') }}
+{{ field.label(class='form-label') }}
+{{ field(class='mb-3 ms-3 border-0') }}
 
 {%- elif field.type == 'TextAreaField' %}
-  <span>TextAreaField</span>
-  <div class="mb-3">
+<!-- <span>TextAreaField</span> -->
+<div class="mb-3">
   {{ field.label(class='form-label') }}
   {% if autofocus %}
-    {{ field(class='form-control' + (' is-invalid' if field.errors else ''), autofocus=True) }}
+  {{ field(class='form-control' + (' is-invalid' if field.errors else ''),
+  autofocus=True) }}
   {% else %}
-    {{ field(class='form-control' + (' is-invalid' if field.errors else '')) }}
+  {{ field(class='form-control' + (' is-invalid' if field.errors else '')) }}
   {% endif %}
   {%- for error in field.errors %}
-    <div class="invalid-feedback">{{ error }}</div>
+  <div class="invalid-feedback">{{ error }}</div>
   {%- endfor %}
 </div>
 
 {%- elif field.type == 'SubmitField' %}
-  {{ field(class='pt-1 pb-2 mb-3 col-2 auth_btn') }}
+{{ field(class='pt-1 pb-2 mb-3 col-2 auth_btn') }}
 
 {%- else %}
 <div class="mb-3">
   {{ field.label(class='form-label') }}
   {% if autofocus %}
-    {{ field(class='form-control border border-dark' + (' is-invalid' if field.errors else ''), autofocus=True) }}
+  {{ field(class='form-control' + (' is-invalid' if field.errors else ''),
+  autofocus=True) }}
   {% else %}
-    {{ field(class='form-control' + (' is-invalid' if field.errors else ''), style='border: 2px solid black; border-radius: 15px') }}
+  {{ field(class='form-control' + (' is-invalid' if field.errors else '')) }}
   {% endif %}
   {%- for error in field.errors %}
-    <div class="invalid-feedback">{{ error }}</div>
+  <div class="invalid-feedback">{{ error }}</div>
   {%- endfor %}
 </div>
-
 {%- endif %}
 {% endmacro %}
 
 {% macro quick_form(form, action="", method="post", id="", novalidate=False) %}
-<form novalidate {%- if action !=None %} action="{{ action }}" {% endif -%} {%- if method %} method="{{ method }}" {%
-  endif %} {%- if id %} id="{{ id }}" {% endif -%} {%- if novalidate %} novalidate{% endif -%}>
+<form novalidate {%- if action !=None %} action="{{ action }}" {% endif -%} {%-
+  if method %} method="{{ method }}" {%
+  endif %} {%- if id %} id="{{ id }}" {% endif -%} {%- if novalidate %}
+  novalidate{% endif -%}>
   {{ form.hidden_tag() }}
   {%- for field, errors in form.errors.items() %}
   {%- if form[field].widget.input_type == 'hidden' %}

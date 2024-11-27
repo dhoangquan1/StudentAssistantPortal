@@ -1,0 +1,7 @@
+<tr valign = "middle">
+    <td width="15%"> {{course.num}}</td>
+    <td width="40%"> {{course.title}} </td>
+    <td width="15%"> {% if e.grade_earned %} {{e.grade_earned}} {% else %} N/A {% endif %} </td>
+    <td width="15%"> {% if e.term %} {{e.term}} {% else %} N/A {% endif %}  </td>
+    <td width="15%"> {% if e.sa_before %} Yes {% else %} No {% endif %} </td>
+</tr>

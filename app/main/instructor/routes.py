@@ -1,11 +1,11 @@
 import sys
-from flask import render_template, flash, redirect, url_for, jsonify
+from flask import render_template, flash, redirect, request, url_for, jsonify
 from flask_login import login_required, current_user
 import sqlalchemy as sqla
 from app.main.role_validator import role_required
 
 from app import db
-from app.main.models import Section,Position
+from app.main.models import Section,Position, Student,Application
 from app.main.instructor.forms import SectionForm,PositionForm
 
 from app.main.instructor import instructor_blueprint as bp_instructor
@@ -53,3 +53,31 @@ def create_positions():
         flash(f'Create SA positions succesfully')
         return redirect(url_for('main.index'))
     return render_template('create_position.html', form=form)
+
+@bp_instructor.route("/instructor/student/<student_id>/profile", methods=['GET','POST'])
+@login_required
+@role_required('Instructor')
+def view_profile(student_id):
+    student = db.session.get(Student, student_id)
+    return render_template('student_profile.html', student = student)
+
+
+
+
+@bp_instructor.route("/instructor/<int:position_id>/assign/<int:student_id>", methods=['GET'])
+@login_required
+@role_required('Instructor')
+def assign(position_id, student_id):
+    position = db.session.get(Position, position_id)
+    application = db.session.query(Application).filter_by(student_id=student_id, position_id=position_id).first()
+    if position.curr_SA >= position.max_SA:
+        flash("Position is already fully assigned.", "warning")
+        return redirect(url_for('main.index'))
+    application.status = 'Assigned'
+    application.applicant.sa_pos_id = position_id
+    position.curr_SA += 1
+    db.session.commit()
+    return redirect(url_for('main.index'))
+
+
+    
