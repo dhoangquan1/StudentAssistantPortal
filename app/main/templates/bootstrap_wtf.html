@@ -40,10 +40,11 @@
 <div class="mb-3">
   {{ field.label(class='form-label') }}
   {% if autofocus %}
-  {{ field(class='form-control' + (' is-invalid' if field.errors else ''),
-  autofocus=True) }}
+  {{ field(class='form-control border border-dark' + (' is-invalid' if
+  field.errors else ''), autofocus=True) }}
   {% else %}
-  {{ field(class='form-control' + (' is-invalid' if field.errors else '')) }}
+  {{ field(class='form-control' + (' is-invalid' if field.errors else ''),
+  style='border: 2px solid black; border-radius: 15px') }}
   {% endif %}
   {%- for error in field.errors %}
   <div class="invalid-feedback">{{ error }}</div>

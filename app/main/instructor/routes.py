@@ -64,7 +64,7 @@ def view_profile(student_id):
 
 
 
-@bp_instructor.route("/instructor/<int:position_id>/assign/<int:student_id>", methods=['GET'])
+@bp_instructor.route("/instructor/position/<position_id>/<student_id>/", methods=['POST'])
 @login_required
 @role_required('Instructor')
 def assign(position_id, student_id):
