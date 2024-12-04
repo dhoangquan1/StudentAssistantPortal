@@ -33,13 +33,14 @@ def register_instructor():
         return redirect(url_for('main.index'))
     
     rform = InstructorRegistrationForm()
+    rform.phone_code.choices = InstructorRegistrationForm.show_phone_codes()
     if rform.validate_on_submit():
         new_user = Instructor(
             first_name = rform.first_name.data,
             last_name = rform.last_name.data,
             email = rform.email.data,
             wpi_id = rform.wpi_id.data,
-            phone = rform.phone.data,
+            phone = rform.phone_code.data + rform.phone.data,
             user_type = 'Instructor')
         
         new_user.set_password(rform.password.data)
@@ -54,23 +55,28 @@ def register_student():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     rform = StudentRegistrationForm()
+    rform.phone_code.choices = StudentRegistrationForm.show_phone_codes()
     if rform.validate_on_submit():
         new_user = Student(
             first_name = rform.first_name.data,
             last_name = rform.last_name.data,
             email = rform.email.data,
             wpi_id = rform.wpi_id.data,
-            phone = rform.phone.data,
+            phone = rform.phone_code.data + rform.phone.data,
             major = rform.major.data,
             gpa = float(rform.gpa.data),
             grad_date = rform.grad_date.data,
             user_type = 'Student')  
+        
         new_user.set_password(rform.password.data)
         db.session.add(new_user)
+        
         for c in rform.sa_courses.data:
             enrollment = Past_Enrollments(course_id = c.id, sa_before=True)
             new_user.prev_enrolled.add(enrollment)
+            
         db.session.commit()
+        
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('main.index'))
     return render_template('register_student.html', title="Register", form = rform)
