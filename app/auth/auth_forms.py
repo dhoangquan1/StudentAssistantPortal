@@ -34,6 +34,10 @@ class RegistrationForm(FlaskForm):
         user = db.session.scalars(query).first()
         if user is not None:
             raise ValidationError('The ID is associated with another account! Please log in to your account.')
+        
+    def validate_phone(self, phone):
+        if (not phone.data.isnumeric()) or (len(phone.data) != 10):
+            raise ValidationError('The phone number is invalid')
 
 class InstructorRegistrationForm(RegistrationForm):
     placeholder = StringField('placeholder')
