@@ -3,24 +3,33 @@
 
 {% block content %}
 
+<div>
     <div>
-        <div>
-            <h1>Welcome to Student Assistant Portal!</h1>
-            <h4>Dashboard</h4>
-        </div>
-        
-        <div class="parent_section_box_top">
-            Open Position Listing
-        </div>
-        <div class="parent_section_box">
-            {% for position in positions %}
-                {% include '_open_position.html' %} 
-            {% endfor %}
-        </div>
-
-        <br>
-        
+        <h1>Welcome to Student Assistant Portal!</h1>
+        <h4>Dashboard</h4>
     </div>
 
-  
+    {%if form%}
+    <form action method="POST">
+        {{form.hidden_tag()}}
+
+        {{wtf.form_field(form.prev_exp)}}
+        {{wtf.form_field(form.choice)}}
+        {{wtf.form_field(form.submit)}}
+    </form>
+    {%endif%}
+
+    <div class="parent_section_box_top">
+        Open Position Listing
+    </div>
+    <div class="parent_section_box">
+        {% for position in positions %}
+        {% include '_open_position.html' %}
+        {% endfor %}
+    </div>
+
+    <br>
+
+</div>
+
 {% endblock %}

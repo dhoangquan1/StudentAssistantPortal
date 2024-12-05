@@ -14,3 +14,12 @@ class ApplicationForm(FlaskForm):
     year_took_course = StringField('Year course was taken', validators=[DataRequired()])
     term_took_course = SelectField('Term course was taken', choices = [('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D'),  ('E', 'E')])
     submit = SubmitField('Apply')
+    
+class SortForm(FlaskForm):
+    choice = SelectField('Sort by',
+                        choices=[
+                            ('min_GPA', 'Minimum GPA (ascending)'),
+                            ('min_grade', 'Minimum Grade (ascending)')
+                        ])
+    prev_exp = BooleanField('Requires previous Student Assistant experience')
+    submit = SubmitField('Refresh')

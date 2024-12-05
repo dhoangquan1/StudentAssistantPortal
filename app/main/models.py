@@ -211,6 +211,9 @@ class Position(db.Model):
     
     def get_section_term(self):
         return self.in_section.get_term()
+    
+    def get_prev_sa_exp(self):
+        return self.prev_sa_exp
 
 class Application(db.Model):
     student_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Student.id), primary_key=True)
