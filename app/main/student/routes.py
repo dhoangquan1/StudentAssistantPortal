@@ -6,7 +6,7 @@ from app.main.role_validator import role_required
 
 from app import db
 from app.main.models import Section, Application, Position, Past_Enrollments
-from app.main.student.forms import ApplicationForm
+from app.main.student.forms import ApplicationForm, SortForm
 
 from app.main.student import student_blueprint as bp_student
 
@@ -16,7 +16,20 @@ from app.main.student import student_blueprint as bp_student
 @role_required('Student')
 def index():
     positions = db.session.scalars(sqla.select(Position).where(Position.curr_SA < Position.max_SA)).all()
-    return render_template('student_index.html', title="SA Portal", positions = positions)
+    
+    sform = SortForm()
+    if sform.validate_on_submit():
+        sort_column = getattr(Position, sform.choice.data, None)
+        
+        if sform.prev_exp == True:
+            query = db.session.query(Position).where(Position.get_prev_sa_exp()==True).order_by(sort_column.asc()) if sort_column else positions
+            
+        else:
+            query = db.session.query(Position).order_by(sort_column.asc()) if sort_column else positions
+            
+        return render_template('student_index.html', title="SA Portal", positions = query, form=sform)
+    
+    return render_template('student_index.html', title="SA Portal", positions = positions, form=sform)
     
 @bp_student.route('/student/application/<position_id>', methods=['GET', 'POST'])
 @login_required

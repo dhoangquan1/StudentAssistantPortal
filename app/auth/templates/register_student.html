@@ -3,17 +3,19 @@
 
 {% block content %}
 
-<div class="d-flex flex-column justify-content-center" style="align-items: center; width: auto;">
+<div class="d-flex flex-column justify-content-center"
+    style="align-items: center; width: auto;">
     <h1 class="mt-4" style="text-align: center;">Student Register</h1>
 
-    <form class="d-flex flex-column justify-content-center" action="{{url_for('auth.register_student')}}" method="POST"
+    <form class="d-flex flex-column justify-content-center"
+        action="{{url_for('auth.register_student')}}" method="POST"
         style="width: 50%; align-items: center;">
 
         {{form.hidden_tag()}}
 
-        <div class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
+        <div
+            class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
             style="width: 100%; border-radius: 10px; background-color: #d9d9d9;">
-
 
             <div class="d-flex flex-row justify-content-between">
                 <div style="width: 47%">
@@ -29,6 +31,8 @@
 
             {{wtf.form_field(form.wpi_id)}}
 
+            {{wtf.form_field(form.phone_code)}}
+
             {{wtf.form_field(form.phone)}}
 
             {{wtf.form_field(form.password)}}
@@ -37,7 +41,8 @@
 
         </div>
 
-        <div class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
+        <div
+            class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
             style="width: 100%; border-radius: 10px; background-color: #d9d9d9;">
 
             {{wtf.form_field(form.major)}}
@@ -53,19 +58,22 @@
             </div>
         </div>
 
-        <div class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
+        <div
+            class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
             style="width: 100%; border-radius: 10px; background-color: #d9d9d9;">
 
             {{wtf.form_field(form.sa_courses)}}
 
         </div>
 
-        <div class="d-flex justify-content-center mt-3 h4" style="width: 100%; align-items: center;">
+        <div class="d-flex justify-content-center mt-3 h4"
+            style="width: 100%; align-items: center;">
             {{wtf.form_field(form.submit)}}
         </div>
 
     </form>
-    <p class="h5">Already have an account? <a href="{{url_for('auth.login')}}">Log in</a></p>
+    <p class="h5">Already have an account? <a
+            href="{{url_for('auth.login')}}">Log in</a></p>
 </div>
 
 {% endblock %}

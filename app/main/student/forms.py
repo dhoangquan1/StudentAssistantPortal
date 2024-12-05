@@ -23,3 +23,12 @@ class ApplicationForm(FlaskForm):
         year = datetime.now(timezone.utc).year
         if int(year_took_course.data) > year or int(year_took_course.data) < 1865:
             raise ValidationError('This year is not valid')
+    
+class SortForm(FlaskForm):
+    choice = SelectField('Sort by',
+                        choices=[
+                            ('min_GPA', 'Minimum GPA (ascending)'),
+                            ('min_grade', 'Minimum Grade (ascending)')
+                        ])
+    prev_exp = BooleanField('Requires previous Student Assistant experience')
+    submit = SubmitField('Refresh')
