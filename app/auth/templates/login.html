@@ -5,9 +5,9 @@
 <div class="d-flex flex-column justify-content-center" style="align-items: center; width: auto;">
     <h1 class="mt-4" style="text-align: center;">Log In</h1>
 
-    <div class="px-5 pt-1 pb-2 mt-3 h4"
+    <a href="{{url_for('auth.loginsso')}}"class="px-5 pt-1 pb-2 mt-3 h4"
         style="background-color: #6da9ff; border-radius: 10px; width: 45%; text-align: center;">Using Azure
-        Single-Sign-On (SSO)</div>
+        Single-Sign-On (SSO)</a>
     <span class="mt-2 h5">--------- OR ---------</span>
 
     <form class="d-flex flex-column justify-content-center" action="{{url_for('auth.login')}}" method="POST" style="width: 50%; align-items: center;">

@@ -6,7 +6,13 @@ import sqlalchemy.orm as sqlo
 
 from app.main.models import Course, Student, Past_Enrollments
 
+from werkzeug.middleware.proxy_fix import ProxyFix
+import identity.web
+
 app = create_app(Config)
+
+app.jinja_env.globals.update(Auth=identity.web.Auth)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 @app.shell_context_processor
 def make_shell_context():

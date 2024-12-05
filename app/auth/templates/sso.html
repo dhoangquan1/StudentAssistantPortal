@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% import 'bootstrap_wtf.html' as wtf %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+
+    <div style="display:flex; align-items:center; justify-content: center;">
+      <div class="ssobox">
+        <img src="{{ url_for('static', filename = 'img//wpi_logo.png' )}}" style="width: 100px" />
+        
+        </br>
+  
+        <div>
+          {% if user_code %}
+          <ol>
+            <li>To sign in, type <b>{{ user_code }}</b> into
+              <a href='{{ auth_uri }}' target=_blank>{{ auth_uri }}</a>
+              to authenticate.
+            </li>
+            <li>And then <a href="{{ url_for('auth_response') }}">proceed</a>.</li>
+          </ol>
+          {% else %}
+            <a class = "ssobutton" href='{{ auth_uri }}'>Sign In</a>
+          {% endif %}
+        </div>
+  
+        <p class="h5" style="margin-top:15px">Don't have an account yet? <a href="{{url_for('auth.register')}}">Register an account</a></p>
+  
+      </div>
+    </div>
+
+</body>
+</html>
+{% endblock %}
