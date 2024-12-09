@@ -157,6 +157,15 @@ a:hover {
   color: white;
   font-weight: bold;
 }
+.application_status{
+  padding: 10px;
+  font-family: Tahoma;
+  font-size: 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
 
 .apply_button_disabled {
   padding: 10px;

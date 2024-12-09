@@ -137,6 +137,7 @@ class Student(User):
         application = db.session.query(Application).filter_by(student_id=self.id, position_id=position_id).first()
         if application.status == "Pending":
             db.session.delete(application)
+            
             db.session.commit()
             return True
         return False
@@ -230,6 +231,10 @@ class Position(db.Model):
         student = db.session.scalars(self.applications.select().where(Application.student_id == student_id)).first()
         return student is not None
     
+    def get_apply_status(self, student_id):
+        student = db.session.scalars(self.applications.select().where(Application.student_id == student_id)).first()
+        return student.status 
+    
     def get_id(self):
         return self.id
     
@@ -253,4 +258,7 @@ class Application(db.Model):
     
     def get_section(self):
         return self.applied_to
-    
+    def get_course(self):
+        return self.applied_to.in_section.in_course
+    def get_position(self):
+        return self.applied_to

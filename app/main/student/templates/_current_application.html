@@ -1,0 +1,17 @@
+<tr valign = "middle">
+    <td width="10%"> {{courses.num}}</td>
+    <td width="10%"> {{courses.has_sections.section_num}}</td>
+    <td width="35%"> {{courses.title}} </td>
+    <td width="15%"> {{position.get_instructor_firstname()}} {{position.get_instructor_lastname()}} </td>
+    <td width="15%"> {{position.get_section_term()}} </td>
+    <td width="15%">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span>{{ a.status }}</span>
+            {% if a.status == 'Pending' %}
+                <a class="application_status" style="background-color: red; padding: 5px 10px; text-decoration: none; color: white; border-radius: 5px;" href="{{ url_for('main.student.withdraw', position_id=position.id) }}">
+                    Withdraw
+                </a>
+            {% endif %}
+        </div>
+    </td>
+</tr>

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% import 'bootstrap_wtf.html' as wtf %}
+
+{% block content %}
+
+    <div>
+        <div>
+            <h4>Student Profile</h4>
+        </div>
+        
+        <div class="parent_profile_box">
+            <div class = "child_position_column">
+                <div class = "child_profile_text">  
+                    <b>Name:</b> {{student.first_name}} {{student.last_name}} <br>
+                    <b>WPI ID:</b> {{student.wpi_id}} <br>
+                    <b>Email:</b> {{student.email}} <br>
+                    <b>Phone Number:</b> {{student.phone}} <br>
+                </div>
+        
+                <div class = "child_profile_text" > 
+                    <b>Cumulative GPA:</b> {{student.gpa}} <br>
+                    <b>Major:</b> {{student.major}} <br>
+                    <b>Graduation Date:</b> {{student.grad_date}} <br>
+                    <b>Currently SA in:</b> {% if student.sa_pos_id %} {{student.get_sa_section_string()}} {% else %} None {% endif %}<br>
+                </div>
+            </div>
+        </div>
+
+        </br>
+
+        <div class="parent_profile_box">
+            <h3 style="font-size: 1.5rem; color: #333; font-weight: bold; margin-bottom: 10px; text-align: left; padding-bottom: 5px;text-align: center;">
+                Past Courses
+            </h3>
+            <table class = "profiletable">
+                <thead>
+                    <tr>
+                      <th width="15%">Course</th>
+                      <th width="40%">Title</th>
+                      <th width="15%">Grade Earned</th>
+                      <th width="15%">Year Took</th>
+                      <th width="15%">SA before</th>
+                    </tr>
+                </thead>
+            
+                <tbody>
+                    {% for e in student.get_prev_enrolled() %}
+                        {% set course = e.get_course() %}
+                        {% include '_past_enroll.html' %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <br/>
+        <div class="parent_profile_box">
+            <h3 style="font-size: 1.5rem; color: #333; font-weight: bold; margin-bottom: 10px; text-align: left; padding-bottom: 5px;text-align: center;">
+                Applications
+            </h3>
+            <table class = "profiletable">
+                <thead>
+                    <tr>
+                      <th width="10%">Course</th>
+                      <th width="10%">Section</th>
+                      <th width="35%">Title</th>
+                      <th width="15%">Instructor</th>
+                      <th width="15%">Year Apply</th>
+                      <th width="15%">Status</th>
+                    </tr>
+                </thead>
+            
+                <tbody>
+                    {% for a in student.get_all_applications() %}
+                        {% set position = a.get_position() %}
+                        {% set courses = a.get_course() %}
+                        {% include '_current_application.html' %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+
+        <hr class="solid">
+
+        <a href = "{{url_for('main.index')}}" class = "apply_button"> Return to main page! </a>
+        
+    </div>
+
+  
+{% endblock %}
