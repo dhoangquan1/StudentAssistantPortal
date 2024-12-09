@@ -74,6 +74,20 @@ class Instructor(User):
                  .join(Section).where(Section.id == Position.section_id)
                  .where(Section.instructor_id == self.id))
         return db.session.scalars(query).all()
+    
+    def assign_sa(self, position_id, student_id):
+        position = db.session.get(Position, position_id)
+        application = db.session.query(Application).filter_by(student_id=student_id, position_id=position_id).first()
+        student = db.session.get(Student, student_id)
+        if position.curr_SA >= position.max_SA:
+            return False
+        if student.get_sa_section():
+            return False
+        application.status = 'Assigned'
+        application.applicant.sa_pos_id = position_id
+        position.curr_SA += 1
+        db.session.commit()
+        return True
 
     
 class Student(User):
@@ -116,6 +130,16 @@ class Student(User):
         section = self.get_sa_section()
         return f"{section.in_course.num}-{section.section_num}: {section.in_course.title}"
     
+    def get_all_applications(self):
+        return db.session.scalars(self.pos_applied.select()).all()
+    
+    def withdraw(self, position_id):
+        application = db.session.query(Application).filter_by(student_id=self.id, position_id=position_id).first()
+        if application.status == "Pending":
+            db.session.delete(application)
+            db.session.commit()
+            return True
+        return False
     
 class Course(db.Model):
     id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
@@ -219,8 +243,7 @@ class Application(db.Model):
     student_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Student.id), primary_key=True)
     position_id: sqlo.Mapped[int] = sqlo.mapped_column(sqla.ForeignKey(Position.id), primary_key=True)
     status: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(20), default="Pending")
-    apply_term: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(5))
-    
+        
     applicant: sqlo.Mapped[Student] = sqlo.relationship(back_populates='pos_applied')
     applied_to: sqlo.Mapped[Position] = sqlo.relationship(back_populates='applications')
     
