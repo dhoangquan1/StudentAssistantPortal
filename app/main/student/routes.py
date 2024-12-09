@@ -47,7 +47,6 @@ def apply(position_id):
         new_app = Application(
             student_id = current_user.id,
             position_id = position.get_id(),
-            apply_term = position.get_section_term()
         )
         db.session.add(new_app)
         
