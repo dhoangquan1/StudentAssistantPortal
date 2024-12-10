@@ -9,12 +9,23 @@
         <h4>Dashboard</h4>
     </div>
 
+    <div class="parent_section_box_top">
+        Recommended Positions
+    </div>
+    <div class="parent_section_box">
+        {% for position in rec_positions %}
+        {% include '_open_position.html' %}
+        {% endfor %}
+    </div>
+
+    <hr>
+    </br>
+
     {%if form%}
     <form action method="POST">
         {{form.hidden_tag()}}
-
-        {{wtf.form_field(form.prev_exp)}}
         {{wtf.form_field(form.choice)}}
+        {{wtf.form_field(form.prev_exp)}}
         {{wtf.form_field(form.submit)}}
     </form>
     {%endif%}
