@@ -79,11 +79,11 @@ def withdraw(position_id):
         flash('Withdrawal failed. Please try again.')
     return redirect(url_for('main.student.index'))
 
-@bp_student.route("/student/<student_id>/profile", methods=['GET','POST'])
+@bp_student.route("/student/profile", methods=['GET','POST'])
 @login_required
 @role_required('Student')
-def view_profile(student_id):
-    student = db.session.get(Student, student_id)
-    return render_template('student_profile.html', student = student)
+def view_profile():
+    student = db.session.get(Student, current_user.id)
+    return render_template('profile.html', student = student)
 
     
