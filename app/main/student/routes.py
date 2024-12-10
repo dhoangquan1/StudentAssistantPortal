@@ -2,6 +2,7 @@ import sys
 from flask import render_template, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 import sqlalchemy as sqla
+from sqlalchemy.sql import func, case
 from app.main.role_validator import role_required
 
 from app import db
@@ -16,6 +17,7 @@ from app.main.student import student_blueprint as bp_student
 @role_required('Student')
 def index():
     positions = db.session.scalars(sqla.select(Position).where(Position.curr_SA < Position.max_SA)).all()
+    rec_positions = get_recommended_positions()
     
     sform = SortForm()
     if sform.validate_on_submit():
@@ -27,9 +29,36 @@ def index():
         else:
             query = db.session.query(Position).order_by(sort_column.asc()) if sort_column else positions
             
-        return render_template('student_index.html', title="SA Portal", positions = query, form=sform)
+        return render_template('student_index.html', title="SA Portal", positions = query, form=sform, rec_positions = rec_positions)
     
-    return render_template('student_index.html', title="SA Portal", positions = positions, form=sform)
+    return render_template('student_index.html', title="SA Portal", positions = positions, form=sform, rec_positions = rec_positions)
+
+def get_recommended_positions():
+    score = func.sum(
+        case(((Position.min_GPA <= current_user.gpa, 1)), else_=0) +
+        case((Position.min_grade <= Past_Enrollments.grade_earned, 1), else_=0)
+    )
+
+    query = (
+        sqla.select(Position, score.label("score"))
+        .join(
+            Section, 
+            Section.id == Position.section_id
+        )
+        .join(Past_Enrollments, 
+            (Past_Enrollments.course_id == Section.course_id) &
+            (Past_Enrollments.student_id == current_user.id), isouter=True)
+        .where(Position.curr_SA < Position.max_SA)
+        .where(
+            (Position.prev_sa_exp == True) & (Past_Enrollments.sa_before == True) |
+            (Position.prev_sa_exp == False)
+        )
+        .group_by(Position.id)
+        .having(score > 0)
+        .order_by(score.desc())
+    )
+
+    return db.session.scalars(query).all()
     
 @bp_student.route('/student/application/<position_id>', methods=['GET', 'POST'])
 @login_required

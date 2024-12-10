@@ -142,6 +142,7 @@ class Student(User):
             return True
         return False
     
+        
 class Course(db.Model):
     id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
     num: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(10), unique=True)
