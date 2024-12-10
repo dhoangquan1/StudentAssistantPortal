@@ -38,3 +38,4 @@ psycopg2-binary
 requests>=2,<3
 identity>=0.5.1,<0.6
 Flask-Session>=0.3.2,<0.6
+selenium
