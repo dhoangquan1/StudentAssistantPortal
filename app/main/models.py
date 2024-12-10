@@ -142,6 +142,22 @@ class Student(User):
             return True
         return False
     
+    def get_grade(self, position_id):
+        position = db.session.get(Position, position_id)
+        course = db.session.get(Course, position.in_section.in_course.id)
+        if course in self.prev_enrolled:
+            prev_course = db.session.scalars(self.prev_enrolled.select().where(Past_Enrollments.course_id == course.id)).first()
+            return prev_course.grade_earned
+        return "F"
+    
+    def get_prev_sa(self, position_id):
+        position = db.session.get(Position, position_id)
+        course = db.session.get(Course, position.in_section.in_course.id)
+        if course in self.prev_enrolled:
+            prev_course = db.session.scalars(self.prev_enrolled.select().where(Past_Enrollments.course_id == course.id)).first()
+            return prev_course.sa_before
+        return False
+        
 class Course(db.Model):
     id : sqlo.Mapped[int] = sqlo.mapped_column(primary_key=True)
     num: sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(10), unique=True)
