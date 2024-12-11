@@ -10,24 +10,37 @@
     </div>
 
     {%if form%}
-    <form action method="POST">
+    <form action class="d-flex flex-column" action="{{url_for('auth.login')}}" method="POST" style="width: 60%;">
         {{form.hidden_tag()}}
-
-        {{wtf.form_field(form.prev_exp)}}
-        {{wtf.form_field(form.choice)}}
-        {{wtf.form_field(form.submit)}}
+        <div class="d-flex flex-column justify-content-start pt-4 px-4 pb-2 mt-1 h5"
+            style="width: 100%; border-radius: 10px; background-color: #d9d9d9;">
+            {{wtf.form_field(form.choice)}}
+            {{wtf.form_field(form.prev_exp)}}
+        </div>
+        <div class="d-flex mt-3 h5" style="width: 80%">
+            {{wtf.form_field(form.submit)}}
+        </div>
     </form>
     {%endif%}
 
     <div class="parent_section_box_top">
-        Open Position Listing
+        Recommended Open Position Listing
     </div>
     <div class="parent_section_box">
-        {% for position in positions %}
+        {% for position in recommend %}
         {% include '_open_position.html' %}
         {% endfor %}
     </div>
 
+
+    <div class="parent_section_box_top">
+        Wishlist Open Position Listing
+    </div>
+    <div class="parent_section_box">
+        {% for position in wishlist %}
+        {% include '_open_position.html' %}
+        {% endfor %}
+    </div>
     <br>
 
 </div>
