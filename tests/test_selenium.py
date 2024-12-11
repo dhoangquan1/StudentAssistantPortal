@@ -21,7 +21,7 @@ def student1():
              'gpa':'4',
              'grad_date':'02282026',
              'password':'123',
-             'prev_enroll': 'CS1011 - Introduction to Program Design'
+             'prev_enroll': 'CS1101 - Introduction to Program Design'
              }
 
 # Student fixure - 2
@@ -33,7 +33,7 @@ def student2():
              'wpi_id':'987654321',
              'phone':'4079298011',
              'major':'DS',
-             'gpa':'3.5',
+             'gpa':'3',
              'grad_date':'02282027',
              'password':'123',
              'prev_enroll': 'CS2022 - Discrete Mathematics'
@@ -43,7 +43,7 @@ def student2():
 @pytest.fixture
 def instructor1():
     return  {'email':'instr@wpi.edu', 
-             'first_name':'Instructor', 
+             'first_name':'Instructor1', 
              'last_name':'One',
              'wpi_id':'789561564',
              'phone':'4079298011',
@@ -54,9 +54,9 @@ def instructor1():
 @pytest.fixture
 def instructor2():
     return  {'email':'instr2@wpi.edu', 
-             'first_name':'Instructor', 
+             'first_name':'Instructor1', 
              'last_name':'Two',
-             'wpi_id':'789654321',
+             'wpi_id':'987654320',
              'phone':'4079298011',
              'password':'123',
              }
@@ -66,7 +66,7 @@ def instructor2():
 def section1():
     return {'section_number': '01', 
             'term': '2025C',
-            'course': 'CS1011 - Introduction to Program Design'}
+            'course': 'CS1101 - Introduction To Program Design'}
     
  # Section fixure - 2
 @pytest.fixture
@@ -78,7 +78,7 @@ def section2():
  # Position fixure - 1
 @pytest.fixture
 def position1():
-    return {'section': 'CS1011-01: Introduction to Program Design',
+    return {'section': 'CS1101-01: Introduction To Program Design',
             'sa_num': '2',
             'min_gpa': '3.5',
             'min_grade': 'B',
@@ -96,14 +96,14 @@ def position2():
  # Application fixure - 1
 @pytest.fixture
 def application1():
-    return {'year': '2026', 
+    return {'year': '2021', 
             'term': 'A',
             'grade': 'A'}
 
  # Application fixure - 2
 @pytest.fixture
 def application2():
-    return {'year': '2027', 
+    return {'year': '2022', 
             'term': 'C',
              'grade': 'B'}
 
@@ -118,10 +118,14 @@ https://chromedriver.chromium.org/downloads
 def browser():
     CHROME_PATH = "C:\\WebDriver\\chromedriver-win64"
     print(CHROME_PATH)
+    
+    options = webdriver.ChromeOptions()
+    options.add_argument("--force-device-scale-factor=0.4")
+    options.headless = True
 
     service = Service(executable_path = CHROME_PATH + '\\chromedriver.exe')
-    options = webdriver.ChromeOptions()
-    options.headless = True
+    
+    
     driver = webdriver.Chrome(service=service, options=options)
     driver.implicitly_wait(8)
     
@@ -131,7 +135,7 @@ def browser():
     driver.quit()
 
 
-def test_register_form_student(browser,student2):
+def test_register_form_student1(browser,student2):
 
     browser.get('http://localhost:5000/student/register')
     # Enable this to maximize the window
@@ -161,13 +165,49 @@ def test_register_form_student(browser,student2):
     browser.find_element(By.NAME, "grad_date").send_keys(student2['grad_date'])    
     sleep(2)
     browser.find_element(By.NAME, "submit").click()
-    sleep(2)
+    sleep(5)
     #verification
     content = browser.page_source
     # print(content)
     assert 'Congratulations, you are now a registered user!' in content
 
-def test_register_form_instructor(browser,instructor2):
+def test_register_form_student2(browser,student1):
+
+    browser.get('http://localhost:5000/student/register')
+    # Enable this to maximize the window
+    # browser.maximize_window()
+    browser.find_element(By.NAME, "first_name").send_keys(student1['first_name'])
+    sleep(2)
+    browser.find_element(By.NAME, "last_name").send_keys(student1['last_name'])
+    sleep(2)
+    browser.find_element(By.NAME, "email").send_keys(student1['email'])
+    sleep(2)
+    browser.find_element(By.NAME, "wpi_id").send_keys(student1['wpi_id'])
+    sleep(2)
+    Select(browser.find_element(By.NAME, "phone_code")).select_by_visible_text('US (+1)')
+    sleep(2)
+    browser.find_element(By.NAME, "phone").send_keys(student1['phone'])
+    sleep(2)
+    browser.find_element(By.NAME, "password").send_keys(student1['password'])
+    sleep(2)
+    browser.find_element(By.NAME, "password2").send_keys(student1['password'])    
+    sleep(2)
+    prev_enroll = browser.find_element(By.NAME, "sa_courses").click()
+    sleep(2)
+    browser.find_element(By.NAME, "major").send_keys(student1['major'])    
+    sleep(2)
+    browser.find_element(By.NAME, "gpa").send_keys(student1['gpa'])    
+    sleep(2)
+    browser.find_element(By.NAME, "grad_date").send_keys(student1['grad_date'])    
+    sleep(2)
+    browser.find_element(By.NAME, "submit").click()
+    sleep(5)
+    #verification
+    content = browser.page_source
+    # print(content)
+    assert 'Congratulations, you are now a registered user!' in content
+    
+def test_register_form_instructor1(browser,instructor2):
 
     browser.get('http://localhost:5000/instructor/register')
     # Enable this to maximize the window
@@ -189,7 +229,35 @@ def test_register_form_instructor(browser,instructor2):
     browser.find_element(By.NAME, "password2").send_keys(instructor2['password'])    
     sleep(2)
     browser.find_element(By.NAME, "submit").click()
+    sleep(5)
+    #verification
+    content = browser.page_source
+    # print(content)
+    assert 'Congratulations, you are now a registered user!' in content
+
+def test_register_form_instructor2(browser,instructor1):
+
+    browser.get('http://localhost:5000/instructor/register')
+    # Enable this to maximize the window
+    # browser.maximize_window()
+    browser.find_element(By.NAME, "first_name").send_keys(instructor1['first_name'])
     sleep(2)
+    browser.find_element(By.NAME, "last_name").send_keys(instructor1['last_name'])
+    sleep(2)
+    browser.find_element(By.NAME, "email").send_keys(instructor1['email'])
+    sleep(2)
+    browser.find_element(By.NAME, "wpi_id").send_keys(instructor1['wpi_id'])
+    sleep(2)
+    Select(browser.find_element(By.NAME, "phone_code")).select_by_visible_text('US (+1)')
+    sleep(2)
+    browser.find_element(By.NAME, "phone").send_keys(instructor1['phone'])
+    sleep(2)
+    browser.find_element(By.NAME, "password").send_keys(instructor1['password'])
+    sleep(2)
+    browser.find_element(By.NAME, "password2").send_keys(instructor1['password'])    
+    sleep(2)
+    browser.find_element(By.NAME, "submit").click()
+    sleep(5)
     #verification
     content = browser.page_source
     # print(content)
@@ -225,11 +293,11 @@ def test_register_form_error(browser,student2):
     browser.find_element(By.NAME, "grad_date").send_keys(student2['grad_date'])    
     sleep(2)
     browser.find_element(By.NAME, "submit").click()
-    sleep(2)
+    sleep(5)
     #verification
     content = browser.page_source
     assert 'Register' in content
-    assert '[Please use a different email.]' in content
+    assert 'Please use a different email.' in content
 
 def test_login_form(browser,student2):
     browser.get('http://localhost:5000/login')
@@ -248,7 +316,7 @@ def test_login_form(browser,student2):
 
 def test_invalidlogin(browser,student2):
     browser.get('http://localhost:5000/login')
-    browser.find_element(By.NAME, "email").send_keys(student2['username'])
+    browser.find_element(By.NAME, "email").send_keys(student2['email'])
     sleep(2)
     browser.find_element(By.NAME, "password").send_keys('wrongpassword')
     sleep(2)
@@ -258,7 +326,7 @@ def test_invalidlogin(browser,student2):
     sleep(2)
     #verification
     content = browser.page_source
-    assert 'Invalid username or password' in content
+    assert 'Invalid email or password' in content
     assert 'Log In' in content
 
 def test_register_section1(browser,instructor2,section2):
@@ -277,13 +345,13 @@ def test_register_section1(browser,instructor2,section2):
     Select(browser.find_element(By.NAME, "course")).select_by_visible_text(section2['course'])
     sleep(2)
     browser.find_element(By.NAME, "submit").click()
-    sleep(2)
+    sleep(5)
     #verification
     content = browser.page_source
     assert 'Section CS2022-02 is created' in content
 
 def test_register_section2(browser,instructor1,section1):
-     #first login
+    #first login
     browser.get('http://localhost:5000/login')
     browser.find_element(By.NAME, "email").send_keys(instructor1['email'])
     browser.find_element(By.NAME, "password").send_keys(instructor1['password'])
@@ -298,13 +366,13 @@ def test_register_section2(browser,instructor1,section1):
     Select(browser.find_element(By.NAME, "course")).select_by_visible_text(section1['course'])
     sleep(2)
     browser.find_element(By.NAME, "submit").click()
-    sleep(2)
+    sleep(5)
     #verification
     content = browser.page_source
-    assert 'Section CS1011-01 is created' in content
+    assert 'Section CS1101-01 is created' in content
 
 def test_register_section_error(browser,instructor1,section1):
-     #first login
+    #first login
     browser.get('http://localhost:5000/login')
     browser.find_element(By.NAME, "email").send_keys(instructor1['email'])
     browser.find_element(By.NAME, "password").send_keys(instructor1['password'])
@@ -395,7 +463,7 @@ def test_register_position_error(browser,instructor1,position1):
     content = browser.page_source
     assert 'Number must be between 0 and 4.' in content
     
-def test_apply1(browser,student2,apply2):
+def test_apply1(browser,student2,application2):
     #first login
     browser.get('http://localhost:5000/login')
     browser.find_element(By.NAME, "email").send_keys(student2['email'])
@@ -403,21 +471,21 @@ def test_apply1(browser,student2,apply2):
     browser.find_element(By.NAME, "remember_me").click()
     browser.find_element(By.NAME, "submit").click()
 
-    browser.get('http://localhost:5000/application/1')
-    Select(browser.find_element(By.NAME, "grade")).select_by_visible_text(apply2['grade'])
+    browser.get('http://localhost:5000/student/application/1')
+    Select(browser.find_element(By.NAME, "grade")).select_by_visible_text(application2['grade'])
     sleep(2)
-    browser.find_element(By.NAME, "year_took_course").send_keys(apply2['year'])
+    browser.find_element(By.NAME, "year_took_course").send_keys(application2['year'])
     sleep(2)
-    Select(browser.find_element(By.NAME, "term_took_course")).select_by_visible_text(apply2['term'])
+    Select(browser.find_element(By.NAME, "term_took_course")).select_by_visible_text(application2['term'])
     sleep(2)
     browser.find_element(By.NAME, "submit").click()
     sleep(2)
     #verification
     content = browser.page_source
     assert 'Applied to position' in content
-    assert 'Already applied!' in content
+    assert 'Already Applied!' in content
 
-def test_apply2(browser,student1,apply1):
+def test_apply2(browser,student1,application1):
     #first login
     browser.get('http://localhost:5000/login')
     browser.find_element(By.NAME, "email").send_keys(student1['email'])
@@ -425,34 +493,34 @@ def test_apply2(browser,student1,apply1):
     browser.find_element(By.NAME, "remember_me").click()
     browser.find_element(By.NAME, "submit").click()
 
-    browser.get('http://localhost:5000/application/1')
-    Select(browser.find_element(By.NAME, "grade")).select_by_visible_text(apply1['grade'])
+    browser.get('http://localhost:5000/student/application/2')
+    Select(browser.find_element(By.NAME, "grade")).select_by_visible_text(application1['grade'])
     sleep(2)
-    browser.find_element(By.NAME, "year_took_course").send_keys(apply1['year'])
+    browser.find_element(By.NAME, "year_took_course").send_keys(application1['year'])
     sleep(2)
-    Select(browser.find_element(By.NAME, "term_took_course")).select_by_visible_text(apply1['term'])
+    Select(browser.find_element(By.NAME, "term_took_course")).select_by_visible_text(application1['term'])
     sleep(2)
     browser.find_element(By.NAME, "submit").click()
     sleep(2)
     #verification
     content = browser.page_source
     assert 'Applied to position' in content
-    assert 'Already applied!' in content
+    assert 'Already Applied!' in content
 
-def test_apply_error(browser,student1,apply1):
+def test_apply_error(browser,student2,application2):
     #first login
     browser.get('http://localhost:5000/login')
-    browser.find_element(By.NAME, "email").send_keys(student1['email'])
-    browser.find_element(By.NAME, "password").send_keys(student1['password'])
+    browser.find_element(By.NAME, "email").send_keys(student2['email'])
+    browser.find_element(By.NAME, "password").send_keys(student2['password'])
     browser.find_element(By.NAME, "remember_me").click()
     browser.find_element(By.NAME, "submit").click()
 
-    browser.get('http://localhost:5000/application/2')
-    Select(browser.find_element(By.NAME, "grade")).select_by_visible_text(apply1['grade'])
+    browser.get('http://localhost:5000/student/application/2')
+    Select(browser.find_element(By.NAME, "grade")).select_by_visible_text(application2['grade'])
     sleep(2)
-    browser.find_element(By.NAME, "year_took_course").send_keys('2023')
+    browser.find_element(By.NAME, "year_took_course").send_keys('2025')
     sleep(2)
-    Select(browser.find_element(By.NAME, "term_took_course")).select_by_visible_text(apply1['term'])
+    Select(browser.find_element(By.NAME, "term_took_course")).select_by_visible_text(application2['term'])
     sleep(2)
     browser.find_element(By.NAME, "submit").click()
     sleep(2)
@@ -468,13 +536,13 @@ def test_assign(browser,instructor2):
     browser.find_element(By.NAME, "remember_me").click()
     browser.find_element(By.NAME, "submit").click()
 
-    browser.get('http://localhost:5000/instructor/position/1/1')
+    browser.find_element(By.ID, "sele-assign").click()
     
-    browser.get('http://localhost:5000/instructor/position/1/profile')
+    browser.get('http://localhost:5000/instructor/student/1/profile')
     
     #verification
     content = browser.page_source
-    assert 'Currently SA in: CS2022-02: Discrete Mathematics' in content
+    assert 'CS2022-02: Discrete Mathematics' in content
     
 def test_withdraw(browser,student1):
     #first login
@@ -484,7 +552,9 @@ def test_withdraw(browser,student1):
     browser.find_element(By.NAME, "remember_me").click()
     browser.find_element(By.NAME, "submit").click()
 
-    browser.get('http://localhost:5000/student/application/1')
+    browser.get('http://localhost:5000/student/profile')
+    
+    browser.find_element(By.ID, "sele-withdraw").click()
     
     browser.get('http://localhost:5000/student/index')
     

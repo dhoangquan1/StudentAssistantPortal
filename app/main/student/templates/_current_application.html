@@ -8,7 +8,7 @@
         <div style="display: flex; align-items: center; gap: 10px;">
             <span>{{ a.status }}</span>
             {% if a.status == 'Pending' %}
-                <a class="application_status" style="background-color: red; padding: 5px 10px; text-decoration: none; color: white; border-radius: 5px;" href="{{ url_for('main.student.withdraw', position_id=position.id) }}">
+                <a id="sele-withdraw" class="application_status" style="background-color: red; padding: 5px 10px; text-decoration: none; color: white; border-radius: 5px;" href="{{ url_for('main.student.withdraw', position_id=position.id) }}">
                     Withdraw
                 </a>
             {% endif %}
