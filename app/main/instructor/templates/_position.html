@@ -61,7 +61,7 @@
               action="{{ url_for('main.instructor.assign', position_id=position.id,student_id=application.applicant.id) }}"
               method="post"
             >
-              <input type="submit" value="Assign" class="btn btn-danger" />
+              <input id= "sele-assign" type="submit" value="Assign" class="btn btn-danger" />
             </form>
             {% endif %} {% endif %}
           </div>
