@@ -24,11 +24,18 @@ def initDB(*args, **kwargs):
         db.create_all()
         query = sqla.select(Course)
         if db.session.scalars(query).first() is None:
-            courses = [{'num':'CS1101','title':'Introduction To Program Design'},
-            {'num':'CS2022','title':'Discrete Mathematics'},
-            {'num':'CS2223','title':'Algorithms'},
-            {'num':'CS3013','title':'Operating Systems'}, 
-            {'num':'CS3431','title': 'Database Systems I'}]
+            courses = [
+                {'num':'CS1101','title':'Introduction To Program Design'},
+                {'num':'CS2022','title':'Discrete Mathematics'},
+                {'num':'CS2102','title':'Object-Oriented Design Concepts'},
+                {'num':'CS2223','title':'Algorithms'},
+                {'num':'CS2303','title':'Systems Programming Concepts'},
+                {'num':'CS3013','title':'Operating Systems'}, 
+                {'num':'CS3043','title':'Social Implications of Information Processing'},
+                {'num':'CS3133','title':'Foundations Of Computer Science'},
+                {'num':'CS3431','title':'Database Systems I'},
+                {'num':'CS3733','title':'Software Engineering'},
+            ]
             for c in courses:
                 db.session.add(Course(num = c['num'], title = c['title']))
             db.session.commit()

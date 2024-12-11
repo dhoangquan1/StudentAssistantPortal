@@ -2,7 +2,9 @@ import sys
 from flask import render_template, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 import sqlalchemy as sqla
+from sqlalchemy.sql import func, case
 from app.main.role_validator import role_required
+from sqlalchemy import text, insert
 
 from app import db
 from app.main.models import Section, Application, Position, Past_Enrollments,Student
@@ -15,21 +17,89 @@ from app.main.student import student_blueprint as bp_student
 @login_required
 @role_required('Student')
 def index():
-    positions = db.session.scalars(sqla.select(Position).where(Position.curr_SA < Position.max_SA)).all()
-    
     sform = SortForm()
+
+    qinput = {"student_id" : current_user.id}
+    query = text("""
+                SELECT id FROM position WHERE (position.min_GPA <= (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
+                AND ((SELECT past__enrollments.grade_earned FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NULL
+                OR (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) >= position.min_grade);
+    """)
+    recommendID = db.session.execute(query, qinput).mappings().all()
+    idlist = []
+    for id in recommendID:
+        idlist.append(id.id)
+    recommend = db.session.query(Position).filter(Position.id.in_(idlist)).order_by(Position.min_GPA)
+    query = text("""
+                SELECT id FROM position WHERE ((position.min_GPA > (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
+                OR ((SELECT past__enrollments.grade_earned FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
+                AND (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) < position.min_grade));
+    """)
+    wishlistID = db.session.execute(query, qinput).mappings()
+    idlist = []
+    for id in wishlistID:
+        idlist.append(id.id)
+    wishlist = db.session.query(Position).filter(Position.id.in_(idlist)).order_by(Position.min_GPA)
+
+
     if sform.validate_on_submit():
-        sort_column = getattr(Position, sform.choice.data, None)
-        
-        if sform.prev_exp == True:
-            query = db.session.query(Position).where(Position.get_prev_sa_exp()==True).order_by(sort_column.asc()) if sort_column else positions
-            
+        if sform.prev_exp.data == True:
+
+            qinput = {"student_id" : current_user.id}
+            query = text("""
+                        SELECT id FROM position WHERE (position.min_GPA <= (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
+                        AND (SELECT past__enrollments.course_id FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
+                        AND ((SELECT past__enrollments.grade_earned FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NULL
+                        OR (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) >= position.min_grade);
+            """)
+            recommendID = db.session.execute(query, qinput).mappings().all()
+            idlist = []
+            for id in recommendID:
+                idlist.append(id.id)
+            recommend = db.session.query(Position).filter(Position.id.in_(idlist))
+            query = text("""
+                        SELECT id FROM position WHERE (SELECT past__enrollments.course_id FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
+                        AND ((position.min_GPA > (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
+                        OR ((SELECT past__enrollments.grade_earned FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
+                        AND (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) < position.min_grade));
+            """)
+            wishlistID = db.session.execute(query, qinput).mappings()
+            idlist = []
+            for id in wishlistID:
+                idlist.append(id.id)
+            wishlist = db.session.query(Position).filter(Position.id.in_(idlist))
+
         else:
-            query = db.session.query(Position).order_by(sort_column.asc()) if sort_column else positions
-            
-        return render_template('student_index.html', title="SA Portal", positions = query, form=sform)
+            qinput = {"student_id" : current_user.id}
+            query = text("""
+                        SELECT id FROM position WHERE (position.min_GPA <= (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
+                        AND ((SELECT past__enrollments.grade_earned FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NULL
+                        OR (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) >= position.min_grade);
+            """)
+            recommendID = db.session.execute(query, qinput).mappings().all()
+            idlist = []
+            for id in recommendID:
+                idlist.append(id.id)
+            recommend = db.session.query(Position).filter(Position.id.in_(idlist))
+            query = text("""
+                        SELECT id FROM position WHERE ((position.min_GPA > (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
+                        OR ((SELECT past__enrollments.grade_earned FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
+                        AND (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) < position.min_grade));
+            """)
+            wishlistID = db.session.execute(query, qinput).mappings()
+            idlist = []
+            for id in wishlistID:
+                idlist.append(id.id)
+            wishlist = db.session.query(Position).filter(Position.id.in_(idlist))
+        if (sform.choice.data == 'min_GPA'):
+            recommend = recommend.order_by(Position.min_GPA)
+            wishlist = wishlist.order_by(Position.min_GPA)
+        if (sform.choice.data == 'min_grade'):
+            recommend = recommend.order_by(Position.min_grade)
+            wishlist = wishlist.order_by(Position.min_grade)
+        return render_template('student_index.html', title="SA Portal", recommend = recommend, form=sform, wishlist = wishlist)
     
-    return render_template('student_index.html', title="SA Portal", positions = positions, form=sform)
+    return render_template('student_index.html', title="SA Portal", recommend = recommend, form=sform, wishlist = wishlist)
     
 @bp_student.route('/student/application/<position_id>', methods=['GET', 'POST'])
 @login_required
@@ -79,11 +149,11 @@ def withdraw(position_id):
         flash('Withdrawal failed. Please try again.')
     return redirect(url_for('main.student.index'))
 
-@bp_student.route("/student/<student_id>/profile", methods=['GET','POST'])
+@bp_student.route("/student/profile", methods=['GET','POST'])
 @login_required
 @role_required('Student')
-def view_profile(student_id):
-    student = db.session.get(Student, student_id)
-    return render_template('student_profile.html', student = student)
+def view_profile():
+    student = db.session.get(Student, current_user.id)
+    return render_template('profile.html', student = student)
 
     

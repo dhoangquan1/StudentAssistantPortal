@@ -1,4 +1,4 @@
-<tr valign = "middle">
+<tr valign = "middle" onclick="toggleDetails({{ courses.id }})">
     <td width="10%"> {{courses.num}}</td>
     <td width="10%"> {{courses.has_sections.section_num}}</td>
     <td width="35%"> {{courses.title}} </td>
@@ -8,10 +8,48 @@
         <div style="display: flex; align-items: center; gap: 10px;">
             <span>{{ a.status }}</span>
             {% if a.status == 'Pending' %}
-                <a class="application_status" style="background-color: red; padding: 5px 10px; text-decoration: none; color: white; border-radius: 5px;" href="{{ url_for('main.student.withdraw', position_id=position.id) }}">
+                <a id="sele-withdraw" class="application_status" style="background-color: red; padding: 5px 10px; text-decoration: none; color: white; border-radius: 5px;" href="{{ url_for('main.student.withdraw', position_id=position.id) }}">
                     Withdraw
                 </a>
             {% endif %}
         </div>
     </td>
 </tr>
+
+<tr id = "course-details-{{courses.id}}" style="background-color:whitesmoke" hidden = true>
+    <td colspan = "6">
+        <div class = "child_position_column">
+            <div class = "child_position_text">  
+                Instructor: {{position.get_instructor_firstname()}} {{position.get_instructor_lastname()}} <br>
+                WPI ID: {{position.get_instructor_wpi_id()}} <br>
+                Email: {{position.get_instructor_email()}} <br>
+                Phone Number: {{position.get_instructor_phone()}} <br>
+            </div>
+    
+            <div class = "child_position_text" > 
+                Term: {{position.in_section.term}} <br>
+                Max SA Position: {{position.max_SA}} <br>
+                Current SA numbers: {{position.curr_SA}} <br>
+                Posted on: {{moment(position.posted_on).format('LLL')}} <br>
+            </div>
+        </div>
+        <div class = "left-align-div" style="padding-top:10px">
+            <button class="apply_button" onclick = "reset_details({{courses.id}})"> Close </button>
+        </div>
+    </td>
+</tr>
+
+{% block script %}
+<script>
+    function toggleDetails(course_id){
+        let parent_tr = document.getElementById(`course-details-${course_id}`)
+        parent_tr.hidden = false
+    }
+
+    function reset_details(course_id){
+        let parent_tr = document.getElementById(`course-details-${course_id}`)
+        parent_tr.hidden = true
+    }
+
+</script>
+{% endblock %}
