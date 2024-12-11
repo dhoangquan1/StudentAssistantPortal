@@ -50,7 +50,7 @@ def create_positions():
         )
         db.session.add(positions)
         db.session.commit()
-        flash(f'Create SA positions succesfully')
+        flash('Create SA positions successfully')
         return redirect(url_for('main.index'))
     return render_template('create_position.html', form=form)
 
