@@ -2,17 +2,15 @@ import sys
 from flask import render_template, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 import sqlalchemy as sqla
+from sqlalchemy.sql import func, case
 from app.main.role_validator import role_required
 from sqlalchemy import text, insert
 
 from app import db
-from app.main.models import Section, Application, Position, Past_Enrollments
+from app.main.models import Section, Application, Position, Past_Enrollments,Student
 from app.main.student.forms import ApplicationForm, SortForm
 
 from app.main.student import student_blueprint as bp_student
-
-def iterate(idList, id):
-    return idList.count(id) > 0
 
 @bp_student.route('/', methods=['GET'])
 @bp_student.route('/student/index', methods=['GET', 'POST'])
@@ -140,3 +138,22 @@ def apply(position_id):
         return redirect(url_for('main.student.index'))
     
     return render_template('application.html', form=af, position = position)
+
+@bp_student.route('/student/application/<position_id>/withdraw', methods=['GET', 'POST'])
+@login_required
+@role_required('Student')
+def withdraw(position_id):
+    if(current_user.withdraw(position_id)):
+        flash('You have successfully withdrawn from the position.')
+    else:
+        flash('Withdrawal failed. Please try again.')
+    return redirect(url_for('main.student.index'))
+
+@bp_student.route("/student/profile", methods=['GET','POST'])
+@login_required
+@role_required('Student')
+def view_profile():
+    student = db.session.get(Student, current_user.id)
+    return render_template('profile.html', student = student)
+
+    

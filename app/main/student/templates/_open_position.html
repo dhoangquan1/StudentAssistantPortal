@@ -39,13 +39,25 @@
             {%- endif %}
         </div>
         <div style="width: 20%; display: flex; justify-content: flex-end">
-            <div style="display: flex; flex-direction: column; align-items: center">
+            <div style="display: flex; align-items: center; gap: 10px;"> 
                 {% if position.check_apply_status(current_user.id) %}
-                    <div class="apply_button_disabled">Already Applied!</div>
+                    <div style="display: flex; align-items: center; gap: 10px;"> 
+                        {% if position.curr_SA == position.max_SA %}
+                            <div class="application_status" style="background-color: red; padding: 17px 10px;">Rejected</div>
+                        {% elif position.get_apply_status(current_user.id) == 'Pending' %}
+                            <div class="application_status" style="background-color: rgb(92, 168, 255); padding: 17px 10px;">Pending</div>
+                            <div class="apply_button_disabled" style="padding: 5px 10px;">Already Applied!</div>
+                            <a class="application_status" style="background-color: red; padding: 17px 10px;" href="{{ url_for('main.student.withdraw', position_id=position.id) }}">Withdraw</a>
+                        {% elif position.get_apply_status(current_user.id) == 'Assigned' %}
+                            <div class="application_status" style="background-color: rgb(57, 203, 27); padding: 17px 10px;">Accepted</div>
+                            <div class="apply_button_disabled" style="padding: 5px 10px;">Already Applied!</div>
+            
+                        {% endif %}
+                    </div>
                 {% else %}
-                    <a class="apply_button" href="{{ url_for('main.student.apply', position_id = position.id, position=position) }}">Apply Position</a>
+                    <a class="apply_button" style="padding: 5px 10px;" href="{{ url_for('main.student.apply', position_id=position.id, position=position) }}">Apply Position</a>
                 {% endif %}
             </div>
-        </div>
+        </div>        
     </div>
 </div>
