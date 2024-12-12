@@ -50,7 +50,7 @@ def create_positions():
         )
         db.session.add(positions)
         db.session.commit()
-        flash(f'Create SA positions succesfully')
+        flash('Create SA positions successfully')
         return redirect(url_for('main.index'))
     return render_template('create_position.html', form=form)
 
@@ -62,21 +62,15 @@ def view_profile(student_id):
     return render_template('student_profile.html', student = student)
 
 
-
-
 @bp_instructor.route("/instructor/position/<position_id>/<student_id>/", methods=['POST'])
 @login_required
 @role_required('Instructor')
 def assign(position_id, student_id):
     position = db.session.get(Position, position_id)
-    application = db.session.query(Application).filter_by(student_id=student_id, position_id=position_id).first()
     if position.curr_SA >= position.max_SA:
         flash("Position is already fully assigned.", "warning")
         return redirect(url_for('main.index'))
-    application.status = 'Assigned'
-    application.applicant.sa_pos_id = position_id
-    position.curr_SA += 1
-    db.session.commit()
+    current_user.assign_sa(position_id, student_id)
     return redirect(url_for('main.index'))
 
 

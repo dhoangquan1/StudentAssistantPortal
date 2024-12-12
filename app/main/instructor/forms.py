@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from flask_wtf import FlaskForm
 from flask_login import current_user
 from wtforms import StringField, SubmitField, IntegerField, FloatField, BooleanField, SelectField
@@ -18,6 +20,22 @@ class SectionForm(FlaskForm):
     section_num = StringField('Section Number', validators=[DataRequired()])
     term = StringField('Term', validators=[DataRequired()])
     submit = SubmitField('Create')
+
+    def validate_section_num(self, section_num):
+        if not section_num.data.isnumeric():
+            raise ValidationError('Section input is not valid')
+        if len(section_num.data) != 2:
+            raise ValidationError('Section input can only contains 2 numbers. Example: 03')
+
+    def validate_term(self, term):
+        termInput = term.data
+        char = termInput[len(termInput) - 1]
+        if not (termInput[0:len(termInput) - 1].isnumeric()) or (ord(char) < 65 or ord(char) > 69):
+            raise ValidationError('Section input is not valid. Exammple: 2023B')
+        sectionYear = termInput[0: len(termInput) - 1]
+        year = datetime.now(timezone.utc).year
+        if int(sectionYear) <= year:
+            raise ValidationError('This year is not valid')
     
     def validate(self, extra_validators=None):
         if not super().validate():
