@@ -138,4 +138,5 @@ def logout():
     if session.get('ssologin'):
         ssoauth.log_out(url_for("main.index", _external=True))
     logout_user()
+    session.clear()
     return redirect(url_for('main.index'))
