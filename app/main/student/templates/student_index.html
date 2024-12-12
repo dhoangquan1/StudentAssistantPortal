@@ -9,6 +9,18 @@
         <h4>Dashboard</h4>
     </div>
 
+    <div class="parent_section_box_top">
+        Recommended Open Position Listing
+    </div>
+    <div class="parent_section_box">
+        {% for position in rec_positions %}
+        {% include '_open_position.html' %}
+        {% endfor %}
+    </div>
+
+    <hr>
+    </br>
+
     {%if form%}
     <form action class="d-flex flex-column" action="{{url_for('auth.login')}}" method="POST" style="width: 60%;">
         {{form.hidden_tag()}}
@@ -24,20 +36,10 @@
     {%endif%}
 
     <div class="parent_section_box_top">
-        Recommended Open Position Listing
+        All Open Position Listing
     </div>
     <div class="parent_section_box">
-        {% for position in recommend %}
-        {% include '_open_position.html' %}
-        {% endfor %}
-    </div>
-
-
-    <div class="parent_section_box_top">
-        Wishlist Open Position Listing
-    </div>
-    <div class="parent_section_box">
-        {% for position in wishlist %}
+        {% for position in positions %}
         {% include '_open_position.html' %}
         {% endfor %}
     </div>
