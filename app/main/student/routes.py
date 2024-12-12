@@ -21,20 +21,28 @@ def index():
 
     qinput = {"student_id" : current_user.id}
     query = text("""
-                SELECT id FROM position WHERE (position.min_GPA <= (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
+                SELECT position.id FROM position WHERE position.max_SA > position.curr_SA
+                AND (position.prev_sa_exp == FALSE OR (position.prev_sa_exp == TRUE
+                AND (SELECT past__enrollments.sa_before FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
+                AND (SELECT past__enrollments.sa_before FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS TRUE))
+                AND ((position.min_GPA > (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
                 AND ((SELECT past__enrollments.grade_earned FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NULL
-                OR (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) >= position.min_grade);
-    """)
+                OR (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) >= position.min_grade));
+                """)
     recommendID = db.session.execute(query, qinput).mappings().all()
     idlist = []
     for id in recommendID:
         idlist.append(id.id)
     recommend = db.session.query(Position).filter(Position.id.in_(idlist)).order_by(Position.min_GPA)
     query = text("""
-                SELECT id FROM position WHERE ((position.min_GPA > (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
+                SELECT position.id FROM position WHERE position.max_SA > position.curr_SA
+                AND ((position.prev_sa_exp == TRUE
+                AND ((SELECT past__enrollments.sa_before FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NULL
+                OR (SELECT past__enrollments.sa_before FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS FALSE))
+                OR (position.min_GPA <= (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
                 OR ((SELECT past__enrollments.grade_earned FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
                 AND (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) < position.min_grade));
-    """)
+                """)
     wishlistID = db.session.execute(query, qinput).mappings()
     idlist = []
     for id in wishlistID:
@@ -47,22 +55,28 @@ def index():
 
             qinput = {"student_id" : current_user.id}
             query = text("""
-                        SELECT id FROM position WHERE (position.min_GPA <= (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
-                        AND (SELECT past__enrollments.course_id FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
+                        SELECT position.id FROM position WHERE position.max_SA > position.curr_SA
+                        AND position.prev_sa_exp IS TRUE
+                        AND (SELECT past__enrollments.sa_before FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
+                        AND (SELECT past__enrollments.sa_before FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS TRUE
+                        AND ((position.min_GPA <= (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
                         AND ((SELECT past__enrollments.grade_earned FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NULL
-                        OR (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) >= position.min_grade);
-            """)
+                        OR (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) >= position.min_grade));
+                        """)
             recommendID = db.session.execute(query, qinput).mappings().all()
             idlist = []
             for id in recommendID:
                 idlist.append(id.id)
             recommend = db.session.query(Position).filter(Position.id.in_(idlist))
             query = text("""
-                        SELECT id FROM position WHERE (SELECT past__enrollments.course_id FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
+                        SELECT position.id FROM position WHERE position.max_SA > position.curr_SA
+                        AND position.prev_sa_exp IS TRUE
+                        AND (SELECT past__enrollments.sa_before FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
+                        AND (SELECT past__enrollments.sa_before FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS TRUE
                         AND ((position.min_GPA > (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
                         OR ((SELECT past__enrollments.grade_earned FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
                         AND (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) < position.min_grade));
-            """)
+                        """)
             wishlistID = db.session.execute(query, qinput).mappings()
             idlist = []
             for id in wishlistID:
@@ -72,20 +86,28 @@ def index():
         else:
             qinput = {"student_id" : current_user.id}
             query = text("""
-                        SELECT id FROM position WHERE (position.min_GPA <= (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
+                        SELECT position.id FROM position WHERE position.max_SA > position.curr_SA
+                        AND (position.prev_sa_exp == FALSE OR (position.prev_sa_exp == TRUE
+                        AND (SELECT past__enrollments.sa_before FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
+                        AND (SELECT past__enrollments.sa_before FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS TRUE))
+                        AND ((position.min_GPA > (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
                         AND ((SELECT past__enrollments.grade_earned FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NULL
-                        OR (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) >= position.min_grade);
-            """)
+                        OR (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) >= position.min_grade));
+                        """)
             recommendID = db.session.execute(query, qinput).mappings().all()
             idlist = []
             for id in recommendID:
                 idlist.append(id.id)
             recommend = db.session.query(Position).filter(Position.id.in_(idlist))
             query = text("""
-                        SELECT id FROM position WHERE ((position.min_GPA > (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
+                        SELECT position.id FROM position WHERE position.max_SA > position.curr_SA
+                        AND ((position.prev_sa_exp == TRUE
+                        AND ((SELECT past__enrollments.sa_before FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NULL
+                        OR (SELECT past__enrollments.sa_before FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS FALSE))
+                        OR (position.min_GPA <= (SELECT student.gpa FROM student WHERE (student.id = :student_id)))
                         OR ((SELECT past__enrollments.grade_earned FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) IS NOT NULL
                         AND (SELECT iif(past__enrollments.grade_earned == 'A', 3, iif(past__enrollments.grade_earned == 'B', 2, 1)) FROM past__enrollments WHERE (past__enrollments.student_id = :student_id) AND (past__enrollments.course_id == (SELECT section.course_id FROM section WHERE section.id == position.section_id))) < position.min_grade));
-            """)
+                        """)
             wishlistID = db.session.execute(query, qinput).mappings()
             idlist = []
             for id in wishlistID:
