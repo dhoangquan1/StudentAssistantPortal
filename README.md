@@ -84,15 +84,15 @@ For more information on the app development process and design, check out the do
 
     <div style="display: flex; gap: 10px; margin-top: 10px;">
         <a href="https://github.com/iamkdao">
-            <img src="https://github.com/iamkdao.png" width="50" style="border-radius: 50%; overflow: hidden;">
+            <img src="https://github.com/iamkdao.png" width="50" style="border-radius: 25px; overflow: hidden;">
         </a>
         <a href="https://github.com/dhoangquan1">
-            <img src="https://github.com/dhoangquan1.png" width="50" style="border-radius: 50%; overflow: hidden;">
+            <img src="https://github.com/dhoangquan1.png" width="50" style="border-radius: 25px; overflow: hidden;">
         </a>
         <a href="https://github.com/samnguyen3115">
-            <img src="https://github.com/samnguyen3115.png" width="50" style="border-radius: 50%; overflow: hidden;">
+            <img src="https://github.com/samnguyen3115.png" width="50" style="border-radius: 25px; overflow: hidden;">
         </a>
         <a href="https://github.com/wolflieu201105">
-            <img src="https://github.com/wolflieu201105.png" width="50" style="border-radius: 50%;overflow: hidden;">
+            <img src="https://github.com/wolflieu201105.png" width="50" style="border-radius: 25px;overflow: hidden;">
         </a>
     </div>
