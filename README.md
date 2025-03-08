@@ -13,15 +13,15 @@ The application allow seemless interactions between the instructors and students
 ------------------------
 ## 🌟 Features
 -----------------------
-- Authentication: Register an account to join the portal.
-- Single Sign-On Service: Log in to your WPI account quickly with Microsoft Azure SSO.
-- Profile Customization: Add your GPA, grade, previous courseworks and experiences to your own profile.
-- Course, Section & Position Creation: Register a course and section that you teaches from a list of CS courses, and create new position listings with specific requirements
-- Position Application: Apply to a course that you are interested in.
-- Personalized Recommendation: Recommend positions based on your own skill sets.
-- Sort and Filer: Check out position listings based on your preference.
-- Status Updates: Review the status of your applications, or applicants if you are an instructor.
-- All-in-one System: Manage SAs efficiently with quick assignments, and ensure that students can only be SA exclusively to a section.
+- **Authentication**: Register an account to join the portal.
+- **Single Sign-On Service**: Log in to your WPI account quickly with Microsoft Azure SSO.
+- **Profile Customization**: Add your GPA, grade, previous courseworks and experiences to your own profile.
+- **Course, Section & Position Creation**: Register a course and section that you teaches from a list of CS courses, and create new position listings with specific requirements
+- **Position Application**: Apply to a course that you are interested in.
+- **Personalized Recommendation**: Recommend positions based on your own skill sets.
+- **Sort and Filter**: Check out position listings based on your preference.
+- **Status Updates**: Review the status of your applications, or applicants if you are an instructor.
+- **All-in-one System**: Manage SAs efficiently with quick assignments, and ensure that students can only be SA exclusively to a section.
 
 ------------------------
 ## 🚀 Getting Started
@@ -81,7 +81,7 @@ For more information on the app development process and design, check out the do
 -----------------------
 - Professor Arslan Ay - CS-3733: Software Engineering
 - Flask-tasticCoders Team Members
-* Khoi Dao (team liaison)
-* Huy Pham
-* Duc Nguyen
-* Quan Dinh
+[![GitHub](https://img.shields.io/badge/GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/iamkdao)
+[![GitHub](https://img.shields.io/badge/GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/dhoangquan1)
+[![GitHub](https://img.shields.io/badge/GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/samnguyen3115)
+[![GitHub](https://img.shields.io/badge/GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/wolflieu201105)
