@@ -80,8 +80,8 @@ For more information on the app development process and design, check out the do
 ## 🙏 Acknowledgements
 -----------------------
 - Professor Arslan Ay - CS-3733: Software Engineering
-- Flask-tasticCoders Team Members
-[![GitHub](https://img.shields.io/badge/GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/iamkdao)
-[![GitHub](https://img.shields.io/badge/GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/dhoangquan1)
-[![GitHub](https://img.shields.io/badge/GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/samnguyen3115)
-[![GitHub](https://img.shields.io/badge/GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/wolflieu201105)
+- Flask-tasticCoders Team Members  
+[![Profile Picture](https://github.com/iamkdao.png)](https://github.com/iamkdao)
+[![Profile Picture](https://github.com/dhoangquan1.png)](https://github.com/dhoangquan1)
+[![Profile Picture](https://github.com/samnguyen3115.png)](https://github.com/samnguyen3115)
+[![Profile Picture](https://github.com/wolflieu201105.png)](https://github.com/wolflieu201105)
